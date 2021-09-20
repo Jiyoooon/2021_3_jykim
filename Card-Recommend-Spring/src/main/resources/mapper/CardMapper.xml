@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="kr.ac.kopo.mapper.CardMapper">
+	
+	<!-- 카드 저장 -->
+	<insert id="insertCard"  parameterType="cardVO">
+		<selectKey keyProperty="cardId" resultType="int" order="BEFORE">
+	    	select P_CARD_ID_SEQ.nextval from dual
+	  	</selectKey>
+		insert 	into p_card(card_id, card_type_code, card_name, card_info
+					, card_annualfee, card_annualfee_info, card_image_url
+					, work_sectors, created_at)
+		values(#{cardId}, #{cardTypeId}, #{cardName}, #{cardInfo}, #{cardAnnualfee}, #{cardAnnualfeeInfo}, #{cardImageUrl}, #{workSectors}, sysdate)
+	</insert>
+	
+	<!-- 카드 혜택 저장 -->
+	<insert id="insertCardBenefits" parameterType="list">
+		insert into p_card_benefit(
+			card_benefit_id
+			, card_id
+			, benefit_name
+			, benefit_info
+			, benefit_code
+			, work_sector1_code
+			, work_sector2_code
+			, business_numbers
+			, limit
+		)
+		select 	P_CB_ID_SEQ.nextval as cardBenefitId
+				, temp.*
+		from (
+			<foreach collection="list"	item="benefit"	separator="union all ">
+				select 
+					#{benefit.cardId} as cardId
+					, #{benefit.benefitName} as benefitName
+					, #{benefit.benefitInfo} as benefitInfo
+					, #{benefit.benefitCode} as benefitCode
+					, #{benefit.workSector1Code} as workSector1Code
+					, #{benefit.workSector2Code} as workSector2Code
+					, #{benefit.businessNumber} as businessNumbers
+					, #{benefit.limit} as limit
+				from sys.dual
+			</foreach>
+		) temp
+	</insert>
+	
+	
+	<resultMap id="cardResult" type="cardVO">
+	    <result property="cardId" column="CARD_ID"/>
+	    <result property="cardTypeId" column="CARD_TYPE_CODE"/>
+	    <result property="cardType" column="CARD_TYPE"/>
+	    <result property="cardName" column="CARD_NAME"/>
+	    <result property="cardInfo" column="CARD_INFO"/>
+	    <result property="cardAnnualfee" column="CARD_ANNUALFEE"/>
+	    <result property="cardAnnualfeeInfo" column="CARD_ANNUALFEE_INFO"/>
+	    <result property="cardImageUrl" column="CARD_IMAGE_URL"/>
+	    <result property="workSectors" column="WORK_SECTORS"/>
+	    <result property="workSectorsName" column="WORK_SECTORS_NAME"/>
+	    <result property="plccBusinessNumber" column="PLCC_BUSINESS_NUMBER"/>
+	    
+	    <collection property="benefits" column="CARD_ID" javaType="java.util.ArrayList" ofType="cardBenefitVO" select="selectCardBenefitsByCardId"/>
+	</resultMap>
+	
+	
+	 
+	 <!-- 카드 리스트(검색) - 정렬 & 검색어 -->
+	<select id="selectAllCard" parameterType="cardSearchOptionVO" resultMap="cardResult">
+	    SELECT 	card_id, card_type_code, 
+			    (select common_name from p_common where common_type_id = 'CD' and common_code = card_type_code) as card_type,
+		        card_name, card_info, card_annualfee, card_annualfee_info, card_image_url, work_sectors, plcc_business_number,
+		        (SELECT LISTAGG(work_sector1_name, ',') WITHIN GROUP (ORDER BY TEMP) 
+		        FROM(
+		            SELECT '1' AS TEMP, work_sector1_name FROM p_work_sector1
+		            WHERE work_sector1_code IN (
+		                SELECT REGEXP_SUBSTR(work_sectors, '[^,]+', 1, LEVEL) FROM DUAL
+		                CONNECT BY LEVEL <![CDATA[<]]>= LENGTH(REGEXP_REPLACE(work_sectors, '[^,]+', ''))+1
+		            )
+		        )
+		        GROUP BY TEMP) as work_sectors_name
+		from 	p_card c
+		where 	delete_flag = 'F'
+				and card_type_code = #{cardType}
+				<if test="keyWord != null">
+					and (card_name like '%'||#{keyWord}||'%' or 
+						card_info like '%'||#{keyWord}||'%' or
+						(select LISTAGG(benefit_name, ' ') within group (order by card_id) 
+							from p_card_benefit where card_id = c.card_id) 
+							like '%'||#{keyWord}||'%' )
+				</if>
+		order by 
+			<choose>
+				<when test="sort == 1">
+					card_annualfee asc,
+				</when>
+				<when test="sort == 2">
+					card_annualfee desc,
+				</when>
+			</choose>
+		created_at desc
+	</select>
+
+	<!-- 추천 카드 리스트 -->
+	<select id="selectAllRecoCard" parameterType="string" resultMap="cardResult">
+	     select  c.card_id, c.card_type_code, 
+		        (select common_name from p_common where common_type_id = 'CD' and common_code = card_type_code) as card_type,
+		        c.card_name, c.card_info, c.card_annualfee, c.card_annualfee_info, c.card_image_url, c.work_sectors, c.plcc_business_number,
+		        (SELECT LISTAGG(work_sector1_name, ',') WITHIN GROUP (ORDER BY TEMP) 
+		        FROM(
+		            SELECT '1' AS TEMP, work_sector1_name FROM p_work_sector1
+		            WHERE work_sector1_code IN (
+		                SELECT REGEXP_SUBSTR(work_sectors, '[^,]+', 1, LEVEL) FROM DUAL
+		                CONNECT BY LEVEL <![CDATA[<]]>= LENGTH(REGEXP_REPLACE(work_sectors, '[^,]+', ''))+1
+		            )
+		        )
+		        GROUP BY TEMP) as work_sectors_name, s.rank 
+		from 	p_card c,  
+				(SELECT rownum as rank, REGEXP_SUBSTR(
+						(select card_list 
+						from 	p_card_statistics cs 
+						where 	to_char(cs.created_at, 'yyyymm') = to_char(sysdate, 'yyyymm') 
+								and classification = #{condition}), '[^,]+', 1, LEVEL) as card_id 
+				FROM DUAL
+				CONNECT BY LEVEL <![CDATA[<]]>= LENGTH(REGEXP_REPLACE(
+						(select card_list 
+						from 	p_card_statistics cs 
+						where 	to_char(cs.created_at, 'yyyymm') = to_char(sysdate, 'yyyymm') 
+								and classification = #{condition}), '[^,]+', ''))+1) s
+		where c.card_id = s.card_id
+		order by s.rank
+	</select>
+	
+	<select id="selectMyRecoCards" resultMap="cardResult" parameterType="int">
+		select  c.card_id, c.card_type_code, 
+		        (select common_name from p_common where common_type_id = 'CD' and common_code = card_type_code) as card_type,
+		        c.card_name, c.card_info, c.card_annualfee, c.card_annualfee_info, c.card_image_url, c.work_sectors, c.plcc_business_number,
+		        (SELECT LISTAGG(work_sector1_name, ',') WITHIN GROUP (ORDER BY TEMP) 
+		        FROM(
+		            SELECT '1' AS TEMP, work_sector1_name FROM p_work_sector1
+		            WHERE work_sector1_code IN (
+		                SELECT REGEXP_SUBSTR(work_sectors, '[^,]+', 1, LEVEL) FROM DUAL
+		                CONNECT BY LEVEL <![CDATA[<]]>= LENGTH(REGEXP_REPLACE(work_sectors, '[^,]+', ''))+1
+		            )
+		        )
+		        GROUP BY TEMP) as work_sectors_name
+		from 	p_card c
+		where card_id in
+		<foreach item="num" index="index" collection="list"
+		    open="(" separator="," close=")">
+		      #{num}
+		</foreach>
+	</select>
+	
+	<!-- select card detail -->
+	<resultMap id="cardDetailResult" type="cardVO">
+	    <result property="cardId" column="CARD_ID"/>
+	    <result property="cardTypeId" column="CARD_TYPE_CODE"/>
+	    <result property="cardType" column="CARD_TYPE"/>
+	    <result property="cardName" column="CARD_NAME"/>
+	    <result property="cardInfo" column="CARD_INFO"/>
+	    <result property="cardAnnualfee" column="CARD_ANNUALFEE"/>
+	    <result property="cardAnnualfeeInfo" column="CARD_ANNUALFEE_INFO"/>
+	    <result property="cardImageUrl" column="CARD_IMAGE_URL"/>
+	    <result property="workSectors" column="WORK_SECTORS"/>
+	    <result property="workSectorsName" column="WORK_SECTORS_NAME"/>
+	    <result property="plccBusinessNumber" column="PLCC_BUSINESS_NUMBER"/>
+	    
+	    <collection property="benefits" column="CARD_ID" javaType="java.util.ArrayList" ofType="cardBenefitVO" select="selectCardBenefitDetailsByCardId"/>
+	</resultMap>
+	
+	<select id="selectCardDetail" parameterType="int" resultMap="cardDetailResult">
+		select  c.card_id, c.card_type_code, 
+		        (select common_name from p_common where common_type_id = 'CD' and common_code = card_type_code) as card_type,
+		        c.card_name, c.card_info, c.card_annualfee, c.card_annualfee_info, c.card_image_url, c.work_sectors, c.plcc_business_number,
+		        (SELECT LISTAGG(work_sector1_name, ',') WITHIN GROUP (ORDER BY TEMP) 
+		        FROM(
+		            SELECT '1' AS TEMP, work_sector1_name FROM p_work_sector1
+		            WHERE work_sector1_code IN (
+		                SELECT REGEXP_SUBSTR(work_sectors, '[^,]+', 1, LEVEL) FROM DUAL
+		                CONNECT BY LEVEL <![CDATA[<]]>= LENGTH(REGEXP_REPLACE(work_sectors, '[^,]+', ''))+1
+		            )
+		        )
+		        GROUP BY TEMP) as work_sectors_name
+		from 	p_card c
+		where card_id = #{cardId}
+	</select>
+	
+	<select id="selectCardBenefitDetailsByCardId" resultType="cardBenefitVO">
+	    select  min(card_id) as card_id, min(sectors.benefit_name) as benefit_name, min(benefit_info) as benefit_info, min(cb.work_sector1_code) as work_sector1_code, 
+		        min(benefit_code) as benefit_code, 
+		        min(sectors.work_sector2_name) as work_sector2_name, min(limit) as limit,
+		        min(benefit_criteria) as benefit_criteria, min(perf_criteria) as perf_criteria
+		from    p_card_benefit cb
+		        ,(select  benefit_name, 
+		                listagg((select work_sector2_name from p_work_sector2 where work_sector2_code = cb.work_sector2_code) , ', ')
+		                    within group (order by work_sector2_code) as work_sector2_name
+		        from    p_card_benefit cb
+		        where   card_id = #{cardId}
+		        group by benefit_name
+		        )sectors
+		where   cb.benefit_name = sectors.benefit_name
+		        and card_id = #{cardId}
+		group by cb.benefit_name
+	</select>
+	<!-- 
+		selectCardBenefitsByCardId2
+		select  card_benefit_id, card_id, benefit_name, benefit_info, work_sector1_code, 
+		        (select common_name from p_common where common_type_id = 'BE' and common_code = benefit_code) as benefit_code, work_sector2_code,
+		        (select work_sector2_name from p_work_sector2 ws where ws.work_sector2_code = cb.work_sector2_code) as work_sector2_name,
+		        (SELECT LISTAGG(BUSINESS_NAME, ',') WITHIN GROUP (ORDER BY TEMP) 
+		        FROM(
+		            SELECT '1' AS TEMP, BUSINESS_NAME FROM P_BUSINESS_CERT
+		            WHERE BUSINESS_NUMBER IN (
+		                SELECT REGEXP_SUBSTR(business_numbers, '[^,]+', 1, LEVEL) FROM DUAL
+		                CONNECT BY LEVEL <![CDATA[<]]>= LENGTH(REGEXP_REPLACE(business_numbers, '[^,]+', ''))+1
+		            )
+		        )
+		        GROUP BY TEMP) as business_names,
+		        business_numbers, limit
+		from    p_card_benefit cb
+		where   card_id = #{card_id}
+	 -->
+	<select id="selectCardBenefitsByCardId" resultType="cardBenefitVO">
+	    select  min(benefit_name) as benefit_name, 
+		        min((select common_name from p_common where common_type_id = 'BE' and common_code = benefit_code)) as benefit_code
+		from    p_card_benefit cb
+		where   card_id = #{card_id}
+		group by benefit_name 
+	</select>
+
+
+	<insert id="insertCardStatistics" statementType="CALLABLE">
+		{
+			call insert_statistics()
+		}
+	</insert>
+
+
+	<!-- 보유 카드 목록 -->
+	<select id="selectMyCards" parameterType="int" resultType="memberCardVO">
+		select 	member_card_id, c.card_id, card_number, card_cvc, card_valid_year, card_valid_month
+		        , c.card_info, c.card_name, mc.pay_date
+		        , (select common_name from p_common where common_type_id = 'CD' and common_code = c.card_type_code) as card_type
+		        , (select account_number from p_account where account_id = mc.account_id) as account_number
+		        , c.card_image_url
+		from 	p_member_card mc, p_card c
+		where 	mc.card_id = c.card_id and member_id = #{memberId}
+	</select>
+	
+	<resultMap id="chartResult" type="consumptionChartVO">
+	    <result property="memberId" column="MEMBER_ID"/>
+	    <result property="workSector1Code" column="WORK_SECTOR1_CODE"/>
+	    <result property="workSector1Name" column="WORK_SECTOR1_NAME"/>
+	    <result property="sectorBalance" column="SECTOR_BALANCE"/>
+	    <result property="totalBalance" column="TOTAL_BALANCE"/>
+	    <result property="startDate" column="START_DATE"/>
+	    <result property="endDate" column="END_DATE"/>
+	    
+	    <collection property="chart2List" 
+	    	column="{memberId=MEMBER_ID, workSector1Code=WORK_SECTOR1_CODE
+	    			, sectorBalance=SECTOR_BALANCE, startDate=START_DATE, endDate=END_DATE}" 
+	    	javaType="java.util.ArrayList" ofType="consumptionChart2VO" select="selectMyConsumption2"/>
+	</resultMap>
+	
+	<!-- 소비 1차업종 그래프 데이터 -->
+	<select id="selectMyConsumption" parameterType="map" resultMap="chartResult">
+		select  min(t.member_id) as member_id, ct.work_sector1_code, (select work_sector1_name from p_work_sector1 where work_sector1_code = ct.work_sector1_code) as work_sector1_name
+		        , sum(t.trans_balance) as sector_balance, #{start} as start_date, #{end} as end_date,
+		        (select /*+ member_id */  sum(trans_balance) as total from p_transaction
+		         where 	member_id = #{memberId} and trans_at >= #{start} and trans_at <![CDATA[<]]>= #{end}
+		        ) as total_balance
+		from    p_transaction t, p_card_transaction ct
+		where   t.transaction_id = ct.transaction_id and t.member_id = #{memberId}
+		        and t.trans_at >= #{start} and t.trans_at <![CDATA[<]]>= #{end}
+		group by ct.work_sector1_code
+		order by to_number(ct.work_sector1_code)
+	</select>
+	
+	<!-- 소비 2차업종 그래프 데이터 -->
+	<select id="selectMyConsumption2" parameterType="map" resultType="consumptionChart2VO">
+		select work_sector2_code, work_sector2_name, sector2_balance, #{sectorBalance} as sector1_balance, trunc((sector2_balance / #{sectorBalance}) * 100, 2) as percentage
+		from
+			(select  ct.work_sector2_code 
+		            , (select work_sector2_name from p_work_sector2 where work_sector2_code = ct.work_sector2_code) as work_sector2_name
+		            , sum(t.trans_balance) as sector2_balance
+		    from    p_transaction t, p_card_transaction ct
+		    where   ct.work_sector1_code = #{workSector1Code} and t.transaction_id = ct.transaction_id and t.member_id = #{memberId}
+		            and t.trans_at >= #{startDate} and t.trans_at <![CDATA[<]]>= #{endDate}
+		    group by ct.work_sector2_code
+		    order by to_number(ct.work_sector2_code)
+		)
+	</select>
+
+	<!-- 1차업종 카드 top3 -->
+	<select id="selectSector1Top3" parameterType="int" resultType="cardVO">
+		select work_sector2_code, work_sector2_name, sector2_balance, #{sectorBalance} as sector1_balance, trunc((sector2_balance / #{sectorBalance}) * 100, 2) as percentage
+		from
+			(select  ct.work_sector2_code 
+		            , (select work_sector2_name from p_work_sector2 where work_sector2_code = ct.work_sector2_code) as work_sector2_name
+		            , sum(t.trans_balance) as sector2_balance
+		    from    p_transaction t, p_card_transaction ct
+		    where   ct.work_sector1_code = #{workSector1Code} and t.transaction_id = ct.transaction_id and t.member_id = #{memberId}
+		            and t.trans_at >= sysdate - 30 
+		    group by ct.work_sector2_code
+		    order by to_number(ct.work_sector2_code)
+		)
+	</select>
+	
+	
+	<!-- 찜카드 목록 -->
+	<!-- <resultMap id="dibsResult" type="dibsVO">
+	    <result property="cardId" column="CARD_ID"/>
+	    <result property="payCardId" column="PAY_CARD_ID"/>
+	    
+	    <collection property="payCards" 
+	    	column="{cardId=CARD_ID, payCardId=PAY_CARD_ID}" 
+	    	javaType="java.util.ArrayList" ofType="dibsVO" select="selectMyMultiDibs"/>
+	</resultMap> -->
+	
+	<select id="selectMyDibsCard" parameterType="string" resultType="dibsVO">
+		select 	card_id, multi_flag, card_type_code,
+		        (select common_name from p_common where common_type_id = 'CD' and common_code = card_type_code) as card_type,
+		        card_name, card_image_url
+		from p_card
+		where card_id = #{cardId}
+	</select>
+	
+	<select id="selectMultiPayCard" parameterType="list" resultType="dibsVO">
+		select 	card_id, multi_flag, card_type_code,
+		        (select common_name from p_common where common_type_id = 'CD' and common_code = card_type_code) as card_type,
+		        card_name, card_image_url
+		from p_card
+		where card_id in
+		<foreach item="id" index="index" collection="list"
+		    open="(" separator="," close=")">
+		      #{id}
+		</foreach>
+	</select>
+</mapper>

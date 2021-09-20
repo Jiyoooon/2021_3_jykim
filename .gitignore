@@ -1,0 +1,11 @@
+/**/*target/
+/*/target/
+*.target/
+*.settings/
+*.project
+*.classpath
+*.springBeans
+
+#STS 
+root-context.xml
+/**/*root-context.xml

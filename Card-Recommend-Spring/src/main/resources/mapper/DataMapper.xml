@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="kr.ac.kopo.mapper.DataMapper">
+	
+	<select id="selectSector2List" resultType="workSector2VO"  parameterType="int">
+		select 	work_sector1_code, work_sector2_code, work_sector2_name 
+		from 	p_work_sector2 where work_sector1_code = #{sector1}
+	</select>
+	
+	<select id="selectJob2List" resultType="job2VO"  parameterType="int">
+		select 	substr(common_code,2,2) as job2_code, common_name as job2_name 
+		from 	p_common 
+		where 	common_type_id = 'JB' and substr(common_code, 1,1) = #{job1}
+	</select>
+	
+</mapper>

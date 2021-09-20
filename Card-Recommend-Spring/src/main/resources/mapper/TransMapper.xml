@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="kr.ac.kopo.mapper.TransMapper">
+	
+	
+	<!-- start ~ end 까지 결제 내역 조회 -->
+	<select id="selectAllTrans" parameterType="string" resultType="transactionVO">
+		select 	transaction_id, member_card_id, trans_balance, trans_at, installment, work_sector1_code, work_sector2_code,
+				bill_balance, acc_balance
+		from 	p_trans
+		where 	member_card_id in (select member_card_id from p_member_card where member_id = #{memberId}) 
+				and to_char(trans_at, 'yyyy-mm') >= #{start} and to_char(trans_at, 'yyyy-mm') >= #{end} 
+		order by trans_at
+	</select>
+	
+	<select id="selectTemp" resultType="map" statementType="CALLABLE">
+		<![CDATA[
+            SELECT 
+                get_emp_dets() AS test_list
+             FROM DUAL
+        ]]>
+		
+	</select>
+	<select id="selectTemp2" resultType="testVO" statementType="CALLABLE">
+		<![CDATA[
+            SELECT 
+                get_emp_dets2() AS test_list
+             FROM DUAL
+        ]]>
+		
+	</select>
+	<resultMap id="testMap" type="testVO"/>
+	<select id="selectTemp3" parameterType="paramsVO2" statementType="CALLABLE">
+		{
+			call get_emp_dets3(
+				#{testList, mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=testMap}
+			)
+		}
+		
+	</select>
+	<resultMap id="benefitMap" type="benefitResultVO"/>
+	<select id="selectTemp4" parameterType="paramsVO" statementType="CALLABLE">
+		{
+			call calculate_benefit(
+				2,1,'2021-03', '2021-06',
+				#{benefitList, mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=benefitMap}
+			)
+		}
+		
+	</select>
+	<!-- 
+	{
+			#{testList, mode=OUT, jdbcType=VARCHAR} = call get_emp_dets()
+		}
+		
+		<![CDATA[
+            SELECT 
+                get_emp_dets() AS test_list
+             FROM DUAL
+        ]]>
+	 -->
+</mapper>

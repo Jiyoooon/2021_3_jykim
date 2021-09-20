@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+	
+	<!-- xml 파일에서 dto 패키지 풀 네임 안적어도 되게 alias 설정 -->
+	<typeAliases>
+      <package name="kr.ac.kopo.vo"/>
+      <package name="kr.ac.kopo.vo.card"/>
+   	</typeAliases>
+   
+	<!-- Mapper.xml 파일들 설정 -->
+	<mappers>
+	  <mapper resource="mapper/MemberMapper.xml"/>
+	  <mapper resource="mapper/AdminMapper.xml"/>
+	  <mapper resource="mapper/DataMapper.xml"/>
+	  <mapper resource="mapper/CardMapper.xml"/>
+	  <mapper resource="mapper/TransMapper.xml"/>
+   </mappers>
+   
+</configuration>
