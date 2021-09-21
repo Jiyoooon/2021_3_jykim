@@ -1,12 +1,19 @@
-package kr.ac.kopo.vo.card;
+package kr.ac.kopo.vo.trans;
 
 import java.util.List;
 
-public class ParamsVO {
+public class BenefitParamsVO {
+	private int memberId;
 	private int cardId;
 	private String start;
 	private String end;
-	private List<BenefitResultVO> benefitList;//프로시저 결과값 리턴 용도
+	private List<BenefitResultVO> benefitList;
+	public int getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
+	}
 	public int getCardId() {
 		return cardId;
 	}
@@ -33,11 +40,11 @@ public class ParamsVO {
 	}
 	@Override
 	public String toString() {
-		return "ParamsVO [cardId=" + cardId + ", start=" + start + ", end=" + end + ", benefitList=" + benefitList
-				+ "]";
+		return "BenefitParamsVO [memberId=" + memberId + ", cardId=" + cardId + ", start=" + start + ", end=" + end
+				+ ", benefitList=" + benefitList + "]";
 	}
 	
 	
 	
-	
+
 }

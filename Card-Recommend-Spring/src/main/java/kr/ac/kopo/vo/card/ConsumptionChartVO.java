@@ -4,17 +4,28 @@ import java.util.List;
 
 //소비내역 차트 정보
 public class ConsumptionChartVO {
-	private int workSector1Code;
-	private String workSector1Name;
-	private long sectorBalance;
-	private long totalBalance;
-	private int memberId;
-	private String startDate;
-	private String endDate;
+	private int workSector1Code;			//1차 업종 코드
+	private String workSector1Name;			//1차 업종 이름
+	private long sectorBalance;				//1차 업종 소비 합계
+	private long totalBalance;				//,,
+	private int memberId;					//고객 아이디
+	private String startDate;				//검색 시작 기간
+	private String endDate;					//검색 종료 기간
+	
+	private int hasBenefit;		//혜택 가지고 있는지 여부
+
+	private long benefitTotal;				//혜택 총 합
 	
 	private List<ConsumptionChart2VO> chart2List;
 	
 	
+	
+	public int getHasBenefit() {
+		return hasBenefit;
+	}
+	public void setHasBenefit(int hasBenefit) {
+		this.hasBenefit = hasBenefit;
+	}
 	public int getMemberId() {
 		return memberId;
 	}
@@ -48,6 +59,12 @@ public class ConsumptionChartVO {
 	
 	
 	
+	public long getBenefitTotal() {
+		return benefitTotal;
+	}
+	public void setBenefitTotal(long benefitTotal) {
+		this.benefitTotal = benefitTotal;
+	}
 	public List<ConsumptionChart2VO> getChart2List() {
 		return chart2List;
 	}
@@ -71,8 +88,10 @@ public class ConsumptionChartVO {
 	public String toString() {
 		return "ConsumptionChartVO [workSector1Code=" + workSector1Code + ", workSector1Name=" + workSector1Name
 				+ ", sectorBalance=" + sectorBalance + ", totalBalance=" + totalBalance + ", memberId=" + memberId
-				+ ", startDate=" + startDate + ", endDate=" + endDate + ", chart2List=" + chart2List + "]";
+				+ ", startDate=" + startDate + ", endDate=" + endDate + ", hasBenefit=" + hasBenefit + ", benefitTotal="
+				+ benefitTotal + ", chart2List=" + chart2List + "]";
 	}
+	
 	
 	
 	

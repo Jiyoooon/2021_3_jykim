@@ -1,4 +1,4 @@
-package kr.ac.kopo.vo.card;
+package kr.ac.kopo.vo;
 
 import java.util.List;
 

@@ -91,6 +91,7 @@ $(document).ready(function(){
 				$('#multi-combi-section').html('')
 	    		
 	    		// 찜하기 버튼
+	    		console.log(loginUserFlag)
 	    		if(loginUserFlag){
 		    		let dibsList = localStorage.getItem('dibs')
 		    		let flag = false;
@@ -107,6 +108,8 @@ $(document).ready(function(){
 				    	}else{
 				    		$('#detailModal #dibsBtn').attr('disabled',false)
 				    	}
+				    }else{//찜한 기록 X
+			    		$('#detailModal #dibsBtn').attr('disabled',false)
 				    }
 		    		
 		    		if(card.cardTypeId == '005'){//멀티카드

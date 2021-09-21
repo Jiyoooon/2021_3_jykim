@@ -12,9 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import kr.ac.kopo.mapper.TransMapper;
-import kr.ac.kopo.vo.card.BenefitResultVO;
-import kr.ac.kopo.vo.card.ParamsVO;
-import kr.ac.kopo.vo.card.ParamsVO2;
+import kr.ac.kopo.vo.trans.BenefitParamsVO;
+import kr.ac.kopo.vo.trans.BenefitResultVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/root-context.xml")
@@ -29,11 +28,33 @@ public class BenefitMapperTest {
 //		
 //		System.out.println(params.getTestList());
 
-		ParamsVO params2 = new ParamsVO();
-		transMapper.selectTemp4(params2);
+//		ParamsVO params2 = new ParamsVO();
+//		transMapper.selectTemp4(params2);
+//		
+//		int pay_total = 0;
+//		for(BenefitResultVO b : params2.getBenefitList()) {
+//			pay_total += b.getPayTotal();
+//		}
+//		
+//		System.out.println(pay_total);
+		
+		BenefitParamsVO params2 = new BenefitParamsVO();
+		transMapper.mycardBenefit(params2);
+		System.out.println(params2.getBenefitList().size());
+		System.out.println(params2.getBenefitList());
+		
+		int pay_total = 0;
+		for(BenefitResultVO b : params2.getBenefitList()) {
+			pay_total += b.getPayTotal();
+		}
+		
+		//System.out.println(pay_total);
 		
 		//System.out.println(params2.getBenefitList());
 		
+		
+		
+		Assert.assertNotNull(params2.getBenefitList());
 		for(BenefitResultVO b : params2.getBenefitList()) {
 			if(b.getBenefitName() != null) {
 				System.out.println(b);
@@ -41,25 +62,25 @@ public class BenefitMapperTest {
 		}
 		
 //		List<TestVO> p = transMapper.selectTemp();
-		Map<String, Object> map = transMapper.selectTemp();
-		//System.out.println(p.getTestList());
-		Assert.assertNotNull(map);
-		Set<String> keys = map.keySet();
-		System.out.println("map : " + map.get(0));
-		for(String k : keys) {
-			System.out.println(k + ", " + map.get(k));
-			List<Object> list = (List<Object>) map.get(k);
-			
-			
-		}
-		
-		Map<String, Object> map2 = transMapper.selectTemp2();
-		Set<String> keys2 = map2.keySet();
-		
-		System.out.println("map2 : " + map2.get(0));
-		for(String k: keys2) {
-			System.out.println(k+", " +map2.get(k));
-		}
+//		Map<String, Object> map = transMapper.selectTemp();
+//		//System.out.println(p.getTestList());
+//		Assert.assertNotNull(map);
+//		Set<String> keys = map.keySet();
+//		System.out.println("map : " + map.get(0));
+//		for(String k : keys) {
+//			System.out.println(k + ", " + map.get(k));
+//			List<Object> list = (List<Object>) map.get(k);
+//			
+//			
+//		}
+//		
+//		Map<String, Object> map2 = transMapper.selectTemp2();
+//		Set<String> keys2 = map2.keySet();
+//		
+//		System.out.println("map2 : " + map2.get(0));
+//		for(String k: keys2) {
+//			System.out.println(k+", " +map2.get(k));
+//		}
 //		for(String k : keys) {
 //			System.out.println(map.get(k));
 //			Collection<Object> values = map.values();

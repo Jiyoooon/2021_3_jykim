@@ -75,8 +75,7 @@ public class CardRestController {
 													, Authentication authentication){
 		
 		int memberId = ((MemberVO) authentication.getPrincipal()).getMemberId();
-		List<ConsumptionChartVO> statistics = null;
-		statistics = mypageService.searchMyConsumption(memberId, start, end);
+		List<ConsumptionChartVO> statistics = mypageService.searchMyConsumption(memberId, start, end);
 		
 		return statistics;
 	}

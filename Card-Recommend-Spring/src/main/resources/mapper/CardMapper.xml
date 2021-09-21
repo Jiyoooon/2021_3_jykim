@@ -263,6 +263,23 @@
 	
 	<!-- 소비 1차업종 그래프 데이터 -->
 	<select id="selectMyConsumption" parameterType="map" resultMap="chartResult">
+		select 	min(member_id) as member_id, #{start} as start_date, #{end} as end_date
+				, work_sector1_code, work_sector1_name, sum(trans_balance) as sector_balance, decode(benefit_count, 0, 0, 1) as has_benefit
+		from
+		    (select  (select member_id from p_member_card where member_card_id = t.member_card_id) as member_id
+		    		, work_sector2_code, work_sector1_code, (select work_sector1_name from p_work_sector1 where work_sector1_code = t.work_sector1_code) as work_sector1_name
+		            ,trans_balance
+		            , (select count(*)  from p_card_benefit cb where cb.card_id = (select card_id from p_member_card where member_card_id = t.member_card_id)
+		                and cb.work_sector1_code = t.work_sector1_code) as benefit_count
+		    from p_trans t
+		    where member_card_id in (select member_card_id from p_member_card where member_id = #{memberId})
+		            and to_char(trans_at, 'yyyy-mm') >= #{start} and to_char(trans_at, 'yyyy-mm') <![CDATA[<]]>= #{end}
+		    )
+		group by work_sector1_code, work_sector1_name, decode(benefit_count, 0, 0, 1)
+		order by to_number(work_sector1_code)
+	</select>
+	
+	<!-- 
 		select  min(t.member_id) as member_id, ct.work_sector1_code, (select work_sector1_name from p_work_sector1 where work_sector1_code = ct.work_sector1_code) as work_sector1_name
 		        , sum(t.trans_balance) as sector_balance, #{start} as start_date, #{end} as end_date,
 		        (select /*+ member_id */  sum(trans_balance) as total from p_transaction
@@ -273,10 +290,24 @@
 		        and t.trans_at >= #{start} and t.trans_at <![CDATA[<]]>= #{end}
 		group by ct.work_sector1_code
 		order by to_number(ct.work_sector1_code)
-	</select>
+	 -->
 	
 	<!-- 소비 2차업종 그래프 데이터 -->
 	<select id="selectMyConsumption2" parameterType="map" resultType="consumptionChart2VO">
+		select work_sector2_code, work_sector2_name, sum(trans_balance) as sector2_balance, decode(benefit_count, 0, 0, 1) as has_benefit
+		from
+		    (select  work_sector2_code, (select work_sector2_name from p_work_sector2 where work_sector2_code = t.work_sector2_code) as work_sector2_name
+		            , trans_balance
+		            , (select count(*)  from p_card_benefit cb where cb.card_id = (select card_id from p_member_card where member_card_id = t.member_card_id)
+		                    and cb.work_sector2_code = t.work_sector2_code) as benefit_count
+		    from    p_trans t
+		    where   work_sector1_code = #{workSector1Code} and member_card_id in (select member_card_id from p_member_card where member_id = #{memberId})
+		                and to_char(trans_at, 'yyyy-mm') >= #{startDate} and to_char(trans_at, 'yyyy-mm') <![CDATA[<]]>= #{endDate}
+		    )
+		group by work_sector2_code, work_sector2_name, decode(benefit_count, 0, 0, 1)
+		order by sector2_balance desc
+	</select>
+	<!-- 
 		select work_sector2_code, work_sector2_name, sector2_balance, #{sectorBalance} as sector1_balance, trunc((sector2_balance / #{sectorBalance}) * 100, 2) as percentage
 		from
 			(select  ct.work_sector2_code 
@@ -288,7 +319,7 @@
 		    group by ct.work_sector2_code
 		    order by to_number(ct.work_sector2_code)
 		)
-	</select>
+	 -->
 
 	<!-- 1차업종 카드 top3 -->
 	<select id="selectSector1Top3" parameterType="int" resultType="cardVO">

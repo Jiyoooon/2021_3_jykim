@@ -67,7 +67,7 @@
             <div class="card-header pb-0 p-3">
               <div class="row">
                 <div class="col-6 d-flex align-items-center">
-                  <h5 class="mb-0">카드 정보</h5>
+                  <h4 class="mb-0">카드 정보</h4>
                 </div>
                 <div class="col-6 text-end">
                   <!-- <button class="btn btn-outline-primary btn-sm mb-0">수정하기</button> -->
@@ -114,7 +114,7 @@
             <div class="card-header pb-0 p-3">
               <div class="row">
                 <div class="col-6 d-flex align-items-center">
-                  <h5 class="mb-0">내 정보</h5>
+                  <h4 class="mb-0">내 정보</h4>
                 </div>
                 <div class="col-6 text-end">
                   <button class="btn btn-outline-primary btn-sm mb-0">수정하기</button>
@@ -156,18 +156,30 @@
           <div class="card">
             <div class="card-header pb-0 px-3">
               <div>
-	              <h5 class="mb-0" style="float:left;">나의 소비 그래프</h5>
+	              <h4 class="mb-0" style="float:left;">나의 소비 그래프</h4>
 	              <div  style="float: right;display: flex;">
-		              <div><input class="form-control" placeholder="시작 날짜" type="text" id="datepicker-start"></div>
+		              <div><input class="form-control" placeholder="시작 날짜" type="text" id="monthpicker-start"></div>
 		              <div><span style="line-height: 2">&nbsp;~ &nbsp;</span></div>
-		              <div><input class="form-control" placeholder="종료 날짜" type="text" id="datepicker-end"></div>
+		              <div><input class="form-control" placeholder="종료 날짜" type="text" id="monthpicker-end"></div>
 	              </div>
               </div>
-              <div style="clear:both; text-align: right;">
-              	<button style="padding: 2px 4px; margin-top: 0.5rem;" class="btn btn-outline-primary btn-lg mb-0" onclick="setDatepicker(1);">작년</button>
-              	<button style="padding: 2px 4px; margin-top: 0.5rem;" class="btn btn-outline-primary btn-lg mb-0" onclick="setDatepicker(2);">올해</button>
-              	<button style="padding: 2px 4px; margin-top: 0.5rem;" class="btn btn-outline-primary btn-lg mb-0" onclick="setDatepicker(3);">저번달</button>
-              	<button style="padding: 2px 4px; margin-top: 0.5rem; " class="btn btn-outline-primary btn-lg mb-0" onclick="setDatepicker(4);">이번달</button>
+              <div>
+              	  <div style="clear: both; padding: 5px;">
+	              <div style="text-align: right;">
+	              	<button style="padding: 2px 4px; margin-top: 0.5rem;" class="btn btn-outline-primary btn-lg mb-0" onclick="setMonthpicker(1);">작년</button>
+	              	<button style="padding: 2px 4px; margin-top: 0.5rem;" class="btn btn-outline-primary btn-lg mb-0" onclick="setMonthpicker(2);">올해</button>
+	              	<button style="padding: 2px 4px; margin-top: 0.5rem;" class="btn btn-outline-primary btn-lg mb-0" onclick="setMonthpicker(3);">저번달</button>
+	              	<button style="padding: 2px 4px; margin-top: 0.5rem; " class="btn btn-outline-primary btn-lg mb-0" onclick="setMonthpicker(4);">이번달</button>
+	              </div>
+	              <div>
+              	  	<img style="width:20px;" src="${pageContext.request.contextPath }/resources/assets/images/benefit_square.png">
+              	  	<span style="margin:5px;"><strong>보유 카드</strong>의 혜택이 적용된 업종을 표시합니다.</span>
+              	  </div>
+	              <div>
+              	  	<img style="width:20px;" src="${pageContext.request.contextPath }/resources/assets/images/benefit_square2.png">
+              	  	<span style="margin:5px;"><strong>비교(찜한) 카드</strong>의 혜택이 적용된 업종을 표시합니다.</span>
+              	  </div>
+              	  </div>
               </div>
             </div>
             <div style="text-align: center;width: 100%;"><span style="color:red;" id="bar-chart-warn"></span></div>
@@ -185,7 +197,7 @@
         <div class="col-md-7 mt-4">
           <div class="card">
             <div class="card-header pb-0 px-3">
-              <h5 class="mb-0"><span id="donut-sector1-name" style="color:green"></span> 업종 상세정보</h5>
+              <h4 class="mb-0"><span id="donut-sector1-name" style="color:green"></span> 업종 상세정보</h4>
             </div>
             <div class="card-body pt-4 p-3" id="donut-chart-section">
             	<!-- 소비 차트! -->
@@ -198,7 +210,7 @@
         <div class="col-md-5 mt-4">
           <div class="card">
             <div class="card-header pb-0 px-3">
-              <h5 class="mb-0"><span id="donut-sector1-name" style="color:green">소매</span> 업종 혜택 top3 카드</h5>
+              <h4 class="mb-0"><span id="donut-sector1-name" style="color:#C90000;">혜택</span> 내역</h4>
             </div>
             <div class="card-body pt-4 p-3" id="top3-card-list">
             	<!-- 혜택 카드! -->
@@ -280,6 +292,8 @@
   <!-- Bootstrap4 -->
   <%-- <script src="${pageContext.request.contextPath }/resources/assets2/js/core/bootstrap.min.js"></script> --%>
   <script src="${pageContext.request.contextPath }/resources/assets2/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/assets/js/jquery.ui.monthpicker.js"></script>
+  
   <script>
   
   var chartData;
@@ -307,8 +321,16 @@
   $(document).ready(function(){
 	  
 	  //datepicker 활성화
-	  $('#datepicker-start').datepicker({ dateFormat: 'yy-mm-dd' });
-	  $('#datepicker-end').datepicker({ dateFormat: 'yy-mm-dd' });
+	  //$('#datepicker-start').datepicker({ dateFormat: 'yy-mm-dd' });
+	  //$('#datepicker-end').datepicker({ dateFormat: 'yy-mm-dd' });
+	  //monthpicker 활성화
+	  $('#monthpicker-start').monthpicker({ 
+		  dateFormat: 'yy-mm' 
+	  });
+	  $('#monthpicker-end').monthpicker({ 
+		  dateFormat: 'yy-mm' 
+	  });
+	  
 	  
 	  $('.mycard-hero-slider').slick({
 		  	infinite: true,
@@ -326,7 +348,7 @@
 		  
 	  })
 	  
-	  $('#datepicker-end').change(function(e){
+	  $('#monthpicker-end').change(function(e){
 		  goSearchConsumption();
 	  })
 	  
@@ -376,7 +398,7 @@
 							.replace(/\{cardName\}/gi, d.cardName)
 							.replace(/\{cardType\}/gi, d.cardType);
 		  	  d.payCards.forEach(function(m){
-				  html += '<img id="card-image" data-toggle="tooltip" src="' + m.cardImageUrl + '" title="' + m.cardName + '" style="margin: 0 5px;" width="35%">'
+				  html += '<img id="card-image" data-toggle="tooltip" src="' + m.cardImageUrl + '" title="' + m.cardName + '" style="margin: 2.5px 5px;" width="35%">'
 		  	  });
 		  
 		  	  html += '</div></div>'
@@ -393,19 +415,20 @@
   
   //소비 그래프 데이터
   function goSearchConsumption(){
-	  if($('#datepicker-start').val() == ''){
-		  setDatepicker(3)//저번달 기준
+	  if($('#monthpicker-start').val() == ''){
+		  setMonthpicker(3)//저번달 기준
 	  	  return;
 	  }
 
-	  let start = $('#datepicker-start').val();
-	  let end = $('#datepicker-end').val();
+	  let start = $('#monthpicker-start').val();
+	  let end = $('#monthpicker-end').val();
 	  
 	  
 	  $.ajax({
 	    	type: "GET",
 	    	url: contextPath + "/api/mypage/card/consumption/" + start + '/' + end,
 	    	success: function(result){
+	    		console.log(result);
 	    		chartData = result;
 	    		
 	    		if(result.length == 0){
@@ -429,32 +452,30 @@
 	  });
   }
   
-  //datepicker setting
-  function setDatepicker(num){
+  //monthpicker setting
+  function setMonthpicker(num){
 	  let today = new Date(); 
 	  let month = String(today.getMonth() + 1).padStart(2, '0');
 	  let year = today.getFullYear();
-	  let date = String(today.getDate()).padStart(2,'0');
 	  
 	  if(num == 1){//작년
-		$('#datepicker-start').val((year-1) + '-01-01')  
-		$('#datepicker-end').val((year-1) + '-12-31')  
+		$('#monthpicker-start').val((year-1) + '-01')  
+		$('#monthpicker-end').val((year-1) + '-12')  
 	  
 	  }else if(num == 2){//올해
-		$('#datepicker-start').val(year + '-01-01')  
-		$('#datepicker-end').val(year + '-' + month +'-' + date)  
+		$('#monthpicker-start').val(year + '-01')  
+		$('#monthpicker-end').val(year + '-' + month)  
 		  
 	  }else if(num == 3){//저번달
-		let lastDate = new Date(year, today.getMonth(), 0).getDate()
 		let lastMonth = String(month-1).padStart(2,'0')
-		$('#datepicker-start').val(year + '-' + lastMonth + '-01')  
-		$('#datepicker-end').val(year + '-' + lastMonth +'-' + lastDate)  
+		$('#monthpicker-start').val(year + '-' + lastMonth) 
+		$('#monthpicker-end').val(year + '-' + lastMonth) 
 		  
 	  }else{//num == 4, 이번달
-		$('#datepicker-start').val(year + '-' + month + '-01')  
-		$('#datepicker-end').val(year + '-' + month +'-' + date)  
+		$('#monthpicker-start').val(year + '-' + month )  
+		$('#monthpicker-end').val(year + '-' + month)  
 	  
-	  }
+	  } 
 	  //기간동안 소비 데이터 검색
 	  goSearchConsumption();
   }
@@ -503,7 +524,8 @@
 		      datasets: [{
 		        data: donutData,      // 섭취량, 총급여량 - 섭취량
 		        backgroundColor: assignColor(idx, data.chart2List.length),
-		        //borderWidth: 0,
+		        borderColor: getBenefitBorderColor(chartData[idx].chart2List),
+		        borderWidth: 2,
 		        //scaleBeginAtZero: true,
 		        hoverOffset: 20
 		      }]
@@ -551,10 +573,7 @@
   function setBarChart(labels, data){
 	  $('#bar-chart-warn').text('')
 	  $('#bar-chart-section').html('<canvas id="bar-chart" style="padding: 20px;"></canvas>')
-	//소비 그래프
-	  console.log(labels)
-	  console.log(data)
-	  let data2 = [500000, 456000, 140000, 50000, 10, 1000000, 1000000, 1000000, 1000000, 1000000, 1000000, 1000000]
+	 //소비 그래프
 	
 	  let ctx_bar = document.getElementById('bar-chart').getContext('2d'); 
 	  new Chart(ctx_bar, {
@@ -563,7 +582,7 @@
 	        labels: labels, 
 	        datasets: [
 	         {
-	            label: '기존카드 소비량',
+	            label: '업종별 소비량',
 	            data: data,
 	            //borderColor: "rgba(255, 201, 14, 1)",
 	            backgroundColor:  
@@ -572,16 +591,18 @@
 //	            	"rgba(181,214,146)",
 //	            	"rgba(171,242,0)",
 //	            	"rgba(250,237,125)",
+				borderColor: getBenefitBorderColor(chartData),
+				borderWidth: 2,
 	            fill: false,
-	        },  
-	         {
+	        }
+	       /*  ,{
 	            label: '찜카드 소비량',
 	            data: data2,
 	            backgroundColor: getCompareColor(data, data2),
 	            borderColor: getCompareBorderColor(data, data2),
 	            borderWidth: 1,
 	            fill: false,
-	        } 
+	        }  */
 	        ]
 	    },
 	    options: {
@@ -606,7 +627,7 @@
 	        responsive: true,
 	        title: {
 	            display: true,
-	            text: '청구금액 그래프',
+	            text: '소비 그래프',
 	            fontSize: 25,
 				fontFamily: 'Pretendard'
 	        },
@@ -679,6 +700,19 @@
 			  color.push('rgb(255,0,0,1)')
 		  }else{
 			  color.push('rgb(0,0,255,1)')
+		  }
+	  })
+	  return color
+  }
+  //혜택이 적용된 업종의 경우 border 처리
+  function getBenefitBorderColor(data){
+	  let color = []
+	  data.forEach(function(d, idx){
+		  if(d.hasBenefit == 1){
+			  console.log(d+", "+d.hasBenefit)
+			  color.push('rgb(255,0,0,1)')
+		  }else{
+			  color.push('transparent')
 		  }
 	  })
 	  return color

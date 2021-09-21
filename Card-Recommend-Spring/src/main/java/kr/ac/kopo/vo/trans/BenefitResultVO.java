@@ -1,6 +1,7 @@
-package kr.ac.kopo.vo.card;
+package kr.ac.kopo.vo.trans;
 
-public class BenefitResultVO {
+public class BenefitResultVO  implements Comparable<BenefitResultVO>{
+	private int cardId;
 	private String benefitName;
 	private String benefitInfo;
 	private String benefitCode;
@@ -14,6 +15,21 @@ public class BenefitResultVO {
 	private int perfCriteria;			// 전달 실적 기준
 	
 	private int limit;//한도제한
+
+	
+	@Override
+	public int compareTo(BenefitResultVO b) {
+		return Integer.compare(this.workSector2Code, b.workSector2Code);//2차업종 코드 오름차순 정
+	}
+	
+	
+	public int getCardId() {
+		return cardId;
+	}
+
+	public void setCardId(int cardId) {
+		this.cardId = cardId;
+	}
 
 	public String getBenefitName() {
 		return benefitName;
@@ -114,12 +130,14 @@ public class BenefitResultVO {
 
 	@Override
 	public String toString() {
-		return "BenefitResultVO [benefitName=" + benefitName + ", benefitInfo=" + benefitInfo + ", benefitCode="
-				+ benefitCode + ", workSector1Code=" + workSector1Code + ", workSector2Code=" + workSector2Code
-				+ ", workSector1Name=" + workSector1Name + ", workSector2Name=" + workSector2Name + ", payTotal="
-				+ payTotal + ", benefitTotal=" + benefitTotal + ", benefitCriteria=" + benefitCriteria
+		return "BenefitResultVO [cardId=" + cardId + ", benefitName=" + benefitName + ", benefitInfo=" + benefitInfo
+				+ ", benefitCode=" + benefitCode + ", workSector1Code=" + workSector1Code + ", workSector2Code="
+				+ workSector2Code + ", workSector1Name=" + workSector1Name + ", workSector2Name=" + workSector2Name
+				+ ", payTotal=" + payTotal + ", benefitTotal=" + benefitTotal + ", benefitCriteria=" + benefitCriteria
 				+ ", perfCriteria=" + perfCriteria + ", limit=" + limit + "]";
 	}
+
+	
 
 	
 	

@@ -1,6 +1,7 @@
 package kr.ac.kopo.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +13,14 @@ import kr.ac.kopo.mapper.CardMapper;
 import kr.ac.kopo.mapper.TransMapper;
 import kr.ac.kopo.service.IMypageService;
 import kr.ac.kopo.vo.card.CardVO;
+import kr.ac.kopo.vo.card.ConsumptionChart2VO;
 import kr.ac.kopo.vo.card.ConsumptionChartVO;
 import kr.ac.kopo.vo.card.DibsVO;
 import kr.ac.kopo.vo.card.GraphVO;
 import kr.ac.kopo.vo.card.MemberCardVO;
 import kr.ac.kopo.vo.card.TransactionVO;
+import kr.ac.kopo.vo.trans.BenefitParamsVO;
+import kr.ac.kopo.vo.trans.BenefitResultVO;
 
 @Service
 public class MypageServiceImpl  implements IMypageService{
@@ -33,7 +37,7 @@ public class MypageServiceImpl  implements IMypageService{
 		return cardMapper.selectMyCards(memberId);
 	}
 
-	//소비내역 데이터
+	//소비내역 데이터(1차, 2차 그래프)
 	@Override
 	public List<ConsumptionChartVO> searchMyConsumption(int memberId, String start, String end) {
 		
@@ -42,7 +46,79 @@ public class MypageServiceImpl  implements IMypageService{
 		params.put("start", start);
 		params.put("end", end);
 		
-		return cardMapper.selectMyConsumption(params);
+		List<ConsumptionChartVO> cardList = cardMapper.selectMyConsumption(params);
+		
+		return cardList;
+		
+//		BenefitParamsVO params = new BenefitParamsVO();
+//		params.setMemberId(memberId);
+//		params.setStart(start);
+//		params.setEnd(end);
+//		
+//		transMapper.mycardBenefit(params);
+//		
+//		List<BenefitResultVO> benefits = params.getBenefitList();
+//		for(BenefitResultVO b : benefits) {
+//			if(b.getPayTotal() > 0) {
+//				System.out.println(b);
+//			}
+//		}
+//		
+//		if(benefits != null) {
+//			List<ConsumptionChartVO> chartList = makeGraph(benefits);
+//			return chartList;
+//		}
+//		return null;//benefits == null인 경우
+	}
+
+	//그래프 데이터
+	private List<ConsumptionChartVO> makeGraph(List<BenefitResultVO> benefits) {
+		List<ConsumptionChartVO> chartList = new ArrayList<ConsumptionChartVO>();
+		
+		int sector1 = -1;
+		ConsumptionChartVO chart1 = null;
+		List<ConsumptionChart2VO> chart2List = null;
+		int payTotal = 0;
+		for(BenefitResultVO b : benefits) {
+			if(b.getPayTotal() == 0) continue; //소비 내역이 없는 업종의 경우 continue;
+			
+			if(b.getWorkSector1Code() != sector1) {
+				if(sector1 > 0) {//이전 데이터 저장
+					chart1.setSectorBalance(payTotal);
+					chart1.setChart2List(chart2List);
+					chartList.add(chart1);
+				}
+				
+				sector1 = b.getWorkSector1Code();
+				//ConsumptionChartVO 생성
+				chart1 = new ConsumptionChartVO();
+				//ConsumptionChart2VO 리스트 생성
+				chart2List = new ArrayList<ConsumptionChart2VO>();
+
+				chart1.setWorkSector1Name(b.getWorkSector1Name());
+				chart1.setWorkSector1Code(sector1);
+				payTotal = 0;
+			}
+			payTotal += b.getPayTotal();
+			
+			ConsumptionChart2VO chart2 = new ConsumptionChart2VO();
+			//sector2code, sector2name, sector2balance, benefitname, benefitinfo, benefitcode
+			chart2.setWorkSector2Code(b.getWorkSector2Code());
+			chart2.setWorkSector2Name(b.getWorkSector2Name());
+			chart2.setSector2Balance(b.getPayTotal());
+			chart2.setBenefitName(b.getBenefitName());
+			chart2.setBenefitInfo(b.getBenefitInfo());
+			chart2.setBenefitCode(b.getBenefitCode());
+			chart2List.add(chart2);
+		}
+		chart1.setSectorBalance(payTotal);
+		chart1.setChart2List(chart2List);
+		chartList.add(chart1);
+		
+		for(ConsumptionChartVO cur : chartList) {//소비량 많은 업종 내림차순
+			Collections.sort(cur.getChart2List());
+		}
+		return chartList;
 	}
 
 	//sector1 카드 top3 조회
