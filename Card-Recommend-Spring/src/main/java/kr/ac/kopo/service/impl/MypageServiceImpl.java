@@ -37,7 +37,7 @@ public class MypageServiceImpl  implements IMypageService{
 		return cardMapper.selectMyCards(memberId);
 	}
 
-	//소비내역 데이터(1차, 2차 그래프)
+	//소비내역 그래프 데이터(1차, 2차 그래프)
 	@Override
 	public List<ConsumptionChartVO> searchMyConsumption(int memberId, String start, String end) {
 		
@@ -70,6 +70,31 @@ public class MypageServiceImpl  implements IMypageService{
 //		}
 //		return null;//benefits == null인 경우
 	}
+	
+	//혜택 내역 데이터
+	@Override
+	public List<BenefitResultVO> searchMyConsumptionBenefit(int memberId, String start, String end) {
+		BenefitParamsVO params = new BenefitParamsVO();
+		params.setMemberId(memberId);
+		params.setStart(start);
+		params.setEnd(end);
+		
+		transMapper.mycardBenefit(params);
+		List<BenefitResultVO> benefits = params.getBenefitList();
+//		for(BenefitResultVO b : benefits) {
+//			System.out.println(b);
+//		}
+		return benefits;
+	}
+	
+	//찜한 신용카드 혜택 내역 데이터
+	@Override
+	public List<BenefitResultVO> searchDibsConsumptionBenefit(BenefitParamsVO params) {
+		transMapper.dibsCardBenefit(params);
+		
+		return params.getBenefitList();
+	}
+
 
 	//그래프 데이터
 	private List<ConsumptionChartVO> makeGraph(List<BenefitResultVO> benefits) {
@@ -180,5 +205,8 @@ public class MypageServiceImpl  implements IMypageService{
 		return null;
 	}
 
+	
+
+	
 	
 }

@@ -7,6 +7,8 @@ import kr.ac.kopo.vo.card.ConsumptionChartVO;
 import kr.ac.kopo.vo.card.DibsVO;
 import kr.ac.kopo.vo.card.GraphVO;
 import kr.ac.kopo.vo.card.MemberCardVO;
+import kr.ac.kopo.vo.trans.BenefitParamsVO;
+import kr.ac.kopo.vo.trans.BenefitResultVO;
 
 public interface IMypageService {
 	
@@ -15,6 +17,9 @@ public interface IMypageService {
 
 	//내 소비내역 통계 데이터 => 그래프 그림
 	public List<ConsumptionChartVO> searchMyConsumption(int memberId, String start, String end);
+
+	//내 보유카드 혜택 
+	public List<BenefitResultVO> searchMyConsumptionBenefit(int memberId, String start, String end);
 
 	//마이페이지 => sector1 그래프 클릭 시 카드 top3 추천
 	public List<CardVO> searchSector1RecoCards(int sector1);
@@ -29,5 +34,9 @@ public interface IMypageService {
 	
 	//내 소비내역 통계 데이터 => 그래프 그림
 	public List<GraphVO> searchMyConsumption2(String memberId, String cardId , String start, String end);
+
+	//찜한 신용카드 혜택
+	public List<BenefitResultVO> searchDibsConsumptionBenefit(BenefitParamsVO params);
+
 	
 }

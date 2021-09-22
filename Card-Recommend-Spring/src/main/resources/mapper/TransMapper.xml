@@ -44,7 +44,7 @@
 	<select id="dibsCardBenefit" parameterType="benefitParamsVO" statementType="CALLABLE">
 		{
 			call calculate_benefit(
-				#{memberId}, #{cardId}, #{start}, #{end},
+				#{memberId}, #{cardId}, #{start}, #{end}, #{benefitType},
 				#{benefitList, mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=benefitMap}
 			)
 		}
@@ -54,7 +54,7 @@
 	<select id="mycardBenefit" parameterType="benefitParamsVO" statementType="CALLABLE">
 		{
 			call mycard_benefit(
-				#{memberId}, #{start}, #{end},
+				#{memberId}, #{start}, #{end}, 
 				#{benefitList, mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=benefitMap}
 			)
 		}

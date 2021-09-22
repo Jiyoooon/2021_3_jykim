@@ -18,6 +18,8 @@ import kr.ac.kopo.vo.card.CardSearchOptionVO;
 import kr.ac.kopo.vo.card.CardVO;
 import kr.ac.kopo.vo.card.ConsumptionChartVO;
 import kr.ac.kopo.vo.card.DibsVO;
+import kr.ac.kopo.vo.trans.BenefitParamsVO;
+import kr.ac.kopo.vo.trans.BenefitResultVO;
 
 @RestController
 @RequestMapping("/api")
@@ -78,6 +80,60 @@ public class CardRestController {
 		List<ConsumptionChartVO> statistics = mypageService.searchMyConsumption(memberId, start, end);
 		
 		return statistics;
+	}
+
+	//GET 소비내역 데이터 
+	@GetMapping("/mypage/card/benefit/{startDate}/{endDate}")
+	public List<BenefitResultVO> getMyConsumptionBenefit(@PathVariable("startDate") String start
+			, @PathVariable("endDate") String end
+			, Authentication authentication){
+		
+		int memberId = ((MemberVO) authentication.getPrincipal()).getMemberId();
+		List<BenefitResultVO> benefits = mypageService.searchMyConsumptionBenefit(memberId, start, end);
+		
+		return benefits;
+	}
+
+	//GET 찜한 신용카드 소비내역 데이터 
+	@GetMapping("/mypage/card/dibs/benefit/{cardId}/{startDate}/{endDate}")
+	public List<BenefitResultVO> getDibsConsumptionBenefit(@PathVariable("cardId") String cardId, @PathVariable("startDate") String start
+			, @PathVariable("endDate") String end
+			, Authentication authentication){
+		
+		
+		int memberId = ((MemberVO) authentication.getPrincipal()).getMemberId();
+		
+		BenefitParamsVO params = new BenefitParamsVO();
+		params.setMemberId(memberId);
+		params.setCardId(cardId);
+		params.setStart(start);
+		params.setEnd(end);
+		params.setBenefitType(0);
+		
+		List<BenefitResultVO> benefits = mypageService.searchDibsConsumptionBenefit(params);
+		
+		return benefits;
+	}
+	
+	//GET 찜한 멀티카드 소비내역 데이터 
+	@GetMapping("/mypage/card/multidibs/benefit/{cardId}/{startDate}/{endDate}")
+	public List<BenefitResultVO> getMultiDibsConsumptionBenefit(@PathVariable("cardId") String cardId, @PathVariable("startDate") String start
+			, @PathVariable("endDate") String end
+			, Authentication authentication){
+		
+		
+		int memberId = ((MemberVO) authentication.getPrincipal()).getMemberId();
+		
+		BenefitParamsVO params = new BenefitParamsVO();
+		params.setMemberId(memberId);
+		params.setCardId(cardId);
+		params.setStart(start);
+		params.setEnd(end);
+		params.setBenefitType(0);
+		
+		List<BenefitResultVO> benefits = mypageService.searchDibsConsumptionBenefit(params);
+		
+		return benefits;
 	}
 
 	//GET Top3 Card 데이터 

@@ -94,14 +94,14 @@
                   </div>
                 </li>
 
-                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                <%-- <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                   <div class="d-flex align-items-center" style="font-weight:bold;color:black;">
                     결제예정금액
                   </div>
                   <div class="d-flex align-items-center" id="pay-date">
                     ${mycards[0].payDate } <span> &nbsp;일</span>
                   </div>
-                </li>
+                </li> --%>
                 
               </ul>
             </div>
@@ -165,28 +165,35 @@
               </div>
               <div>
               	  <div style="clear: both; padding: 5px;">
-	              <div style="text-align: right;">
-	              	<button style="padding: 2px 4px; margin-top: 0.5rem;" class="btn btn-outline-primary btn-lg mb-0" onclick="setMonthpicker(1);">작년</button>
-	              	<button style="padding: 2px 4px; margin-top: 0.5rem;" class="btn btn-outline-primary btn-lg mb-0" onclick="setMonthpicker(2);">올해</button>
-	              	<button style="padding: 2px 4px; margin-top: 0.5rem;" class="btn btn-outline-primary btn-lg mb-0" onclick="setMonthpicker(3);">저번달</button>
-	              	<button style="padding: 2px 4px; margin-top: 0.5rem; " class="btn btn-outline-primary btn-lg mb-0" onclick="setMonthpicker(4);">이번달</button>
-	              </div>
-	              <div>
-              	  	<img style="width:20px;" src="${pageContext.request.contextPath }/resources/assets/images/benefit_square.png">
-              	  	<span style="margin:5px;"><strong>보유 카드</strong>의 혜택이 적용된 업종을 표시합니다.</span>
-              	  </div>
-	              <div>
-              	  	<img style="width:20px;" src="${pageContext.request.contextPath }/resources/assets/images/benefit_square2.png">
-              	  	<span style="margin:5px;"><strong>비교(찜한) 카드</strong>의 혜택이 적용된 업종을 표시합니다.</span>
-              	  </div>
+		              <div style="text-align: right;">
+		              	<button style="padding: 2px 4px; margin-top: 0.5rem;" class="btn btn-outline-primary btn-lg mb-0" onclick="setMonthpicker(1);">작년</button>
+		              	<button style="padding: 2px 4px; margin-top: 0.5rem;" class="btn btn-outline-primary btn-lg mb-0" onclick="setMonthpicker(2);">올해</button>
+		              	<button style="padding: 2px 4px; margin-top: 0.5rem;" class="btn btn-outline-primary btn-lg mb-0" onclick="setMonthpicker(3);">저번달</button>
+		              	<button style="padding: 2px 4px; margin-top: 0.5rem; " class="btn btn-outline-primary btn-lg mb-0" onclick="setMonthpicker(4);">이번달</button>
+		              </div>
+		              <div>
+	              	  	<img style="width:20px;" src="${pageContext.request.contextPath }/resources/assets/images/benefit_square.png">
+	              	  	<span style="margin:5px;"><strong>보유카드</strong>의 혜택이 적용된 업종을 표시합니다.</span>
+	              	  </div>
+		              <div>
+	              	  	<img style="width:20px;" src="${pageContext.request.contextPath }/resources/assets/images/benefit_square3.png">
+	              	  	<span style="margin:5px;"><strong>비교(찜한) 카드</strong>의 혜택이 적용된 업종을 표시합니다.</span>
+	              	  </div>
+		              <div>
+	              	  	<img style="width:20px;" src="${pageContext.request.contextPath }/resources/assets/images/benefit_square2.png">
+	              	  	<span style="margin:5px;"><strong>보유카드</strong>와 <strong>비교(찜한) 카드</strong>의 혜택이 모두 적용된 업종을 표시합니다.</span>
+	              	  </div>
               	  </div>
               </div>
             </div>
             <div style="text-align: center;width: 100%;"><span style="color:red;" id="bar-chart-warn"></span></div>
             <div class="card-body pt-4 p-3" id="bar-chart-section">
             	<!-- 소비 차트! -->
-              <canvas id="bar-chart" style="padding: 20px;"></canvas>
-
+              <div>
+              	<canvas id="bar-chart" style="padding: 20px;"></canvas>
+			  </div>
+			  <div id="payTotal">
+			  </div>
             </div>
           </div>
         </div>
@@ -194,7 +201,7 @@
       
       <!-- 세부 파이차트 -->
       <div class="row">
-        <div class="col-md-7 mt-4">
+        <div class="col-md-6 mt-4">
           <div class="card">
             <div class="card-header pb-0 px-3">
               <h4 class="mb-0"><span id="donut-sector1-name" style="color:green"></span> 업종 상세정보</h4>
@@ -207,13 +214,29 @@
           </div>
         </div>
 
-        <div class="col-md-5 mt-4">
+		<!-- 혜택 내역 -->
+        <div class="col-md-6 mt-4">
           <div class="card">
             <div class="card-header pb-0 px-3">
-              <h4 class="mb-0"><span id="donut-sector1-name" style="color:#C90000;">혜택</span> 내역</h4>
+              <h4 class="mb-0"><span id="donut-sector1-name">혜택 내역</span></h4>
             </div>
-            <div class="card-body pt-4 p-3" id="top3-card-list">
+            <div class="card-body pt-4 p-5" id="benefit-history" style="font-family: 'Pretendard';">
             	<!-- 혜택 카드! -->
+            	<div id="mycard-benefit-history">
+            		<h4 style="font-family: 'Pretendard'; color: black;"><span style="color:#C90000;">보유카드</span> 혜택내역</h4>
+            		<div id="card-benefit-section">
+            		
+	            	</div>
+            	</div>
+            	
+            	<hr>
+            	<div id="dibscard-benefit-history">
+            		<h4  style="font-family: 'Pretendard'; color: black;"><span style="color:blue;">찜카드</span> 혜택내역</h4>
+            		<div id="card-benefit-section">
+            		
+	            	</div>
+            		
+            	</div>
             </div>
           </div>
         </div>
@@ -255,10 +278,38 @@
     </div>
   </div>
   
+  <script type="text/templage" id="benefit-card-header-template">
+	<div id="card-benefit-item" style="padding:10px;">
+	    <div style="display:flex;">
+			<img src="{cardImageUrl}" width="150px;"><br>
+			<div style="padding: 10px 20px;">
+				<h4 style=" font-family: 'Pretendard'" id="benefitTotal">총 {totalBenefit}원 혜택</h4> 
+				<h5 class="picking" style=" font-family: 'Pretendard'" title="피킹률 : 혜택 금액 / 총 소비액">피킹률 : <span>{pickingPercentage}</span>%</h5>   
+				
+			</div>         			
+		</div>
+		{benefitsBody}
+	</div>
+  </script>
+  
+  <script type="text/templage" id="benefit-card-body-template">
+   	<div style="display: table; padding:10px; width:100%" >
+   		<div style="width: 30%; text-align: center; display:table-cell; vertical-align: middle;">
+     		<span style="font-size:18px; font-weight: bold; color:black;">{benefitName}</span>
+   		</div>
+   		<div style="width: 40%; text-align: center; display:table-cell; vertical-align: middle;">
+			{benefitBtns}     		
+    	</div>
+    	<div style="width: 30%; display:table-cell;text-align:center; vertical-align: middle;">
+    		{benefitSubTotal}
+    	</div>
+   	</div>
+  </script>
+  
   <script type="text/template" id="multi-item-template">
 	<div class="dibs-multi-item" id="{cardId}" style="padding:10px;">
 		<div id="dibs-multi-plastic" style="display:flex;">
-			<img id="card-image" src="{cardImageUrl}" style="cursor:pointer;height: fit-content;" width="50%">
+			<img id="card-image" src="{cardImageUrl}" style="cursor:pointer;height: fit-content;" width="50%" onclick="{clickEvent}">
 			<div style="padding:10px;margin-left:20px;" >
 				<h6 style="font-family: 'Pretendard'; color:black;margin: 0;">{cardType}카드</h6>
 				<p>{cardName}</p>		
@@ -275,7 +326,7 @@
   </script>
   <script type="text/template" id="normal-item-template">
 	<div class="dibs-normal-item"  id="{cardId}" style="display:flex; padding:10px;">
-   		<img id="card-image" src="{cardImageUrl}" style="cursor:pointer;height: fit-content;" width="50%">
+   		<img id="card-image" src="{cardImageUrl}" style="cursor:pointer;height: fit-content;" width="50%" onclick="goSearchDibsBenefitHistory({cardId});">
    		<div style="padding:10px;margin-left:20px;">
    			<h6 style="font-family: 'Pretendard'; color:black;margin: 0;">{cardType}카드</h6>
    			<p>{cardName}</p>		
@@ -297,6 +348,7 @@
   <script>
   
   var chartData;
+  var dibsData = null;
   //[231,231,231], : 회색
   var chartRgb = [	[255,203,203],
 	  				[178,204,255],
@@ -317,471 +369,9 @@
 	  				[107,102,255]
 	  			]
   
-  
-  $(document).ready(function(){
-	  
-	  //datepicker 활성화
-	  //$('#datepicker-start').datepicker({ dateFormat: 'yy-mm-dd' });
-	  //$('#datepicker-end').datepicker({ dateFormat: 'yy-mm-dd' });
-	  //monthpicker 활성화
-	  $('#monthpicker-start').monthpicker({ 
-		  dateFormat: 'yy-mm' 
-	  });
-	  $('#monthpicker-end').monthpicker({ 
-		  dateFormat: 'yy-mm' 
-	  });
-	  
-	  
-	  $('.mycard-hero-slider').slick({
-		  	infinite: true,
-		  	slidesToShow: 1,
-		    arrows: true,
-		    prevArrow: '<button type=\'button\' class=\'prevArrow\'></button>',
-		    nextArrow: '<button type=\'button\' class=\'nextArrow\'></button>',
-		    //dots: false
-	  });
-	  
-	  $('.card-number').each(function(idx, e){
-		  let cardNumber = $(e).text().trim();
-		  cardNumber = cardNumber.substr(0,4) + '-' + cardNumber.substr(4,4) + '-' + cardNumber.substr(8,4) + '-' + cardNumber.substr(12,4)
-		  $(e).text(cardNumber)
-		  
-	  })
-	  
-	  $('#monthpicker-end').change(function(e){
-		  goSearchConsumption();
-	  })
-	  
-	  //소비 그래프 데이터 가져옴 
-	  goSearchConsumption();
-	  
-	  //찜카드 목록 가져오기
-	  getDibsCards();
-	  
-	  
-  })
-  
-  function getDibsCards(){
-	  let dibsList = localStorage.getItem('dibs')
-	  if(dibsList == null){
-		  return;
-	  }
-	  
-	  $.ajax({
-	    	type: "GET",
-	    	url: contextPath + "/api/card/dibs",
-	    	data: {
-	    		dibsLit : dibsList
-	    	},
-	    	success: function(result){
-	    		//카드찜 사이드 채우기
-	    		setDibsPage(result)
-			}
-	  });
-  }
-  
-  //카드찜 사이드 채우기
-  function setDibsPage(data){
-	  let normal = $('#normal-item-template').html();
-	  let multi = $('#multi-item-template').html();
-	  let html = ''
-	  
-	  data.forEach(function(d){
-		  if(d.multiFlag == 'F'){//일반 카드
-			  html += normal.replace(/\{cardId\}/gi, d.cardId)
-							.replace(/\{cardImageUrl\}/gi, d.cardImageUrl)
-							.replace(/\{cardName\}/gi, d.cardName)
-							.replace(/\{cardType\}/gi, d.cardType)
-		  }else{//멀티카드
-			  html +=  multi.replace(/\{cardId\}/gi, d.cardId)
-							.replace(/\{cardImageUrl\}/gi, d.cardImageUrl)
-							.replace(/\{cardName\}/gi, d.cardName)
-							.replace(/\{cardType\}/gi, d.cardType);
-		  	  d.payCards.forEach(function(m){
-				  html += '<img id="card-image" data-toggle="tooltip" src="' + m.cardImageUrl + '" title="' + m.cardName + '" style="margin: 2.5px 5px;" width="35%">'
-		  	  });
-		  
-		  	  html += '</div></div>'
-		  }
-	  })
-	  
-	  $('#dibs-list').html(html)
-	  //tooltip 활성화
-	  $('#dibs-list img[data-toggle="tooltip"]').tooltip({
-		  placement:'bottom',
-		  html: true
-	  });
-  }
-  
-  //소비 그래프 데이터
-  function goSearchConsumption(){
-	  if($('#monthpicker-start').val() == ''){
-		  setMonthpicker(3)//저번달 기준
-	  	  return;
-	  }
-
-	  let start = $('#monthpicker-start').val();
-	  let end = $('#monthpicker-end').val();
-	  
-	  
-	  $.ajax({
-	    	type: "GET",
-	    	url: contextPath + "/api/mypage/card/consumption/" + start + '/' + end,
-	    	success: function(result){
-	    		console.log(result);
-	    		chartData = result;
-	    		
-	    		if(result.length == 0){
-	    			$('#bar-chart-warn').text('해당 기간에 결제 내역이 없습니다.')
-	    			return;
-	    		}
-			    
-			    let barLabels = []
-			    let barData = []
-			    
-			    result.forEach(function(e){
-			    	barLabels.push(e.workSector1Name)
-			    	barData.push(e.sectorBalance)
-			    })
-			    
-			    //바 차트 => 1차
-			    setBarChart(barLabels, barData)
-			    //도넛 차트 => 2차
-			    setDonutChart(0, chartData[0])
-			}
-	  });
-  }
-  
-  //monthpicker setting
-  function setMonthpicker(num){
-	  let today = new Date(); 
-	  let month = String(today.getMonth() + 1).padStart(2, '0');
-	  let year = today.getFullYear();
-	  
-	  if(num == 1){//작년
-		$('#monthpicker-start').val((year-1) + '-01')  
-		$('#monthpicker-end').val((year-1) + '-12')  
-	  
-	  }else if(num == 2){//올해
-		$('#monthpicker-start').val(year + '-01')  
-		$('#monthpicker-end').val(year + '-' + month)  
-		  
-	  }else if(num == 3){//저번달
-		let lastMonth = String(month-1).padStart(2,'0')
-		$('#monthpicker-start').val(year + '-' + lastMonth) 
-		$('#monthpicker-end').val(year + '-' + lastMonth) 
-		  
-	  }else{//num == 4, 이번달
-		$('#monthpicker-start').val(year + '-' + month )  
-		$('#monthpicker-end').val(year + '-' + month)  
-	  
-	  } 
-	  //기간동안 소비 데이터 검색
-	  goSearchConsumption();
-  }
-  
-  
-  function assignColor(idx, len){
-	  let color = []
-	  let step = 40;
-	  
-	  if(len > 20) step = 6;
-	  else if(len > 15) step = 10; 
-	  else if(len > 10) step = 20;
-	  else if(len > 5) step = 30;
-	  
-	  let r = chartRgb[idx][0];
-	  let g = chartRgb[idx][1];
-	  let b = chartRgb[idx][2];
-	  
-	  while(len > 0){
-	      color.push("rgba(" + r + "," + g + "," + b + ", 1)"); 
-		  r = (r - step > 0) ? r - step : r;
-		  g = (g - step > 0) ? g - step : g;
-		  b = (b - step > 0) ? b - step : b;
-		  len--
-	  }
-	  return color 
-  }
-  
-  function setDonutChart(idx, data){
-	  $('#donut-chart-section').html('<canvas id="donut-chart" class="chart chart-pie" style="padding: 20px;"></canvas>')
-	  $('#donut-sector1-name').text(data.workSector1Name)
-	  
-	  let donutLabels = [];
-	  let donutData = [];
-	  
-	  data.chart2List.forEach(function(e){
-		  donutLabels.push(e.workSector2Name)
-	  	  donutData.push(e.sector2Balance)
-	  })
-	  
-	  let ctx_donut = document.getElementById('donut-chart').getContext('2d'); 
-	  new Chart(ctx_donut, {
-		    type: 'doughnut',
-		    data: {
-		      labels: donutLabels,
-		      datasets: [{
-		        data: donutData,      // 섭취량, 총급여량 - 섭취량
-		        backgroundColor: assignColor(idx, data.chart2List.length),
-		        borderColor: getBenefitBorderColor(chartData[idx].chart2List),
-		        borderWidth: 2,
-		        //scaleBeginAtZero: true,
-		        hoverOffset: 20
-		      }]
-		    },
-		    options: {
-				//responsive: false,
-				pieceLabel: { 
-					//mode: "label",
-					 render: function(d) { 
-						 return d.label + "(" + d.percentage + "%)" 
-					 },
-					 fontColor: '#000',
-					 //fontSize:'bold',
-					 position: 'outside',
-					 segment: true
-				},
-				legend: false,
-				maintainAspectRatio : false, 
-				cutoutPercentage: 60,
-				scaleShowLabelBackdrop : true,
-			}
-		  
-		});
-	  
-	  //$('#donut-chart').css('height','450px')
-  }
-  
-  //업종1 혜택 높은 순서로 카드 조회
-  function setTop3Card(idx){
-	  console.log("top3! : ")
-	  console.log(chartData[idx])
-	  
-	  $.ajax({
-	    	type: "GET",
-	    	url: contextPath + "/api/mypage/card/reco/" + chartData[idx].workSector1Code,
-	    	success: function(result){
-	    		console.log(result)
-
-	    		//top3-card-list 채움
-	    		//setTop3CardList(result)
-			}
-	  });
-  }
-  
-  function setBarChart(labels, data){
-	  $('#bar-chart-warn').text('')
-	  $('#bar-chart-section').html('<canvas id="bar-chart" style="padding: 20px;"></canvas>')
-	 //소비 그래프
-	
-	  let ctx_bar = document.getElementById('bar-chart').getContext('2d'); 
-	  new Chart(ctx_bar, {
-	    type: 'bar',
-	    data: {
-	        labels: labels, 
-	        datasets: [
-	         {
-	            label: '업종별 소비량',
-	            data: data,
-	            //borderColor: "rgba(255, 201, 14, 1)",
-	            backgroundColor:  
-	            	"rgba(255, 201, 14, 1)",
-//	            	"rgba(213,213,213)",
-//	            	"rgba(181,214,146)",
-//	            	"rgba(171,242,0)",
-//	            	"rgba(250,237,125)",
-				borderColor: getBenefitBorderColor(chartData),
-				borderWidth: 2,
-	            fill: false,
-	        }
-	       /*  ,{
-	            label: '찜카드 소비량',
-	            data: data2,
-	            backgroundColor: getCompareColor(data, data2),
-	            borderColor: getCompareBorderColor(data, data2),
-	            borderWidth: 1,
-	            fill: false,
-	        }  */
-	        ]
-	    },
-	    options: {
-	    	legend: {
-	    		labels:{
-	    			fontSize: 15
-	    		}
-	    	},
-	    	label: {
-	            font: {
-					fontColor: "black",
-	                family: "Pretendard",
-	                fontSize: 15,
-	            }
-	        },
-			data: {
-	            font: {
-	            	fontSize: 20,
-	                family: "Pretendard"
-	            }
-	        },
-	        responsive: true,
-	        title: {
-	            display: true,
-	            text: '소비 그래프',
-	            fontSize: 25,
-				fontFamily: 'Pretendard'
-	        },
-	        hover: {
-	            mode: 'nearest',
-	            intersect: true,
-	            backgroundColor: "rgba(255, 201, 14, 1)",
-	            
-	        },
-	        onClick: function(point, event) {
-	            if(event.length <= 0) return;
-				let idx = event[0]['_index']
-				
-				//도넛 차트 새로그림
-				setDonutChart(idx, chartData[idx])
-				setTop3Card(idx)
-	        },
-	        scales: {
-	            xAxes: [{
-	                display: true,
-	                scaleLabel: {
-	                    display: true,
-	                    //labelString: '업종'
-	                },
-	                ticks: {
-	                    autoSkip: false,
-	                    fontFamily:'Pretendard',
-	                    fontSize: 15
-	                }
-	            }],
-	            yAxes: [{
-	                display: true,
-	                ticks: {
-	                    suggestedMin: 0,
-	                    callback: function(value, index) {
-	                    	return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
-	                    },
-	                    fontSize: 15
-	                },
-	                scaleLabel: {
-	                    display: true,
-	                    //labelString: '소비 금액'
-	                }
-	            }]
-	        }
-	    } 
-	    
-	});
-	
-	
-
-  }
-  
-  //비교 그래프 색깔
-  function getCompareColor(data, data2){
-	  let color = []
-	  data.forEach(function(d, idx){
-		  if(d < data2[idx]){
-			  color.push('rgb(255,0,0,0.3)')
-		  }else{
-			  color.push('rgb(0,0,255,0.3)')
-		  }
-	  })
-	  return color
-  }
-  function getCompareBorderColor(data, data2){
-	  let color = []
-	  data.forEach(function(d, idx){
-		  if(d < data2[idx]){
-			  color.push('rgb(255,0,0,1)')
-		  }else{
-			  color.push('rgb(0,0,255,1)')
-		  }
-	  })
-	  return color
-  }
-  //혜택이 적용된 업종의 경우 border 처리
-  function getBenefitBorderColor(data){
-	  let color = []
-	  data.forEach(function(d, idx){
-		  if(d.hasBenefit == 1){
-			  console.log(d+", "+d.hasBenefit)
-			  color.push('rgb(255,0,0,1)')
-		  }else{
-			  color.push('transparent')
-		  }
-	  })
-	  return color
-  }
-  
-  
-  //Fixed Plugin
-  if (document.querySelector('.fixed-plugin')) {
-    var fixedPlugin = document.querySelector('.fixed-plugin');
-    var fixedPluginButton = document.querySelector('.fixed-plugin-button');
-    var fixedPluginButtonNav = document.querySelector('.fixed-plugin-button-nav');
-    var fixedPluginCard = document.querySelector('.fixed-plugin .card');
-    var fixedPluginCloseButton = document.querySelectorAll('.fixed-plugin-close-button');
-    var navbar = document.getElementById('navbarBlur');
-    var buttonNavbarFixed = document.getElementById('navbarFixed');
-
-    if (fixedPluginButton) {
-      fixedPluginButton.onclick = function() {
-        if (!fixedPlugin.classList.contains('show')) {
-          fixedPlugin.classList.add('show');
-        } else {
-          fixedPlugin.classList.remove('show');
-        }
-      }
-    }
-
-    if (fixedPluginButtonNav) {
-      fixedPluginButtonNav.onclick = function() {
-        if (!fixedPlugin.classList.contains('show')) {
-          fixedPlugin.classList.add('show');
-        } else {
-          fixedPlugin.classList.remove('show');
-        }
-      }
-    }
-
-    fixedPluginCloseButton.forEach(function(el) {
-      el.onclick = function() {
-        fixedPlugin.classList.remove('show');
-      }
-    })
-
-    document.querySelector('body').onclick = function(e) {
-      if (e.target != fixedPluginButton && e.target != fixedPluginButtonNav && e.target.closest('.fixed-plugin .card') != fixedPluginCard) {
-        fixedPlugin.classList.remove('show');
-      }
-    }
-
-    if (navbar) {
-      if (navbar.getAttribute('navbar-scroll') == 'true') {
-        buttonNavbarFixed.setAttribute("checked", "true");
-      }
-    }
-
-  }
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-    
-    
-    let an = $('#account-number').text().trim()
-    an = an.substr(0,6) + '-' + an.substr(6,2) + '-' + an.substr(8,14)
-    $('#account-number').text(an)
-    
   </script>
+  <script src="${pageContext.request.contextPath }/resources/assets/js/mypage.js"></script>
+  
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
