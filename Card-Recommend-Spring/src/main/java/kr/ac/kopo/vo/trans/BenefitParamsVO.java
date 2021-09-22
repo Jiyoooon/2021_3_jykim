@@ -4,18 +4,27 @@ import java.util.List;
 
 public class BenefitParamsVO {
 	private int memberId;
+	private int payTotal;
 	private String cardId; // 여러개 올 수 있음
 	private String start;
 	private String end;
 	private int benefitType; // 0 : 할인+적립 / 1 : 할인 / 2 : 적립
 	private List<BenefitResultVO> benefitList;
+	
 	public int getMemberId() {
 		return memberId;
 	}
+	
 	public void setMemberId(int memberId) {
 		this.memberId = memberId;
 	}
 	
+	public int getPayTotal() {
+		return payTotal;
+	}
+	public void setPayTotal(int payTotal) {
+		this.payTotal = payTotal;
+	}
 	public String getCardId() {
 		return cardId;
 	}

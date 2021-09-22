@@ -1,5 +1,6 @@
 package kr.ac.kopo.controller.rest;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,6 +116,31 @@ public class CardRestController {
 		return benefits;
 	}
 	
+	//GET 신용카드 top10 
+	@GetMapping("/mypage/card/credit/top10/{benefitType}")
+	public List<BenefitResultVO> getCreditCardTop10(@PathVariable("benefitType") int benefitType
+			, Authentication authentication){
+		
+		
+		int memberId = ((MemberVO) authentication.getPrincipal()).getMemberId();
+		
+		LocalDate cur = LocalDate.now();
+		LocalDate lastMonth = cur.minusMonths(1);
+		LocalDate threeAgoMonth = cur.minusMonths(3);
+		
+		BenefitParamsVO params = new BenefitParamsVO();
+		params.setMemberId(memberId);
+		params.setStart(String.valueOf(threeAgoMonth.getYear()) + "-" + String.format("%02d", threeAgoMonth.getMonthValue()));
+		params.setEnd(String.valueOf(lastMonth.getYear()) + "-" + String.format("%02d", lastMonth.getMonthValue()));
+		params.setBenefitType(benefitType);
+		
+		List<BenefitResultVO> benefits = mypageService.searchCreditTop10Benefit(params);
+		
+		return benefits;
+		
+	}
+	
+	
 	//GET 찜한 멀티카드 소비내역 데이터 
 	@GetMapping("/mypage/card/multidibs/benefit/{cardId}/{startDate}/{endDate}")
 	public List<BenefitResultVO> getMultiDibsConsumptionBenefit(@PathVariable("cardId") String cardId, @PathVariable("startDate") String start
@@ -129,7 +155,6 @@ public class CardRestController {
 		params.setCardId(cardId);
 		params.setStart(start);
 		params.setEnd(end);
-		params.setBenefitType(0);
 		
 		List<BenefitResultVO> benefits = mypageService.searchDibsConsumptionBenefit(params);
 		

@@ -205,6 +205,19 @@ public class MypageServiceImpl  implements IMypageService{
 		return null;
 	}
 
+	@Override
+	public List<BenefitResultVO> searchCreditTop10Benefit(BenefitParamsVO params) {
+		transMapper.selectCreditTop10(params);
+		
+		List<BenefitResultVO> benefits = params.getBenefitList();
+		for(BenefitResultVO b : benefits) {
+			System.out.println(b);
+		}
+		
+		System.out.println(params.getPayTotal());
+		return benefits;
+	}
+
 	
 
 	

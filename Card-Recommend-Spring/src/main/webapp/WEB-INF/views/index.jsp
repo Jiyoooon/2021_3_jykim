@@ -24,7 +24,8 @@
 					<img src="https://www.hanacard.co.kr/ATTACH/NEW_HOMEPAGE/images/cardinfo/card_img/12857.png" data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">
 					<!-- <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">Crafting Digital <br>
 						Experience</h1> -->
-					<p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">모두의 쇼핑 <br> 쇼핑 할인혜택을 받아보세요! 
+					<h4 style="margin-top:1rem; color:white; font-family: 'Pretendard'" data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">모두의 쇼핑</h4>
+					<p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">쇼핑 할인 혜택을 받아보세요! 
 					<br> Only For You</p>
 					<a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn btn-main banner-btn" href="service.html" 
 					style="background:white; color: #00907f; border: 2px solid #00907f;">자세히 보기</a>
@@ -37,13 +38,11 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 text-center">
-					<h1 data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".1">We Combine Design <br> and
-						Creativity</h1>
-					<p data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".5">Create just what you need
-						for your Perfect Website. Choose from a wide range
-						<br> of Elements & simply put them on our Canvas.</p>
+					<img src="/images/card/0.png" width="300px;" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".1">
+					<h4 style="margin-top:1rem; color:white; font-family: 'Pretendard'" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".5">카드, 한 장이면 된다</h4>
+					<p data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".5">원하는 조합대로 골라 사용하세요!</p>
 					<a data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".8"  class="btn btn-main banner-btn" href="service.html"
-					style="background:white; color: #00907f; border: 2px solid #00907f;">Explore Us</a>
+					style="background:white; color: #00907f; border: 2px solid #00907f;">자세히 보기</a>
 				</div>
 			</div>
 		</div>

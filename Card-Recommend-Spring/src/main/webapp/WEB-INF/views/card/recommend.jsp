@@ -50,7 +50,7 @@
 				<div class="card-sort-filter" style="width: 100%;">
 					<div class=" col-sm-2" style=" display: inline-block;">
 	                      <select name="benefit-type-filter" class="form-control" id="benefit-type-filter" style="text-align:center;">
-							<option value="3" selected>할인 + 적립</option>
+							<option value="0" selected>할인 + 적립</option>
 							<option value="1">할인</option>
 							<option value="2">적립</option>
 						</select>
@@ -377,8 +377,10 @@
 		//mycard 추천 ajax
 		$.ajax({
 	    	type: "GET",
-	    	url: contextPath + "/api/card/myreco/3",
+//	    	url: contextPath + "/api/card/myreco/0",
+	    	url: contextPath + "/api/mypage/card/credit/top10/0",
 	    	success: function(result){
+	    		console.log(result)
 	    		setMyrecoCardList(result)
 			    //mycard 리스트 slider 걸기
 			    $('.card-hero-slider1').slick({

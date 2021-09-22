@@ -38,5 +38,8 @@ public interface IMypageService {
 	//찜한 신용카드 혜택
 	public List<BenefitResultVO> searchDibsConsumptionBenefit(BenefitParamsVO params);
 
+	//신용카드 top10
+	public List<BenefitResultVO> searchCreditTop10Benefit(BenefitParamsVO params);
+
 	
 }
