@@ -76,14 +76,12 @@ $(document).ready(function(){
 		let btn = $(event.relatedTarget);
 		let card = $(btn).parents('.card-item')
 		let cardId = card.attr('id').substr(4);
-		console.log('cardId : '+cardId)
 		
 		//카드 detail 정보 ajax
 		$.ajax({
 	    	type: "GET",
 	    	url: contextPath + "/api/card/detail/" + cardId,
 	    	success: function(card){
-	    		console.log(card)
 	    		$('#detailModal #cardName').text(card.cardName)
 	    		$('#detailModal #cardInfo').text(card.cardInfo)
 	    		$('#detailModal #cardImage').attr('src', card.cardImageUrl)
@@ -91,7 +89,6 @@ $(document).ready(function(){
 				$('#multi-combi-section').html('')
 	    		
 	    		// 찜하기 버튼
-	    		console.log(loginUserFlag)
 	    		if(loginUserFlag){
 		    		let dibsList = localStorage.getItem('dibs')
 		    		let flag = false;
@@ -102,7 +99,6 @@ $(document).ready(function(){
 				    			flag = true
 				    		}
 				    	})
-						console.log(flag)
 				    	if(flag){//이미 찜한 카드
 				    		$('#detailModal #dibsBtn').attr('disabled','disabled')
 				    	}else{
@@ -198,7 +194,7 @@ $(document).ready(function(){
 		//mycard 추천 ajax
 		$.ajax({
 	    	type: "GET",
-	    	url: contextPath + "/api/card/myreco/" + $("#benefit-type-filter option:selected").val(),
+	    	url: contextPath + "/api/mypage/card/credit/top10/" + $("#benefit-type-filter option:selected").val(),
 	    	success: function(result){
 	    		//console.log(result)
 	    		
@@ -287,56 +283,115 @@ function addComma(amount){
 function setMyrecoCardList(data){
 	let html = ''
 	let tmp = $("#reco-mycard-template").html()
+	let payTotal = data.payTotal;
 	
-	data.forEach(function(e){
-		benefit = '';
-		/*e.benefits.forEach(function(b){
-			benefit += '<a class="btn btn-main" '
-						+ 'style="color:gray; background:white; margin-bottom: 0;font-size: 13px; padding: 8px 10px;">'
-						+ b.benefitName +'</a>';
-		});*/
-		e.workSectorsName.split(',').forEach(function(b){
-			benefit += '<a class="btn btn-main" '
-						+ 'style="color:gray; background:white; margin-bottom: 0;font-size: 13px; padding: 8px 10px;">'
-						+ b +'</a>';
+	data.benefitList.forEach(function(bn, idx){
+	
+		let benefit = '';
+		let benefitTotal = 0;
+		let benefitName = '';
+		bn.forEach(function(b){
+			if(benefitName != b.benefitName){
+			 	benefitName = b.benefitName
+			 	if(b.benefitTotal > 0){
+			 		benefit += '<div style="display: table; width:100%; margin-bottom: 5px;" >'
+				 	benefit += '<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;">'
+			     		    	+ '<span style="font-size:18px; font-weight: bold; color:black;">' + b.benefitName + '</span></div>'
+				 	
+				 	benefit += '<div style="width: 50%; display:table-cell;text-align:center; vertical-align: middle;">'
+			    	
+			    	if(b.benefitCode == '001' || b.benefitCode == '004'){//할인
+			    		benefit += addComma((b.benefitTotal / 3).toFixed(0)) + ' 원 할인</div>'
+			    	}else{
+			    		benefit += addComma((b.benefitTotal / 3).toFixed(0)) + ' 머니 적립</div>'
+				 	}
+				 	benefit += '</div>'
+				}
+			 	benefitTotal += b.benefitTotal;
+			 } 
 		})
 		
-		html +=  tmp.replace(/\{cardId\}/gi, e.cardId)
-					.replace(/\{workSectors\}/gi, e.workSectorsName)
-					.replace(/\{cardImageUrl\}/gi, e.cardImageUrl)
-					.replace(/\{cardName\}/gi, e.cardName)
-					.replace(/\{cardInfo\}/gi, e.cardInfo)
-					.replace(/\{benefitAmount\}/gi, addComma(e.benefitAmount))
+		//console.log('피킹률 : ' + ((benefitTotal / payTotal) * 100).toFixed(2))
+		let medal = ''
+		//메달					
+		if(idx == 0){//gold
+			medal = contextPath + '/resources/assets/images/medal/gold-medal.png'
+		}else if(idx == 1){//silver
+			medal = contextPath + '/resources/assets/images/medal/silver-medal.png'
+		}else if(idx == 2){//bronze
+			medal = contextPath + '/resources/assets/images/medal/bronze-medal.png'
+		}
+		
+		html +=  tmp.replace(/\{cardId\}/gi, bn[0].cardId)
+					.replace(/\{picking\}/gi, ((benefitTotal / payTotal) * 100).toFixed(2))
+					.replace(/\{medalImageUrl\}/gi, medal)
+					.replace(/\{cardImageUrl\}/gi, bn[0].cardImageUrl)
+					.replace(/\{cardName\}/gi, bn[0].cardName)
+					.replace(/\{cardInfo\}/gi, bn[0].cardInfo)
+					.replace(/\{benefitAmount\}/gi, addComma((benefitTotal / 3).toFixed(0)))
 					.replace(/\{benefits\}/gi, benefit)
+
+		
 		html += '</div></div></div>';
+		
+		
 	})
 	
 	$(".card-hero-slider1").html(html)
 }
 
 function changeMyrecoCardList(data){
-	$("#mycard-reco-cardlist .card-slider-item").each(function(idx, e){
-		$(e).find('.card-work-sector').attr('data-category', data[idx].workSectors)
-		$(e).find('.card-work-sector').attr('id', 'card' + data[idx].cardId)
-		$(e).find('.card-image').attr('src', data[idx].cardImageUrl)
-		$(e).find('.card-image2').attr('href', data[idx].cardImageUrl)
-		$(e).find('.card-name').text(data[idx].cardName)
-		$(e).find('.card-info').text(data[idx].cardInfo)
-		$(e).find('.benefitAmount').text(addComma(data[idx].benefitAmount))
+	let payTotal = data.payTotal;
+	data = data.benefitList;
+	
+	$("#mycard-reco-cardlist .card-slider-item").each(function(idx, bn){
 		
-		let benefits = '';
-		/*data[idx].benefits.forEach(function(b){
-			benefits += '<a class="btn btn-main" '
-							+ 'style="color:gray; background:white; margin-bottom: 0;font-size: 13px; padding: 8px 10px;">'
-							+ b.benefitName +'</a>';
-		})*/
-		
-		data[idx].workSectorsName.split(',').forEach(function(b){
-			benefits += '<a class="btn btn-main" '
-						+ 'style="color:gray; background:white; margin-bottom: 0;font-size: 13px; padding: 8px 10px;">'
-						+ b +'</a>';
+		let benefit = '';
+		let benefitTotal = 0;
+		let benefitName = '';
+		data[idx].forEach(function(b){
+			if(benefitName != b.benefitName){
+			 	benefitName = b.benefitName
+			 	if(b.benefitTotal > 0){
+			 		benefit += '<div style="display: table; width:100%; margin-bottom: 5px;" >'
+				 	benefit += '<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;">'
+			     		    	+ '<span style="font-size:18px; font-weight: bold; color:black;">' + b.benefitName + '</span></div>'
+				 	
+				 	benefit += '<div style="width: 50%; display:table-cell;text-align:center; vertical-align: middle;">'
+			    	
+			    	if(b.benefitCode == '001' || b.benefitCode == '004'){//할인
+			    		benefit += addComma((b.benefitTotal / 3).toFixed(0)) + ' 원 할인</div>'
+			    	}else{
+			    		benefit += addComma((b.benefitTotal / 3).toFixed(0)) + ' 머니 적립</div>'
+				 	}
+				 	benefit += '</div>'
+				}
+			 	benefitTotal += b.benefitTotal;
+			 } 
 		})
-	$(e).find('.card-benefit-btn').html(benefits);
+		
+		//메달
+		if(idx == 0){//gold
+			$(bn).find('.medal').attr('src', contextPath + '/resources/assets/images/medal/gold-medal.png')
+		}else if(idx == 1){//silver
+			$(bn).find('.medal').attr('src', contextPath + '/resources/assets/images/medal/silver-medal.png')
+		}else if(idx == 2){//bronze
+			$(bn).find('.medal').attr('src', contextPath + '/resources/assets/images/medal/bronze-medal.png')
+		}else{
+			$(bn).find('.medal').attr('src', '')
+		}
+		
+		$(bn).find('.card-item').attr('id', 'card' + data[idx][0].cardId)
+		$(bn).find('.picking').text(((benefitTotal / payTotal) * 100).toFixed(2))
+		$(bn).find('.card-image').attr('src', data[idx][0].cardImageUrl)
+		$(bn).find('.card-image2').attr('href', data[idx][0].cardImageUrl)
+		$(bn).find('.card-name').text(data[idx][0].cardName)
+		$(bn).find('.card-info').text(data[idx][0].cardInfo)
+		$(bn).find('.benefitAmount').text(addComma((benefitTotal / 3).toFixed(0)))
+		
+		
+		
+		$(bn).find('#mycard-benefits').html(benefit);
 	});
 }
 
@@ -707,7 +762,6 @@ function readImage(input) {
         // FileReader 인스턴스 생성
         const reader = new FileReader()
         // 이미지가 로드가 된 경우
-        console.log("image load!")
         reader.onload = e => {
             const previewImage = document.getElementById("cardImageThumbnail")
             previewImage.src = e.target.result

@@ -43,10 +43,12 @@
 			<h2 style="color: black; font-family: Pretendard">
 				<span ><sec:authentication property="principal.name"/>&nbsp;</span>님에게 <span style="color: green;">꼭</span> 맞는 카드
 			</h2>
+			<p>고객님의 <strong>최근 3개월</strong> 치 소비내역에 각 카드 혜택을 적용해 시뮬레이션을 돌린 결과입니다.
+				<br>찜하기를 눌러 마이페이지에서 자세히 비교해보세요!</p>
 			<div class="border"></div>
 			
 			<!-- 추천 카드 목록 -->
-			<div style="margin: 0 auto; width: 70%; max-width: 1250px; text-align:right;">
+			<div style="margin: 0 auto; width: 90%; max-width: 1250px; text-align:right;">
 				<div class="card-sort-filter" style="width: 100%;">
 					<div class=" col-sm-2" style=" display: inline-block;">
 	                      <select name="benefit-type-filter" class="form-control" id="benefit-type-filter" style="text-align:center;">
@@ -58,7 +60,7 @@
 				</div>
 			</div>
 			
-			<div style="margin: 0 auto; width: 70%; max-width: 1250px;">
+			<div style="margin: 0 auto; width: 90%; max-width: 1250px;">
 				<div class="card-hero-slider1" style="width: 100%;" id="mycard-reco-cardlist">
 				
 					<%-- <c:forEach items="${cards }" var="card"> --%>
@@ -438,6 +440,20 @@
 	    });
 	})
 </script>
+
+<script type="text/templage" id="benefit-card-template">
+   	<div style="display: table; padding:10px; width:100%" >
+   		<div style="width: 30%; text-align: center; display:table-cell; vertical-align: middle;">
+     		<span style="font-size:18px; font-weight: bold; color:black;">{benefitName}</span>
+   		</div>
+   		<div style="width: 40%; text-align: center; display:table-cell; vertical-align: middle;">
+			{benefitBtns}     		
+    	</div>
+    	<div style="width: 30%; display:table-cell;text-align:center; vertical-align: middle;">
+    		{benefitSubTotal}
+    	</div>
+   	</div>
+  </script>
 <script type="text/template" id="reco-card-template">
 <div class="card-slider-item " style="height:300px;background: transparent;">
 	<div class="container">
@@ -456,9 +472,11 @@
 			
 </script>
 <script type="text/template" id="reco-mycard-template">
-<div class="card-slider-item " style="height:350px;background: transparent;">
-	<div class="container">
-		<div id="card{cardId}" class="card-item card-work-sector" data-category="{workSectors}">
+<div class="card-slider-item " style="height:500px;background: transparent;">
+	<div class="container" style="position:relative;">
+		<h5 style="float: right; font-family:'Pretendard';">피킹률 <span style="font-weight:bold;" class="picking">{picking}</span> %</h5>
+		<img style="width:60px; position:absolute; left:0; z-index:1; top:15px" class="medal" src="{medalImageUrl}">
+		<div id="card{cardId}" class="card-item card-work-sector">
 			<div class="portfolio-block" style="margin-bottom: 5px;">
 				<img class="img-fluid card-image" style="width: 100%;" src="{cardImageUrl}" alt="">
 				<div class="caption" style="width: 100%; ">
@@ -469,12 +487,14 @@
 					<h4 class="card-info" style="font-family: Pretendard; color:white;"><a href="">{cardInfo}</a></h4>
 				</div>
 			</div>
-			<p style="margin:0;">
-				한 달에 약 
+			<p style="margin:0; cursor:pointer;" onclick="$(this).siblings('#mycard-benefits').slideToggle();">
+				<span style="color:black;">▼</span> 한 달에 약 
 				<span class="benefitAmount" style="font-size: 150%;color: black;font-weight: 600;">{benefitAmount}</span>
 				원 절약 가능!
 			</p>
-			<div class="card-benefit-btn">{benefits}</div>
+			<div style="padding:10px; display:none;" class="" id="mycard-benefits">
+				{benefits}
+			</div>
 			
 </script>
 

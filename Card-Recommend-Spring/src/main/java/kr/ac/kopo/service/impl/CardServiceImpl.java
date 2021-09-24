@@ -37,15 +37,16 @@ public class CardServiceImpl  implements ICardService{
 	@Transactional
 	public void registerCard(CardVO card) {
 		//card 이미지 저장
-		String path = "C:\\develop\\spring2-ws\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\webapps\\images\\card\\";//이미지 저장 경로
+		//String path = "C:\\develop\\spring2-ws\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\webapps\\images\\card\\";//이미지 저장 경로
 		//String path = "C:\\develop\\spring-workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\webapps\\images\\card\\";//이미지 저장 경로
+		String path = "C:\\develop\\spring-final\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\webapps\\images\\card\\";//이미지 저장 경로
 		MultipartFile file = card.getCardImage();
 		
 		String photoFileName = file.getOriginalFilename();
 		String photoFileType = photoFileName.substring(photoFileName.lastIndexOf(".") + 1);
 		String photoSavedFileName = StringUtils.getNewFileName("main_", photoFileType);
 		
-		card.setCardImageUrl("\\images\\card\\" + photoSavedFileName);//실제 이미지 저장 경로
+		card.setCardImageUrl("/images/card/" + photoSavedFileName);//실제 이미지 저장 경로
 		
 		//메인 이미지 저장
 		File mainImage = new File(path + photoSavedFileName);

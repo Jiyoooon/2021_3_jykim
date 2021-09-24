@@ -1,6 +1,7 @@
 package kr.ac.kopo.service;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.ac.kopo.vo.card.CardVO;
 import kr.ac.kopo.vo.card.ConsumptionChartVO;
@@ -39,7 +40,7 @@ public interface IMypageService {
 	public List<BenefitResultVO> searchDibsConsumptionBenefit(BenefitParamsVO params);
 
 	//신용카드 top10
-	public List<BenefitResultVO> searchCreditTop10Benefit(BenefitParamsVO params);
+	public Map<String, Object> searchCreditTop10Benefit(BenefitParamsVO params);
 
 	
 }

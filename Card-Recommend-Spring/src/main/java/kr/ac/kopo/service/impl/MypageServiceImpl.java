@@ -206,16 +206,31 @@ public class MypageServiceImpl  implements IMypageService{
 	}
 
 	@Override
-	public List<BenefitResultVO> searchCreditTop10Benefit(BenefitParamsVO params) {
+	public Map<String, Object> searchCreditTop10Benefit(BenefitParamsVO params) {
 		transMapper.selectCreditTop10(params);
 		
+		Map<String, Object> top10 = new HashMap<String, Object>();
+		top10.put("payTotal", params.getPayTotal());//기간 동안 전체 소비 => 피킹률 계산
 		List<BenefitResultVO> benefits = params.getBenefitList();
+		List<List<BenefitResultVO>> benefitList = new ArrayList<List<BenefitResultVO>>();
+		
+		int cardId = 0;
+		List<BenefitResultVO> tmp = null;
 		for(BenefitResultVO b : benefits) {
-			System.out.println(b);
+			if(b.getCardId() != cardId) {
+				if(cardId > 0) {//이전 리스트 저장
+					benefitList.add(tmp);
+				}
+				tmp = new ArrayList<BenefitResultVO>();
+				cardId = b.getCardId();
+			}
+			
+			tmp.add(b);
 		}
 		
-		System.out.println(params.getPayTotal());
-		return benefits;
+		top10.put("benefitList", benefitList);
+		
+		return top10;
 	}
 
 	
