@@ -97,7 +97,7 @@ public class CardRestController {
 	}
 
 	//GET 찜한 신용카드 혜택내역 데이터 
-	@GetMapping("/mypage/card/dibs/benefit/{cardId}/{startDate}/{endDate}")
+	@GetMapping("/mypage/card/credit/dibs/benefit/{cardId}/{startDate}/{endDate}")
 	public List<BenefitResultVO> getDibsConsumptionBenefit(@PathVariable("cardId") String cardId, @PathVariable("startDate") String start
 			, @PathVariable("endDate") String end
 			, Authentication authentication){
@@ -122,9 +122,9 @@ public class CardRestController {
 	public Map<String, Object> getCreditCardTop10(@PathVariable("benefitType") int benefitType
 			, Authentication authentication){
 		
-		
 		int memberId = ((MemberVO) authentication.getPrincipal()).getMemberId();
 		
+		//3개월치 소비내역 기반
 		LocalDate cur = LocalDate.now();
 		LocalDate lastMonth = cur.minusMonths(1);
 		LocalDate threeAgoMonth = cur.minusMonths(3);
@@ -140,33 +140,33 @@ public class CardRestController {
 		return top10;
 		
 	}
-	//GET 신용카드 top10 
-//	@GetMapping("/mypage/card/credit/top10/{benefitType}")
-//	public List<BenefitResultVO> getCreditCardTop10(@PathVariable("benefitType") int benefitType
-//			, Authentication authentication){
-//		
-//		
-//		int memberId = ((MemberVO) authentication.getPrincipal()).getMemberId();
-//		
-//		LocalDate cur = LocalDate.now();
-//		LocalDate lastMonth = cur.minusMonths(1);
-//		LocalDate threeAgoMonth = cur.minusMonths(3);
-//		
-//		BenefitParamsVO params = new BenefitParamsVO();
-//		params.setMemberId(memberId);
-//		params.setStart(String.valueOf(threeAgoMonth.getYear()) + "-" + String.format("%02d", threeAgoMonth.getMonthValue()));
-//		params.setEnd(String.valueOf(lastMonth.getYear()) + "-" + String.format("%02d", lastMonth.getMonthValue()));
-//		params.setBenefitType(benefitType);
-//		
-//		List<BenefitResultVO> benefits = mypageService.searchCreditTop10Benefit(params);
-//		
-//		return benefits;
-//		
-//	}
 	
-	
+	//GET 멀티카드 top3 
+	@GetMapping("/mypage/card/multi/top3")
+	public Map<String, Object> getMultiCardTop3(Authentication authentication){
+		
+		
+		int memberId = ((MemberVO) authentication.getPrincipal()).getMemberId();
+		
+		//3개월치 소비내역 기반
+		LocalDate cur = LocalDate.now();
+		LocalDate lastMonth = cur.minusMonths(1);
+		LocalDate threeAgoMonth = cur.minusMonths(3);
+		
+		BenefitParamsVO params = new BenefitParamsVO();
+		params.setMemberId(memberId);
+		params.setStart(String.valueOf(threeAgoMonth.getYear()) + "-" + String.format("%02d", threeAgoMonth.getMonthValue()));
+		params.setEnd(String.valueOf(lastMonth.getYear()) + "-" + String.format("%02d", lastMonth.getMonthValue()));
+		params.setBenefitType(0);
+		
+		Map<String, Object> top3 = mypageService.searchMultiTop3Benefit(params);
+		
+		return top3;
+		
+	}
+
 	//GET 찜한 멀티카드 소비내역 데이터 
-	@GetMapping("/mypage/card/multidibs/benefit/{cardId}/{startDate}/{endDate}")
+	@GetMapping("/mypage/card/multi/dibs/benefit/{cardId}/{startDate}/{endDate}")
 	public List<BenefitResultVO> getMultiDibsConsumptionBenefit(@PathVariable("cardId") String cardId, @PathVariable("startDate") String start
 			, @PathVariable("endDate") String end
 			, Authentication authentication){
@@ -180,7 +180,7 @@ public class CardRestController {
 		params.setStart(start);
 		params.setEnd(end);
 		
-		List<BenefitResultVO> benefits = mypageService.searchDibsConsumptionBenefit(params);
+		List<BenefitResultVO> benefits = mypageService.searchMultiDibsConsumptionBenefit(params);
 		
 		return benefits;
 	}

@@ -26,7 +26,7 @@
 <sec:authorize access="hasRole('ROLE_USER')">
 	<!-- 추천 결과 출력 -->
 	<div class="text-center rounded card" style="padding: 50px; background:#cadfc4;width:90%;margin: 0 auto; margin-top: 60px;">
-		<div id="myard-reco-spinner" class="container text-align">
+		<div id="mycard-reco-spinner" class="container text-align">
 			<div class="circle">
 			  <span class="ouro ouro3">
 			    <span class="left"><span class="anim"></span></span>
@@ -63,33 +63,6 @@
 			<div style="margin: 0 auto; width: 90%; max-width: 1250px;">
 				<div class="card-hero-slider1" style="width: 100%;" id="mycard-reco-cardlist">
 				
-					<%-- <c:forEach items="${cards }" var="card"> --%>
-						<%-- <div class="card-slider-item " style="height:350px;background: transparent;">
-							<div class="container">
-								<div id="card{cardId}" class="card-item card-work-sector" data-category="{workSectors}">
-									<div class="portfolio-block" style="margin-bottom: 5px;">
-										<img class="img-fluid card-image" style="width: 100%;" src="{cardImageUrl}" alt="">
-										<div class="caption" style="width: 100%; ">
-											<a class="search-icon card-image2" href="{cardImageUrl}" data-lightbox="image-1">
-												<i class="tf-ion-ios-search-strong"></i>
-											</a>
-											<h3 class="card-name" style="font-family: Pretendard; color:white;font-weight: 500;">{cardName}</h3>
-											<h4 class="card-info" style="font-family: Pretendard; color:white;"><a href="">{cardInfo}</a></h4>
-										</div>
-									</div>
-									<p style="margin:0;">
-										한 달에 약 
-										<span class="benefitAmount" style="font-size: 150%;color: black;font-weight: 600;">{benefitAmount }</span>
-										원 절약 가능!
-									</p>
-									<div class="card-benefit-btn">{benefits}</div>
-										<c:forEach items="${card.benefits }" var="benefit">
-											<a class="btn btn-main"
-												style="color:gray; background:white; margin-bottom: 0;font-size: 13px; padding: 8px 10px;">${benefit.benefitName }</a>
-										</c:forEach>
-								</div>
-							</div>
-						</div> --%>
 					<%-- </c:forEach> --%>
 				</div>
 			</div>
@@ -197,109 +170,25 @@
 </section> <!-- End section -->
 	
 	
-<%-- <section class="contact-us" id="contact">
-	<div class="container">
-		<div class="row">
-			
-			<!-- section title -->
-			<div class="col-12">
-			<div class="title text-center" >
-				<h2>Get In Touch</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate facilis eveniet maiores ab maxime nam ut numquam molestiae quaerat incidunt?</p>
-				<div class="border"></div>
-			</div>
-			</div>
-			<!-- /section title -->
-			
-			<!-- Contact Details -->
-			<div class="contact-details col-md-6 " >
-				<h3>Contact Details</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam, vero, provident, eum eligendi blanditiis ex explicabo vitae nostrum facilis asperiores dolorem illo officiis ratione vel fugiat dicta laboriosam labore adipisci.</p>
-				<ul class="contact-short-info" >
-					<li>
-						<i class="tf-ion-ios-home"></i>
-						<span>Khaja Road, Bayzid, Chittagong, Bangladesh</span>
-					</li>
-					<li>
-						<i class="tf-ion-android-phone-portrait"></i>
-						<span>Phone: +880-31-000-000</span>
-					</li>
-					<li>
-						<i class="tf-ion-android-globe"></i>
-						<span>Fax: +880-31-000-000</span>
-					</li>
-					<li>
-						<i class="tf-ion-android-mail"></i>
-						<span>Email: hello@meghna.com</span>
-					</li>
-				</ul>
-				<!-- Footer Social Links -->
-				<div class="social-icon">
-					<ul>
-						<li><a href="#"><i class="tf-ion-social-facebook"></i></a></li>
-						<li><a href="#"><i class="tf-ion-social-twitter"></i></a></li>
-						<li><a href="#"><i class="tf-ion-social-dribbble-outline"></i></a></li>
-						<li><a href="#"><i class="tf-ion-social-linkedin-outline"></i></a></li>
-					</ul>
-				</div>
-				<!--/. End Footer Social Links -->
-			</div>
-			<!-- / End Contact Details -->
-				
-			<!-- Contact Form -->
-			<div class="contact-form col-md-6 " >
-				<form id="contact-form" method="post" role="form">
-					<div class="form-group">
-						<input type="text" placeholder="Your Name" class="form-control" name="name" id="name">
-					</div>
-					
-					<div class="form-group">
-						<input type="email" placeholder="Your Email" class="form-control" name="email" id="email">
-					</div>
-					
-					<div class="form-group">
-						<input type="text" placeholder="Subject" class="form-control" name="subject" id="subject">
-					</div>
-					
-					<div class="form-group">
-						<textarea rows="6" placeholder="Message" class="form-control" name="message" id="message"></textarea>	
-					</div>
-					
-					<div id="success" class="success">
-						Thank you. The Mailman is on His Way :)
-					</div>
-					
-					<div id="error" class="error">
-						Sorry, don't know what happened. Try later :(
-					</div>
-					<div id="cf-submit">
-						<input type="submit" id="contact-submit" class="btn btn-transparent" value="Submit">
-					</div>						
-					
-				</form>
-			</div>
-			<!-- ./End Contact Form -->
-		
-		</div> <!-- end row -->
-	</div> <!-- end container -->
-</section> <!-- end section -->
- --%>
-<!--================================
-=            Google Map            =
-=================================-->
+
 
 <jsp:include page="/WEB-INF/views/commons/footer.jsp"></jsp:include>
 
 <script>
+	/* $('.card-hero-slider1').on("init", function(){
+		console.log('?!')
+		$('#myard-reco-spinner').hide();
+		$('#mycard-reco-card-section').show();
+	}) */
 	$(document).ready(function(){
 		<sec:authorize access="hasRole('ROLE_USER')">
-		//mycard 추천 ajax
+		//mycard - creditCard 추천 ajax
 		$.ajax({
 	    	type: "GET",
 //	    	url: contextPath + "/api/card/myreco/0",
 	    	url: contextPath + "/api/mypage/card/credit/top10/0",
 	    	success: function(result){
-	    		console.log(result)
+	    		//console.log(result)
 	    		setMyrecoCardList(result)
 			    //mycard 리스트 slider 걸기
 			    $('.card-hero-slider1').slick({
@@ -311,9 +200,32 @@
 				    //dots: false
 				});
 				//hidden 풀기
-				
-				$('#myard-reco-spinner').hide();
+				$('#mycard-reco-spinner').hide();
 				$('#mycard-reco-card-section').show();
+				
+			}
+		});
+
+		//multi 조합 추천 ajax
+		$.ajax({
+	    	type: "GET",
+	    	url: contextPath + "/api/mypage/card/multi/top3",
+	    	success: function(result){
+	    		console.log(result)
+	    		//setMultirecoCardList(result)
+			    //mycard 리스트 slider 걸기
+			    /* $('.multi-card-slider').slick({
+				  	infinite: false,
+				  	slidesToShow: 3,
+				    arrows: true,
+				    prevArrow: '<button type=\'button\' class=\'prevArrow\'></button>',
+				    nextArrow: '<button type=\'button\' class=\'nextArrow\'></button>',
+				    //dots: false
+				}); */
+				//hidden 풀기
+				/* $('#mycard-reco-spinner').hide();
+				$('#mycard-reco-card-section').show(); */
+				
 			}
 		});
 		</sec:authorize>
@@ -391,7 +303,7 @@
 <script type="text/template" id="reco-mycard-template">
 <div class="card-slider-item " style="height:500px;background: transparent;">
 	<div class="container" style="position:relative;">
-		<h5 style="float: right; font-family:'Pretendard';">피킹률 <span style="font-weight:bold;" class="picking">{picking}</span> %</h5>
+		<h5 style="float: right; font-family:'Pretendard';color:black;">피킹률 약 <span style="font-weight:bold;" class="picking">{picking}</span> %</h5>
 		<img style="width:60px; position:absolute; left:0; z-index:1; top:15px" class="medal" src="{medalImageUrl}">
 		<div id="card{cardId}" class="card-item card-work-sector">
 			<div class="portfolio-block" style="margin-bottom: 5px;">

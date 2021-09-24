@@ -23,6 +23,9 @@ public interface TransMapper {
 	
 	// 신용카드 top10 혜택 계산 => calculate_credit_top10_benefit
 	public BenefitParamsVO selectCreditTop10(BenefitParamsVO params);
+
+	// 멀티카드 혜택 계산 => calculate_multi_benefit
+	public BenefitParamsVO selectMultiCardBenefit(BenefitParamsVO params);
 	
 	//내 보유카드 혜택계산 => mycard_benefit
 	public BenefitParamsVO mycardBenefit(BenefitParamsVO params);

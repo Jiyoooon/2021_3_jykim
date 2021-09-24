@@ -39,8 +39,14 @@ public interface IMypageService {
 	//찜한 신용카드 혜택
 	public List<BenefitResultVO> searchDibsConsumptionBenefit(BenefitParamsVO params);
 
+	//찜한 멀티카드 혜택
+	public List<BenefitResultVO> searchMultiDibsConsumptionBenefit(BenefitParamsVO params);
+
 	//신용카드 top10
 	public Map<String, Object> searchCreditTop10Benefit(BenefitParamsVO params);
+
+	//멀티카드 top3
+	public Map<String, Object> searchMultiTop3Benefit(BenefitParamsVO params);
 
 	
 }
