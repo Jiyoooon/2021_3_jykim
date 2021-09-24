@@ -196,91 +196,8 @@
 	</div> <!-- end container -->
 </section> <!-- End section -->
 	
-	<!-- Start Pricing section
-		=========================================== -->
-<section class="pricing-table " id="pricing">
-	<div class="container">
-		<div class="row">
-
-			<!-- section title -->
-			<div class="col-12">
-				<div class="title title-white text-center ">
-					<h2>Our Greatest Plans</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium soluta deserunt eaque, est, quia hic
-						odit sed incidunt officiis quidem.</p>
-					<div class="border"></div>
-				</div>
-			</div>
-			<!-- /section title -->
-
-			<!-- single pricing table -->
-			<div class="col-md-4 col-sm-6 col-xs-12">
-				<div class="pricing-item">
-
-					<!-- plan name & value -->
-					<div class="price-title">
-						<h3>Basic</h3>
-						<strong class="value">$19</strong>
-						<p>Perfect for single freelancers who work by themselves</p>
-					</div>
-					<!-- /plan name & value -->
-
-					<!-- plan description -->
-					<ul>
-						<li><i class="tf-ion-ios-arrow-forward"></i> 1GB Disk Space</li>
-						<li><i class="tf-ion-ios-arrow-forward"></i> 10 Email Account</li>
-						<li><i class="tf-ion-ios-arrow-forward"></i> Script Installer</li>
-						<li><i class="tf-ion-ios-arrow-forward"></i> 1 GB Storage</li>
-						<li><i class="tf-ion-ios-arrow-forward"></i> 2 GB Bandwidth</li>
-						<li><i class="tf-ion-ios-arrow-forward"></i> 24/7 Tech Support</li>
-					</ul>
-					<!-- /plan description -->
-
-					<!-- signup button -->
-					<a class="btn btn-main" href="#">Signup</a>
-					<!-- /signup button -->
-
-				</div>
-			</div>
-			<!-- end single pricing table -->
-
-			<!-- single pricing table -->
-			<div class="col-md-4 col-sm-6 col-xs-12  ">
-				<div class="pricing-item">
-
-					<!-- plan name & value -->
-					<div class="price-title">
-						<h3>Standard</h3>
-						<strong class="value">$39</strong>
-						<p>Suitable for small businesses with up to 5 employees</p>
-					</div>
-					<!-- /plan name & value -->
-
-					<!-- plan description -->
-					<ul>
-						<li><i class="tf-ion-ios-arrow-forward"></i> 1GB Disk Space</li>
-						<li><i class="tf-ion-ios-arrow-forward"></i> 50 Email Account</li>
-						<li><i class="tf-ion-ios-arrow-forward"></i> Script Installer</li>
-						<li><i class="tf-ion-ios-arrow-forward"></i> 1 GB Storage</li>
-						<li><i class="tf-ion-ios-arrow-forward"></i> 10 GB Bandwidth</li>
-						<li><i class="tf-ion-ios-arrow-forward"></i> 24/7 Tech Support</li>
-					</ul>
-					<!-- /plan description -->
-
-					<!-- signup button -->
-					<a class="btn btn-main" href="#">Signup</a>
-					<!-- /signup button -->
-
-				</div>
-			</div>
-			<!-- end single pricing table -->
-
-		</div> <!-- End row -->
-	</div> <!-- End container -->
-</section> <!-- End section -->
 	
-	
-<section class="contact-us" id="contact">
+<%-- <section class="contact-us" id="contact">
 	<div class="container">
 		<div class="row">
 			
@@ -366,7 +283,7 @@
 		</div> <!-- end row -->
 	</div> <!-- end container -->
 </section> <!-- end section -->
-
+ --%>
 <!--================================
 =            Google Map            =
 =================================-->
@@ -461,7 +378,7 @@
 			<div class="portfolio-block" style="margin-bottom: 5px;">
 				<img class="img-fluid card-image1" style="width: 100%;" src="{cardImageUrl}" alt="">
 				<div class="caption" style="width: 100%; ">
-					<a class="search-icon search-icon2 card-image2" style="font-size: 65px; background:transparent;"  data-toggle="modal" data-target="#detailModal">
+					<a class="search-icon search-icon2 card-image2" style="font-size: 50px; background:transparent;"  data-toggle="modal" data-target="#detailModal">
 						<i class="tf-ion-ios-search-strong"></i>
 					</a>
 					<h3 class="card-name" style="font-family: Pretendard; color:white;font-weight: 500;">{cardName}</h3>
@@ -480,7 +397,7 @@
 			<div class="portfolio-block" style="margin-bottom: 5px;">
 				<img class="img-fluid card-image" style="width: 100%;" src="{cardImageUrl}" alt="">
 				<div class="caption" style="width: 100%; ">
-					<a class="search-icon search-icon2 card-image2" style="font-size: 65px; background:transparent;"  data-toggle="modal" data-target="#detailModal">
+					<a class="search-icon search-icon2 card-image2" style="font-size: 50px; background:transparent;"  data-toggle="modal" data-target="#detailModal">
 						<i class="tf-ion-ios-search-strong"></i>
 					</a>
 					<h3 class="card-name" style="font-family: Pretendard; color:white;font-weight: 500;">{cardName}</h3>

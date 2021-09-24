@@ -1278,6 +1278,18 @@ header button{
   content: '';
 }
 
+.card-hero-slider1 .portfolio-block:before {
+  transition: all 0.3s ease-in-out;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  top: 35px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  content: '';
+}
+
 .portfolio-block:hover:before {
   opacity: 1;
 }
