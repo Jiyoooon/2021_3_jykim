@@ -1,11 +1,4 @@
-.multi-card-slider .slick-current{
-	opacity: 1;
-}
-.multi-card-slider .slick-slide{
-	opacity: 0.5;
-}
-
-/* .slider-wr {
+.slider-wr {
   width: 50%;
   padding: 0 8px;
   margin: 20px auto;
@@ -25,14 +18,13 @@
   width: 80%;
   border-radius: 10%;
 }
-.slick-center .slide img {
+.slick-center img {
   transform: scale(1);
   transition: transform 1s ease-out;
   opacity: 1;
 }
 .slick-prev, .slick-next {
-    width: 60px;
-    height: 60px;
+    
     border: none;
     border-radius: 50%;
     margin: auto;
@@ -46,11 +38,11 @@
     outline: none;
 }
 .slick-prev {
-    left: -30px;
+    left: -10px;
     background-position: -220px -20px;
 }
 .slick-next {
-    right: -30px;
+    right: -10px;
     background-position: -320px -20px;
 }
 .slick-prev:before, .slick-next:before{
@@ -62,4 +54,35 @@
 }
 .slick-prev:before {
   content: '<';
-} */
+}
+
+.slide img:hover{
+	transition: all 0.5s;
+}
+
+#multi-card-reco-section .first-card:hover{
+	z-index: 1;
+}
+
+#multi-card-reco-section .first-card{
+	position:absolute; 
+	left:10px; 
+	top:50px;
+}
+
+#multi-card-reco-section .second-card{
+	position:absolute; 
+	left:90px; 
+	top:170px;
+	
+}
+
+#multi-card-reco-section .first-benefit, #multi-card-reco-section .second-benefit{
+	visibility: hidden;
+	position:absolute; 
+	top:0;
+	width:320px;
+	background: #f0f5f9;
+	border-radius: 10%;
+	
+}

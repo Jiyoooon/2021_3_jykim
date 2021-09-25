@@ -232,6 +232,7 @@
             	<hr>
             	<div id="dibscard-benefit-history">
             		<h4  style="font-family: 'Pretendard'; color: black;"><span style="color:blue;">찜카드</span> 혜택내역</h4>
+            		
             		<div id="card-benefit-section">
             		
 	            	</div>

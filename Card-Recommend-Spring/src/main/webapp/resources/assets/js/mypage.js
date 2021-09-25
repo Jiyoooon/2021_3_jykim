@@ -318,7 +318,7 @@ $(document).ready(function(){
 	  
 	  base.html(html)
 	  
-	  $('baseId .mycard-btn').click(function(e){
+	  $(baseId + ' .mycard-btn').click(function(e){
 	  	barChart.data.labels.forEach(function(d, idx){
 	  		if(d == e.target.id){
 	  			setDonutChart(idx, chartData[idx], dibsData)
@@ -344,12 +344,14 @@ $(document).ready(function(){
 	  let header = $('#benefit-card-header-template').html();
 	  let body = $('#benefit-card-body-template').html();
 	  
-	  console.log(benefitName);
-	  
 	  let html = '';
+	  let allBenefit = 0;
+	  let allPicking = 0;
+	  
 	  let btnHtml = '';
 	  let cardTotalBenefit = 0
 	  
+		  
 	  let benefitBtns = '';
 	  let benefitSubTotal = '';
 	  let totalBenefit = 0;
@@ -391,8 +393,11 @@ $(document).ready(function(){
 			  
 		  })
 		  if(cardTotalBenefit > 0){
-			  
 			  let payTotal = $('#bar-chart-section #payTotal').attr('title');
+
+			  allBenefit += cardTotalBenefit;
+			  allPicking += (cardTotalBenefit / payTotal) * 100
+			  
 			  html += header.replace(/\{cardImageUrl\}/gi, imageUrl)
 			  				.replace(/\{totalBenefit\}/gi, addComma(cardTotalBenefit))
 			  				.replace(/\{pickingPercentage\}/gi, ((cardTotalBenefit / payTotal) * 100).toFixed(2))
@@ -400,9 +405,14 @@ $(document).ready(function(){
 		  }
 	  })
 	  
+	  
+	  //멀티카드일 경우 총 피킹률 + 혜택 합계
+	  html = '<div style="text-align: center">멀티카드 조합의 총 혜택'
+            + '<br><h5 style="font-family:\'Pretendard\';">' + addComma(allBenefit) + ' 원 (' + allPicking.toFixed(2) +' %)</h5></div>' + html
+	  
 	  base.html(html)
 	  
-	  $('baseId .mycard-btn').click(function(e){
+	  $(baseId + ' .mycard-btn').click(function(e){
 	  	barChart.data.labels.forEach(function(d, idx){
 	  		if(d == e.target.id){
 	  			setDonutChart(idx, chartData[idx], dibsData)

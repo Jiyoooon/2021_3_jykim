@@ -4,7 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <jsp:include page="/WEB-INF/views/commons/header.jsp"></jsp:include>
-<%-- <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/style-multi-slider.css"> --%>  
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/style-multi-slider.css">  
 
 <sec:authorize access="isAnonymous()">
 	<!-- login X -->
@@ -77,6 +77,7 @@
 
 	</div>
 
+	
 	<!-- 멀티카드 -->
 	<div id="multi-card-reco-section">
 		<div>
@@ -85,11 +86,59 @@
 				<br>고객님께 딱 맞는 <strong>멀티 카드 조합</strong>을 확인해보세요!</p>
 		</div>
 		
-		<div style="margin: 0 auto; width: 90%; max-width: 1250px; margin-bottom:50px;">
-			<div class="multi-card-slider" style="width: 100%;"  id="birth-gender-reco-cardlist111">
-				
-			</div>
+		<div class="slider-wr">
+		  <div class="slider" style="text-align: center;">
+		    
+		    <div class="slide" style="position: relative; height: 400px;">
+		      <div>
+		      	<div style="width: 320px;" class="first-card" >
+			      <img style="width:100%" src="/images/card/103.png" alt="" />
+			      <div class="first-benefit" style="">
+			      	<div style="padding: 10px;" class="" id="mycard-benefits">
+						<div style="display: table; width:100%; margin-bottom: 5px;">
+							<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;">
+								<span style="font-size:18px; font-weight: bold; color:black;">SK텔레콤</span>
+							</div>
+							<div style="width: 50%; display:table-cell;text-align:center; vertical-align: middle;color:black;">
+								15,000 원 할인
+							</div>
+						</div>
+						<div style="display: table; width:100%; margin-bottom: 5px;">
+							<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;">
+								<span style="font-size:18px; font-weight: bold; color:black;">SK텔레콤</span>
+							</div>
+							<div style="width: 50%; display:table-cell;text-align:center; vertical-align: middle;color:black;">
+								15,000 원 할인
+							</div>
+						</div>
+					</div>
+			      </div>
+			    </div>
+			    
+			      <img class="second-card" src="/images/card/100.png" alt=""  />
+		      </div>
+		      <div style="text-align: left">
+		      	<input type="button" class="btn-transparent" 
+		      		style="background: #f8f9fa;color: black;padding: 5px;font-size: 15px; border: solid 2px; font-weight: bold; margin-right: 20px;" 
+		      		value="찜하기" onclick="goToMultiDibs(100,105)">
+		      	<span style="font-size: 20px; color: black;">피킹률 약 <strong style="font-size:25px;">5.44%</strong></span>
+		      </div>
+		    </div>
+		    <div class="slide" style="position: relative; height: 400px;">
+		      <div>
+			      <img class="first-card" src="/images/card/104.png" alt=""/>
+			      <img class="second-card" src="/images/card/101.png" alt="" />
+		      </div>
+		    </div>
+		    <div class="slide" style="position: relative; height: 400px;">
+		      <div>
+			      <img class="first-card" src="/images/card/103.png" alt=""/>
+			      <img class="second-card" src="/images/card/104.png" alt=""/>
+		      </div>
+		    </div>
+		  </div>
 		</div>
+		
 	</div>
 
 </sec:authorize>
@@ -193,7 +242,9 @@
 
 
 <jsp:include page="/WEB-INF/views/commons/footer.jsp"></jsp:include>
-<%-- <script src="${pageContext.request.contextPath}/resources/assets/js/script-multi-slider.js"></script> --%>
+
+
+<script src="${pageContext.request.contextPath}/resources/assets/js/script-multi-slider.js"></script>
 
 <script>
 	/* $('.card-hero-slider1').on("init", function(){
@@ -222,9 +273,7 @@
 				}); 
 				//hidden 풀기
 				$('#mycard-reco-spinner').hide();
-				
 				$('#reco-card-section').css('visibility', 'visible');
-//				$('#reco-card-section').show();
 				
 			}
 		});
@@ -269,18 +318,6 @@
 	    		    //dots: false
 	    		});
 
-	    		setRecoCardList('#birth-gender-reco-cardlist111', result);
-	    		$('.multi-card-slider').slick({
-	    			centerMode: true,
-    			    centerPadding: '30%',
-    			    slidesToShow: 1,
-    			    
-	    		  	infinite: true,
-	    		    arrows: true,
-	    		    prevArrow: '<button type=\'button\' class=\'prevArrow\'></button>',
-	    		    nextArrow: '<button type=\'button\' class=\'nextArrow\'></button>',
-	    		    //dots: false
-	    		});
 	    	}
 	    });
 		
