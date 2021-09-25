@@ -293,7 +293,7 @@
   </script>
   
   <script type="text/templage" id="benefit-card-body-template">
-   	<div style="display: table; padding:10px; width:100%" >
+   	<div style="display: table; padding:10px; width:100%; border-radius:30px;margin-top:10px;" class="benefit-card">
    		<div style="width: 30%; text-align: center; display:table-cell; vertical-align: middle;">
      		<span style="font-size:18px; font-weight: bold; color:black;">{benefitName}</span>
    		</div>
