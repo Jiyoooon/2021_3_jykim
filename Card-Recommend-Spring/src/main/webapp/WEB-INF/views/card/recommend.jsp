@@ -87,55 +87,40 @@
 		</div>
 		
 		<div class="slider-wr">
-		  <div class="slider" style="text-align: center;">
-		    
+		  <div class="slider" style="text-align: center; padding: 0 30px;">
 		    <div class="slide" style="position: relative; height: 400px;">
 		      <div>
 		      	<div style="width: 320px;" class="first-card" >
-			      <img style="width:100%" src="/images/card/103.png" alt="" />
-			      <div class="first-benefit" style="">
-			      	<div style="padding: 10px;" class="" id="mycard-benefits">
-						<div style="display: table; width:100%; margin-bottom: 5px;">
-							<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;">
-								<span style="font-size:18px; font-weight: bold; color:black;">SK텔레콤</span>
-							</div>
-							<div style="width: 50%; display:table-cell;text-align:center; vertical-align: middle;color:black;">
-								15,000 원 할인
-							</div>
-						</div>
-						<div style="display: table; width:100%; margin-bottom: 5px;">
-							<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;">
-								<span style="font-size:18px; font-weight: bold; color:black;">SK텔레콤</span>
-							</div>
-							<div style="width: 50%; display:table-cell;text-align:center; vertical-align: middle;color:black;">
-								15,000 원 할인
-							</div>
-						</div>
-					</div>
+			      <img style="width:100%" src="" alt="" />
+			      
+		      	  <i style="z-index: 4; position: absolute; top: 5px; left:5px; font-size: 25px; color: black; cursor:pointer;" 
+		      	  	class="fas fa-chevron-circle-down" onclick="$(this).siblings('.benefit').slideToggle()"></i>
+			      <div style="" class="benefit" >
+			      	  <!-- first-card benefit -->
 			      </div>
 			    </div>
 			    
-			      <img class="second-card" src="/images/card/100.png" alt=""  />
+		      	<div style="width: 320px;" class="second-card" >
+			      <img style="width:100%" src="/images/card/100.png" alt="" />
+			      
+		      	  <i style="z-index: 2; position: absolute; top: 5px; left:5px; font-size: 25px; color: black; cursor:pointer;" 
+		      	  	class="fas fa-chevron-circle-down" onclick="$(this).siblings('.benefit').slideToggle()"></i>
+			      <div style="" class="benefit" >
+			      	  <!-- second-card benefit -->
+			      </div>
+			    </div>
+			    
 		      </div>
 		      <div style="text-align: left">
 		      	<input type="button" class="btn-transparent" 
 		      		style="background: #f8f9fa;color: black;padding: 5px;font-size: 15px; border: solid 2px; font-weight: bold; margin-right: 20px;" 
 		      		value="찜하기" onclick="goToMultiDibs(100,105)">
-		      	<span style="font-size: 20px; color: black;">피킹률 약 <strong style="font-size:25px;">5.44%</strong></span>
+		      	<span style="font-size: 20px; color: black;">피킹률 약 <strong class="picking" style="font-size:25px;"></strong></span>
 		      </div>
+		      <div style="margin-top: 330px;"><strong class="cardCombi"></strong> 조합</div>
 		    </div>
-		    <div class="slide" style="position: relative; height: 400px;">
-		      <div>
-			      <img class="first-card" src="/images/card/104.png" alt=""/>
-			      <img class="second-card" src="/images/card/101.png" alt="" />
-		      </div>
-		    </div>
-		    <div class="slide" style="position: relative; height: 400px;">
-		      <div>
-			      <img class="first-card" src="/images/card/103.png" alt=""/>
-			      <img class="second-card" src="/images/card/104.png" alt=""/>
-		      </div>
-		    </div>
+		    
+		    
 		  </div>
 		</div>
 		
@@ -247,20 +232,13 @@
 <script src="${pageContext.request.contextPath}/resources/assets/js/script-multi-slider.js"></script>
 
 <script>
-	/* $('.card-hero-slider1').on("init", function(){
-		console.log('?!')
-		$('#myard-reco-spinner').hide();
-		$('#mycard-reco-card-section').show();
-	}) */
 	$(document).ready(function(){
 		<sec:authorize access="hasRole('ROLE_USER')">
 		//mycard - creditCard 추천 ajax
 		$.ajax({
 	    	type: "GET",
-//	    	url: contextPath + "/api/card/myreco/0",
 	    	url: contextPath + "/api/mypage/card/credit/top10/0",
 	    	success: function(result){
-	    		//console.log(result)
 	    		setMyrecoCardList(result)
 			    //mycard 리스트 slider 걸기
 			    $('.card-hero-slider1').slick({
@@ -284,16 +262,17 @@
 	    	url: contextPath + "/api/mypage/card/multi/top3",
 	    	success: function(result){
 	    		console.log(result)
-	    		//setMultirecoCardList(result)
+	    		setMultirecoCardList(result)
 			    //mycard 리스트 slider 걸기
-			    /* $('.multi-card-slider').slick({
-				  	infinite: false,
-				  	slidesToShow: 3,
-				    arrows: true,
-				    prevArrow: '<button type=\'button\' class=\'prevArrow\'></button>',
-				    nextArrow: '<button type=\'button\' class=\'nextArrow\'></button>',
-				    //dots: false
-				}); */
+			     $('#multi-card-reco-section .slider').slick({
+					 centerMode: true,
+					 //centerPadding: '10%',
+					 slidesToShow: 1,
+					 infinite: false,
+					 speed: 500,
+					 prevArrow: '<button type=\'button\' class=\'prevArrow\'></button>',
+					 nextArrow: '<button type=\'button\' class=\'nextArrow\'></button>',
+				 }); 
 				//hidden 풀기
 				/* $('#mycard-reco-spinner').hide();
 				$('#mycard-reco-card-section').show(); */
@@ -306,7 +285,6 @@
 	    	type: "GET",
 	    	url: contextPath + "/api/card/reco/" + $("#birth-gender-filter option:selected").val(),
 	    	success: function(result){
-	    		console.log(result)
 	    		setRecoCardList('#birth-gender-reco-cardlist', result);
 	    		//changeBirthGenderRecoCardList(result);
 	    		$('.card-hero-slider2').slick({
@@ -326,7 +304,6 @@
 	    	type: "GET",
 	    	url: contextPath + "/api/card/reco/" + $("#job1-filter option:selected").val() + $("#job2-filter option:selected").val(),
 	    	success: function(result){
-	    		console.log(result)
 	    		
 	    		setRecoCardList('#job-reco-cardlist', result);
 	    		//changeJobRecoCardList(result);
