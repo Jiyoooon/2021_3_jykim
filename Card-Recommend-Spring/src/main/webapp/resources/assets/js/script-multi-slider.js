@@ -1,5 +1,4 @@
 function setMultirecoCardList(data){
-	console.log(data.benefitList);
 	let payTotal = data.payTotal;
 	
 	let base = 	$('#multi-card-reco-section .slider')
@@ -10,9 +9,12 @@ function setMultirecoCardList(data){
 	data.benefitList.forEach(function(bn){
 		let allPicking = 0;
 		let allBenefit = 0;
+		let allCardId = ''
+
 		let benefitBtn = ''
 		let cardIdx;
 		let cardId = bn[0].cardId;
+		allCardId = cardId;
 		bn.forEach(function(d, idx){
 			if(cardId != d.cardId){
 				cardId = d.cardId;
@@ -75,6 +77,7 @@ function setMultirecoCardList(data){
 		benefitBtn = '';
 		className = '.second-card';
 		cardName = bn[cardIdx].cardName;
+		allCardId += ',' + bn[cardIdx].cardId
 		allCardName += ' / ' + cardName.split(' ')[1];
 		benefitName = bn[cardIdx].benefitName;
 		benefitType;
@@ -122,9 +125,9 @@ function setMultirecoCardList(data){
 		base.find(className + ' .benefit').html(benefitBtn);
 		
 		allPicking = ((allBenefit / payTotal) * 100).toFixed(2);
-		console.log(allPicking)
 		base.find('.picking').text(allPicking + ' %');
 		base.find('.cardCombi').text(allCardName);
+		base.find('.dibsBtn').attr('onclick', 'goToMultiDibs2(' + allCardId+');' );
 		
 		html += base.html();
 		

@@ -26,8 +26,8 @@
 
 <sec:authorize access="hasRole('ROLE_USER')">
 	<!-- 추천 결과 출력 -->
-	<div class="text-center rounded card" style="position: relative; padding: 50px; background:#cadfc4;width:90%;margin: 0 auto; margin-top: 60px;">
-		<div id="mycard-reco-spinner" class="container text-align">
+	<div id="mycard-reco-spinner" class="text-center rounded card" style="position: relative; padding: 50px; background:#cadfc4;width:90%;margin: 0 auto; margin-top: 60px;">
+		<div  class="container text-align">
 			<div class="circle">
 			  <span class="ouro ouro3">
 			    <span class="left"><span class="anim"></span></span>
@@ -39,8 +39,11 @@
 				님에게 꼭 맞는 카드를 찾고 있어요!
 			</h5>
 		</div>
+	</div>
 		
-		<div style="visibility: hidden; " id="reco-card-section">
+	
+	<div id="mycard-multi-reco-section" class="text-center rounded card" style="visibility: hidden; position: relative; padding: 50px; background:#cadfc4;width:90%;margin: 0 auto; margin-top: 60px;">
+		<div id="reco-card-section">
 			<div id="mycard-reco-card-section" >
 				<h2 style="color: black; font-family: Pretendard">
 					<span ><sec:authentication property="principal.name"/>&nbsp;</span>님에게 <span style="color: green;">꼭</span> 맞는 카드
@@ -72,58 +75,57 @@
 				
 				
 			</div>
-			
-		</div>
+		</div><!-- reco card section -->
 
-	</div>
+		<!-- 멀티카드 -->
+		<div  id="multi-card-reco-section">
+			<div>
+				<h3 style="font-family: 'Pretendard';">멀티카드는 어떠신가요?</h3>
+				<p style="color:#3d3d3d;">멀티카드란, 다양한 멀티 시리즈 모바일카드를 한 장의 플라스틱카드로 이용할 수 있는 카드입니다.
+					<br>고객님께 딱 맞는 <strong>멀티 카드 조합</strong>을 확인해보세요!</p>
+				<div class="border"></div>
+			</div>
+			
+			<div class="slider-wr">
+			  <div class="slider" style="text-align: center; padding: 0 30px;">
+			    <div class="slide" style="position: relative; height: 400px;">
+			      <div>
+			      	<div style="width: 320px;" class="first-card" >
+				      <img style="width:100%" src="" alt="" />
+				      
+			      	  <i style="z-index: 4; position: absolute; top: 0px; left:-5px; font-size: 25px; color: black; cursor:pointer;" 
+			      	  	class="fas fa-chevron-circle-down" onclick="$(this).siblings('.benefit').slideToggle()"></i>
+				      <div style="" class="benefit" >
+				      	  <!-- first-card benefit -->
+				      </div>
+				    </div>
+				    
+			      	<div style="width: 320px;" class="second-card" >
+				      <img style="width:100%" src="/images/card/100.png" alt="" />
+				      
+			      	  <i style="z-index: 2; position: absolute; top: 0px; left:-5px; font-size: 25px; color: black; cursor:pointer;" 
+			      	  	class="fas fa-chevron-circle-down" onclick="$(this).siblings('.benefit').slideToggle()"></i>
+				      <div style="" class="benefit" >
+				      	  <!-- second-card benefit -->
+				      </div>
+				    </div>
+				    
+			      </div>
+			      <div style="text-align: left">
+			      	<input type="button" class="btn-transparent dibsBtn" 
+			      		style="background: #f8f9fa;color: black;padding: 5px;font-size: 15px; border: solid 2px; font-weight: bold; margin-right: 20px;" 
+			      		value="찜하기" onclick="goToMultiDibs(100,105)">
+			      	<span style="font-size: 20px; color: black;">피킹률 약 <strong class="picking" style="font-size:25px;"></strong></span>
+			      </div>
+			      <div style="margin-top: 330px;"><strong class="cardCombi"></strong> 조합</div>
+			    </div>
+			    
+			    
+			  </div>
+			</div>
+		</div><!-- multi card section -->
 
 	
-	<!-- 멀티카드 -->
-	<div id="multi-card-reco-section">
-		<div>
-			<h3 style="font-family: 'Pretendard';">멀티카드는 어떠신가요?</h3>
-			<p style="color:#3d3d3d;">멀티카드란, 다양한 멀티 시리즈 모바일카드를 한 장의 플라스틱카드로 이용할 수 있는 카드입니다.
-				<br>고객님께 딱 맞는 <strong>멀티 카드 조합</strong>을 확인해보세요!</p>
-		</div>
-		
-		<div class="slider-wr">
-		  <div class="slider" style="text-align: center; padding: 0 30px;">
-		    <div class="slide" style="position: relative; height: 400px;">
-		      <div>
-		      	<div style="width: 320px;" class="first-card" >
-			      <img style="width:100%" src="" alt="" />
-			      
-		      	  <i style="z-index: 4; position: absolute; top: 5px; left:5px; font-size: 25px; color: black; cursor:pointer;" 
-		      	  	class="fas fa-chevron-circle-down" onclick="$(this).siblings('.benefit').slideToggle()"></i>
-			      <div style="" class="benefit" >
-			      	  <!-- first-card benefit -->
-			      </div>
-			    </div>
-			    
-		      	<div style="width: 320px;" class="second-card" >
-			      <img style="width:100%" src="/images/card/100.png" alt="" />
-			      
-		      	  <i style="z-index: 2; position: absolute; top: 5px; left:5px; font-size: 25px; color: black; cursor:pointer;" 
-		      	  	class="fas fa-chevron-circle-down" onclick="$(this).siblings('.benefit').slideToggle()"></i>
-			      <div style="" class="benefit" >
-			      	  <!-- second-card benefit -->
-			      </div>
-			    </div>
-			    
-		      </div>
-		      <div style="text-align: left">
-		      	<input type="button" class="btn-transparent" 
-		      		style="background: #f8f9fa;color: black;padding: 5px;font-size: 15px; border: solid 2px; font-weight: bold; margin-right: 20px;" 
-		      		value="찜하기" onclick="goToMultiDibs(100,105)">
-		      	<span style="font-size: 20px; color: black;">피킹률 약 <strong class="picking" style="font-size:25px;"></strong></span>
-		      </div>
-		      <div style="margin-top: 330px;"><strong class="cardCombi"></strong> 조합</div>
-		    </div>
-		    
-		    
-		  </div>
-		</div>
-		
 	</div>
 
 </sec:authorize>
@@ -251,7 +253,7 @@
 				}); 
 				//hidden 풀기
 				$('#mycard-reco-spinner').hide();
-				$('#reco-card-section').css('visibility', 'visible');
+				$('#mycard-multi-reco-section').css('visibility', 'visible');
 				
 			}
 		});
@@ -274,8 +276,7 @@
 					 nextArrow: '<button type=\'button\' class=\'nextArrow\'></button>',
 				 }); 
 				//hidden 풀기
-				/* $('#mycard-reco-spinner').hide();
-				$('#mycard-reco-card-section').show(); */
+				//$('#multi-card-reco-section').css('visibility', 'visible');
 				
 			}
 		});

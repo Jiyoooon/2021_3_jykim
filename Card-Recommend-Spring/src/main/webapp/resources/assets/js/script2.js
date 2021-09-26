@@ -501,6 +501,7 @@ function goToDibs(cardId, cardType){
 
 //multi card 찜하기
 function goToMultiDibs(multiCardId){
+	console.log(multiCardId)
 	let payCardList = [multiCardId];
 	
 	//멀티카드 조합 만들기
@@ -518,6 +519,24 @@ function goToMultiDibs(multiCardId){
     //localstorage에 저장
     payCardList.unshift(0)//multicard임을 표시
     dibsList += '/' + payCardList
+    
+    localStorage.setItem('dibs', dibsList)
+    
+    toastr.success('찜 등록 완료! \n마이페이지에서 확인할 수 있습니다.')
+} 
+
+//multi card 찜하기
+function goToMultiDibs2(...multiCardId){
+    if(localStorage.getItem('dibs') == null){
+    	localStorage.setItem('dibs', '')
+    }
+    
+    let dibsList = localStorage.getItem('dibs')
+    let dibsCard = ''
+    
+    //localstorage에 저장
+    multiCardId.unshift(0)//multicard임을 표시
+    dibsList += '/' + multiCardId
     
     localStorage.setItem('dibs', dibsList)
     
