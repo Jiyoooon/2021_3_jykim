@@ -284,7 +284,7 @@ $(document).ready(function(){
 			  //benefitName 당 benefit-card-body-template 1개
 			  data.forEach(function(d){
 				  if(d.benefitTotal > 0 && d.cardId == c && d.benefitName == bn){ 
-					  benefitBtns += '<button style="padding: 2px 4px;" id="'+d.workSector1Name + '" class="btn btn-outline-primary btn-lg mb-0 btn-dibs">'
+					  benefitBtns += '<button style="padding: 2px 4px;margin:5px;" id="'+d.workSector1Name + '" class="btn btn-outline-primary btn-lg mb-0 mycard-btn">'
 			     						+ d.workSector2Name + '</button>'
 			     	  totalBenefit = d.benefitTotal
 			     	  imageUrl = d.cardImageUrl
@@ -318,8 +318,12 @@ $(document).ready(function(){
 	  
 	  base.html(html)
 	  
-	  $('.dibs-btn').click(function(e){
-	  	console.log(e.target.id)
+	  $(baseId + ' .mycard-btn').click(function(e){
+	  	barChart.data.labels.forEach(function(d, idx){
+	  		if(d == e.target.id){
+	  			setDonutChart(idx, chartData[idx], dibsData)
+	  		}
+	  	})
 	  })
 	  
   }
@@ -340,12 +344,14 @@ $(document).ready(function(){
 	  let header = $('#benefit-card-header-template').html();
 	  let body = $('#benefit-card-body-template').html();
 	  
-	  console.log(benefitName);
-	  
 	  let html = '';
+	  let allBenefit = 0;
+	  let allPicking = 0;
+	  
 	  let btnHtml = '';
 	  let cardTotalBenefit = 0
 	  
+		  
 	  let benefitBtns = '';
 	  let benefitSubTotal = '';
 	  let totalBenefit = 0;
@@ -364,7 +370,7 @@ $(document).ready(function(){
 			  //benefitName 당 benefit-card-body-template 1개
 			  data.forEach(function(d){
 				  if(d.cardId == c && d.benefitName == bn){ 
-					  benefitBtns += '<button style="padding: 2px 4px;" id="'+d.workSector1Name + '" class="btn btn-outline-primary btn-lg mb-0 dibs-btn">'
+					  benefitBtns += '<button style="padding: 2px 4px;margin:5px;" id="'+d.workSector1Name + '" class="btn btn-outline-primary btn-lg mb-0 mycard-btn">'
 			     						+ d.workSector2Name + '</button>'
 			     	  totalBenefit += d.benefitTotal
 			     	  imageUrl = d.cardImageUrl
@@ -387,8 +393,11 @@ $(document).ready(function(){
 			  
 		  })
 		  if(cardTotalBenefit > 0){
-			  
 			  let payTotal = $('#bar-chart-section #payTotal').attr('title');
+
+			  allBenefit += cardTotalBenefit;
+			  allPicking += (cardTotalBenefit / payTotal) * 100
+			  
 			  html += header.replace(/\{cardImageUrl\}/gi, imageUrl)
 			  				.replace(/\{totalBenefit\}/gi, addComma(cardTotalBenefit))
 			  				.replace(/\{pickingPercentage\}/gi, ((cardTotalBenefit / payTotal) * 100).toFixed(2))
@@ -396,10 +405,19 @@ $(document).ready(function(){
 		  }
 	  })
 	  
+	  
+	  //멀티카드일 경우 총 피킹률 + 혜택 합계
+	  html = '<div style="text-align: center">멀티카드 조합의 총 혜택'
+            + '<br><h5 style="font-family:\'Pretendard\';">' + addComma(allBenefit) + ' 원 (' + allPicking.toFixed(2) +' %)</h5></div>' + html
+	  
 	  base.html(html)
 	  
-	  $('.dibs-btn').click(function(e){
-	  	console.log(e.target.id)
+	  $(baseId + ' .mycard-btn').click(function(e){
+	  	barChart.data.labels.forEach(function(d, idx){
+	  		if(d == e.target.id){
+	  			setDonutChart(idx, chartData[idx], dibsData)
+	  		}
+	  	})
 	  })
 	  
   }
@@ -457,6 +475,7 @@ $(document).ready(function(){
 	  return color 
   }
   
+  var donutChart = null;
   function setDonutChart(idx, data, dibsData){
 	  $('#donut-chart-section').html('<canvas id="donut-chart" class="chart chart-pie" style="padding: 20px;"></canvas>')
 	  $('#donut-sector1-name').text(data.workSector1Name)
@@ -470,7 +489,7 @@ $(document).ready(function(){
 	  })
 	  
 	  let ctx_donut = document.getElementById('donut-chart').getContext('2d'); 
-	  new Chart(ctx_donut, {
+	  donutChart = new Chart(ctx_donut, {
 		    type: 'doughnut',
 		    data: {
 		      labels: donutLabels,
@@ -495,14 +514,32 @@ $(document).ready(function(){
 					 position: 'outside',
 					 segment: true
 				},
-				/* hover:{
-					animationDuration:0
-				}, */
+				onClick: function(point, event) {
+					let idx = event[0]['_index']
+					let workName = donutChart.chart.data.labels[idx]
+					
+					$('#mycard-benefit-history .mycard-btn').each(function(idx, e){
+						$(e).parents('.benefit-card').css('background', 'transparent')
+					})
+
+					$('#dibscard-benefit-history .mycard-btn').each(function(idx, e){
+						$(e).parents('.benefit-card').css('background', 'transparent')
+					})
+					
+					$('#mycard-benefit-history .mycard-btn').each(function(idx, e){
+						if(e.innerText.trim() == workName){
+							$(e).parents('.benefit-card').css('background', 'rgb(255,212,96, 0.6)')
+						}
+					})
+
+					$('#dibscard-benefit-history .mycard-btn').each(function(idx, e){
+						if(e.innerText.trim() == workName){
+							$(e).parents('.benefit-card').css('background', 'rgb(255,212,96, 0.6)')
+						}
+					})
+					
+		        },
 				legend: false,
-				onHover: function(event,elements) {
-				    console.log('?!')
-				    
-				},
 				maintainAspectRatio : false, 
 				cutoutPercentage: 60,
 				scaleShowLabelBackdrop : true,
@@ -597,7 +634,6 @@ $(document).ready(function(){
 	            
 	        },
 	        onClick: function(point, event) {
-	        	console.log(event)
 	            if(event.length <= 0) return;
 				let idx = event[0]['_index']
 				

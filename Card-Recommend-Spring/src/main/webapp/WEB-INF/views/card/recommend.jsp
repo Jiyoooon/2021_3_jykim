@@ -4,6 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <jsp:include page="/WEB-INF/views/commons/header.jsp"></jsp:include>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/style-multi-slider.css">  
 
 <sec:authorize access="isAnonymous()">
 	<!-- login X -->
@@ -25,52 +26,108 @@
 
 <sec:authorize access="hasRole('ROLE_USER')">
 	<!-- 추천 결과 출력 -->
-	<div class="text-center rounded card" style="padding: 50px; background:#cadfc4;width:90%;margin: 0 auto; margin-top: 60px;">
-		<div id="mycard-reco-spinner" class="container text-align">
+	<div id="mycard-reco-spinner" class="text-center rounded card" style="position: relative; padding: 50px; background:#cadfc4;width:90%;margin: 0 auto; margin-top: 60px;">
+		<div  class="container text-align">
 			<div class="circle">
 			  <span class="ouro ouro3">
 			    <span class="left"><span class="anim"></span></span>
 			    <span class="right"><span class="anim"></span></span>
 			  </span>
 			</div>
-			<h5 style="color:black; font-family: 'Pretendard'">
+			<h5 style="color:black; font-family: 'Pretendard'; ">
 				<span ><sec:authentication property="principal.name"/></span>
 				님에게 꼭 맞는 카드를 찾고 있어요!
 			</h5>
 		</div>
-		
-		<div id="mycard-reco-card-section" style="display: none; ">
-			<h2 style="color: black; font-family: Pretendard">
-				<span ><sec:authentication property="principal.name"/>&nbsp;</span>님에게 <span style="color: green;">꼭</span> 맞는 카드
-			</h2>
-			<p>고객님의 <strong>최근 3개월</strong> 치 소비내역에 각 카드 혜택을 적용해 시뮬레이션을 돌린 결과입니다.
-				<br>찜하기를 눌러 마이페이지에서 자세히 비교해보세요!</p>
-			<div class="border"></div>
-			
-			<!-- 추천 카드 목록 -->
-			<div style="margin: 0 auto; width: 90%; max-width: 1250px; text-align:right;">
-				<div class="card-sort-filter" style="width: 100%;">
-					<div class=" col-sm-2" style=" display: inline-block;">
-	                      <select name="benefit-type-filter" class="form-control" id="benefit-type-filter" style="text-align:center;">
-							<option value="0" selected>할인 + 적립</option>
-							<option value="1">할인</option>
-							<option value="2">적립</option>
-						</select>
-	                   </div>
-				</div>
-			</div>
-			
-			<div style="margin: 0 auto; width: 90%; max-width: 1250px;">
-				<div class="card-hero-slider1" style="width: 100%;" id="mycard-reco-cardlist">
-				
-					<%-- </c:forEach> --%>
-				</div>
-			</div>
-		</div>
-		
-		
-		
 	</div>
+		
+	
+	<div id="mycard-multi-reco-section" class="text-center rounded card" style="visibility: hidden; position: relative; padding: 50px; background:#cadfc4;width:90%;margin: 0 auto; margin-top: 60px;">
+		<div id="reco-card-section">
+			<div id="mycard-reco-card-section" >
+				<h2 style="color: black; font-family: Pretendard">
+					<span ><sec:authentication property="principal.name"/>&nbsp;</span>님에게 <span style="color: green;">꼭</span> 맞는 카드
+				</h2>
+				<p style="color:#3d3d3d;">고객님의 <strong>최근 3개월</strong> 치 소비내역에 각 카드 혜택을 적용해 시뮬레이션을 돌린 결과입니다.
+					<br>찜하기를 눌러 마이페이지에서 자세히 비교해보세요!</p>
+				<div class="border"></div>
+				
+				<!-- 추천 카드 목록 -->
+				<div style="margin: 0 auto; width: 90%; max-width: 1250px; text-align:right;">
+					<div class="card-sort-filter" style="width: 100%;">
+						<div class=" col-sm-2" style=" display: inline-block;">
+		                      <select name="benefit-type-filter" class="form-control" id="benefit-type-filter" style="text-align:center;">
+								<option value="0" selected>할인 + 적립</option>
+								<option value="1">할인</option>
+								<option value="2">적립</option>
+							</select>
+		                   </div>
+					</div>
+				</div>
+				
+				<div style="margin: 0 auto; width: 90%; max-width: 1250px;">
+					<div class="card-hero-slider1" style="width: 100%;" id="mycard-reco-cardlist">
+					
+						<%-- </c:forEach> --%>
+					</div>
+				</div>
+				
+				
+				
+			</div>
+		</div><!-- reco card section -->
+
+		<!-- 멀티카드 -->
+		<div  id="multi-card-reco-section">
+			<div>
+				<h3 style="font-family: 'Pretendard';">멀티카드는 어떠신가요?</h3>
+				<p style="color:#3d3d3d;">멀티카드란, 다양한 멀티 시리즈 모바일카드를 한 장의 플라스틱카드로 이용할 수 있는 카드입니다.
+					<br>고객님께 딱 맞는 <strong>멀티 카드 조합</strong>을 확인해보세요!</p>
+				<div class="border"></div>
+			</div>
+			
+			<div class="slider-wr">
+			  <div class="slider" style="text-align: center; padding: 0 30px;">
+			    <div class="slide" style="position: relative; height: 400px;">
+			      <div>
+			      	<div style="width: 320px;" class="first-card" >
+				      <img style="width:100%" src="" alt="" />
+				      
+			      	  <i style="z-index: 4; position: absolute; top: 0px; left:-5px; font-size: 25px; color: black; cursor:pointer;" 
+			      	  	class="fas fa-chevron-circle-down" onclick="$(this).siblings('.benefit').slideToggle()"></i>
+				      <div style="" class="benefit" >
+				      	  <!-- first-card benefit -->
+				      </div>
+				    </div>
+				    
+			      	<div style="width: 320px;" class="second-card" >
+				      <img style="width:100%" src="/images/card/100.png" alt="" />
+				      
+			      	  <i style="z-index: 2; position: absolute; top: 0px; left:-5px; font-size: 25px; color: black; cursor:pointer;" 
+			      	  	class="fas fa-chevron-circle-down" onclick="$(this).siblings('.benefit').slideToggle()"></i>
+				      <div style="" class="benefit" >
+				      	  <!-- second-card benefit -->
+				      </div>
+				    </div>
+				    
+			      </div>
+			      <div style="text-align: left">
+			      	<input type="button" class="btn-transparent dibsBtn" 
+			      		style="background: #f8f9fa;color: black;padding: 5px;font-size: 15px; border: solid 2px; font-weight: bold; margin-right: 20px;" 
+			      		value="찜하기" onclick="goToMultiDibs(100,105)">
+			      	<span style="font-size: 20px; color: black;">피킹률 약 <strong class="picking" style="font-size:25px;"></strong></span>
+			      </div>
+			      <div style="margin-top: 330px;"><strong class="cardCombi"></strong> 조합</div>
+			    </div>
+			    
+			    
+			  </div>
+			</div>
+		</div><!-- multi card section -->
+
+	
+	</div>
+
 </sec:authorize>
 
 
@@ -92,7 +149,7 @@
 						<a style="cursor:pointer;">제휴카드</a><br>
 					</div> -->
 					
-					
+				</div>
 					
 				</div>
 				<!-- /section title -->
@@ -166,7 +223,6 @@
 				
 			</div> <!-- /end col-lg-12 -->
 		</div> <!-- end row -->
-	</div> <!-- end container -->
 </section> <!-- End section -->
 	
 	
@@ -174,21 +230,17 @@
 
 <jsp:include page="/WEB-INF/views/commons/footer.jsp"></jsp:include>
 
+
+<script src="${pageContext.request.contextPath}/resources/assets/js/script-multi-slider.js"></script>
+
 <script>
-	/* $('.card-hero-slider1').on("init", function(){
-		console.log('?!')
-		$('#myard-reco-spinner').hide();
-		$('#mycard-reco-card-section').show();
-	}) */
 	$(document).ready(function(){
 		<sec:authorize access="hasRole('ROLE_USER')">
 		//mycard - creditCard 추천 ajax
 		$.ajax({
 	    	type: "GET",
-//	    	url: contextPath + "/api/card/myreco/0",
 	    	url: contextPath + "/api/mypage/card/credit/top10/0",
 	    	success: function(result){
-	    		//console.log(result)
 	    		setMyrecoCardList(result)
 			    //mycard 리스트 slider 걸기
 			    $('.card-hero-slider1').slick({
@@ -198,10 +250,10 @@
 				    prevArrow: '<button type=\'button\' class=\'prevArrow\'></button>',
 				    nextArrow: '<button type=\'button\' class=\'nextArrow\'></button>',
 				    //dots: false
-				});
+				}); 
 				//hidden 풀기
 				$('#mycard-reco-spinner').hide();
-				$('#mycard-reco-card-section').show();
+				$('#mycard-multi-reco-section').css('visibility', 'visible');
 				
 			}
 		});
@@ -212,19 +264,19 @@
 	    	url: contextPath + "/api/mypage/card/multi/top3",
 	    	success: function(result){
 	    		console.log(result)
-	    		//setMultirecoCardList(result)
+	    		setMultirecoCardList(result)
 			    //mycard 리스트 slider 걸기
-			    /* $('.multi-card-slider').slick({
-				  	infinite: false,
-				  	slidesToShow: 3,
-				    arrows: true,
-				    prevArrow: '<button type=\'button\' class=\'prevArrow\'></button>',
-				    nextArrow: '<button type=\'button\' class=\'nextArrow\'></button>',
-				    //dots: false
-				}); */
+			     $('#multi-card-reco-section .slider').slick({
+					 centerMode: true,
+					 //centerPadding: '10%',
+					 slidesToShow: 1,
+					 infinite: false,
+					 speed: 500,
+					 prevArrow: '<button type=\'button\' class=\'prevArrow\'></button>',
+					 nextArrow: '<button type=\'button\' class=\'nextArrow\'></button>',
+				 }); 
 				//hidden 풀기
-				/* $('#mycard-reco-spinner').hide();
-				$('#mycard-reco-card-section').show(); */
+				//$('#multi-card-reco-section').css('visibility', 'visible');
 				
 			}
 		});
@@ -234,7 +286,6 @@
 	    	type: "GET",
 	    	url: contextPath + "/api/card/reco/" + $("#birth-gender-filter option:selected").val(),
 	    	success: function(result){
-	    		console.log(result)
 	    		setRecoCardList('#birth-gender-reco-cardlist', result);
 	    		//changeBirthGenderRecoCardList(result);
 	    		$('.card-hero-slider2').slick({
@@ -245,6 +296,7 @@
 	    		    nextArrow: '<button type=\'button\' class=\'nextArrow\'></button>',
 	    		    //dots: false
 	    		});
+
 	    	}
 	    });
 		
@@ -253,7 +305,6 @@
 	    	type: "GET",
 	    	url: contextPath + "/api/card/reco/" + $("#job1-filter option:selected").val() + $("#job2-filter option:selected").val(),
 	    	success: function(result){
-	    		console.log(result)
 	    		
 	    		setRecoCardList('#job-reco-cardlist', result);
 	    		//changeJobRecoCardList(result);
