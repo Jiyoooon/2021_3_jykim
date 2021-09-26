@@ -193,6 +193,12 @@
     	}
     	
     	
+    	//피킹률 tooltip
+		$('.picking').tooltip({
+		 	placement:'bottom',
+		 	html:true
+		})
+    	
     </script>
   </body>
  </html>

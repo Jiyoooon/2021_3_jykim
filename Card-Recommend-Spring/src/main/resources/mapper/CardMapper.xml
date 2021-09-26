@@ -185,7 +185,7 @@
 	</select>
 	
 	<select id="selectCardBenefitDetailsByCardId" resultType="cardBenefitVO">
-	    select  min(card_id) as card_id, min(sectors.benefit_name) as benefit_name, min(benefit_info) as benefit_info, min(cb.work_sector1_code) as work_sector1_code, 
+	    select  min(card_id) as card_id, min(sectors.benefit_name) as benefit_name, max(benefit_info) as benefit_info, min(cb.work_sector1_code) as work_sector1_code, 
 		        min(benefit_code) as benefit_code, 
 		        min(sectors.work_sector2_name) as work_sector2_name, min(limit) as limit,
 		        min(benefit_criteria) as benefit_criteria, min(perf_criteria) as perf_criteria

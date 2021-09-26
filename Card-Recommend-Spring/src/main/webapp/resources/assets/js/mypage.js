@@ -113,7 +113,7 @@ $(document).ready(function(){
 	  let end = $('#monthpicker-end').val();
 	  $.ajax({
 	    	type: "GET",
-	    	url: contextPath + "/api/mypage/card/dibs/benefit/" + cardId + '/' + start + '/' + end,
+	    	url: contextPath + "/api/mypage/card/credit/dibs/benefit/" + cardId + '/' + start + '/' + end,
 	    	success: function(result){
 	    		if(result.length == 0){
 	    			//혜택 내역 부분 비우기
@@ -149,16 +149,31 @@ $(document).ready(function(){
 	  let end = $('#monthpicker-end').val();
 	  $.ajax({
 	    	type: "GET",
-	    	url: contextPath + "/api/mypage/card/multidibs/benefit/" + cardId.toString() + '/' + start + '/' + end,
+	    	url: contextPath + "/api/mypage/card/multi/dibs/benefit/" + cardId.toString() + '/' + start + '/' + end,
 	    	success: function(result){
+	    		console.log(result)
 	    		if(result.length == 0){
 	    			//혜택 내역 부분 비우기
 	    			//$('#bar-chart-warn').text('해당 기간에 결제 내역이 없습니다.')
 	    			return;
 	    		}
 	    		
-	    		setBenefitHistory('#dibscard-benefit-history #card-benefit-section', result)
+	    		setBenefitHistory2('#dibscard-benefit-history #card-benefit-section', result)
 	    		//
+	    		
+	    		dibsData = result
+	    		
+	    		let barLabels = []
+			    let barData = []
+			    
+			    chartData.forEach(function(e){
+			    	barLabels.push(e.workSector1Name)
+			    	barData.push(e.sectorBalance)
+			    })
+	    		//바 차트 => 1차
+			    setBarChart(barLabels, barData, dibsData)
+			    //도넛 차트 => 2차
+			    setDonutChart(0, chartData[0], dibsData)
 	    		
 			    $('.fixed-plugin').toggleClass('show')
 			    
@@ -269,7 +284,7 @@ $(document).ready(function(){
 			  //benefitName 당 benefit-card-body-template 1개
 			  data.forEach(function(d){
 				  if(d.benefitTotal > 0 && d.cardId == c && d.benefitName == bn){ 
-					  benefitBtns += '<button style="padding: 2px 4px;" class="btn btn-outline-primary btn-lg mb-0">'
+					  benefitBtns += '<button style="padding: 2px 4px;" id="'+d.workSector1Name + '" class="btn btn-outline-primary btn-lg mb-0 btn-dibs">'
 			     						+ d.workSector2Name + '</button>'
 			     	  totalBenefit = d.benefitTotal
 			     	  imageUrl = d.cardImageUrl
@@ -302,10 +317,89 @@ $(document).ready(function(){
 	  })
 	  
 	  base.html(html)
-	  //피킹률 tooltip
-	  $('.picking').tooltip({
-		  placement:'bottom',
-		  html:true
+	  
+	  $('.dibs-btn').click(function(e){
+	  	console.log(e.target.id)
+	  })
+	  
+  }
+  
+  //for multi dibs
+  function setBenefitHistory2(baseId, data){
+	  let base = $(baseId);
+	  let cardId = [];
+	  let benefitName = []
+	  
+	  data.forEach(function(d){
+		  cardId.push(d.cardId);
+		  benefitName.push(d.benefitName);
+	  })
+	  cardId = new Set(cardId)
+	  benefitName = new Set(benefitName)
+	  
+	  let header = $('#benefit-card-header-template').html();
+	  let body = $('#benefit-card-body-template').html();
+	  
+	  console.log(benefitName);
+	  
+	  let html = '';
+	  let btnHtml = '';
+	  let cardTotalBenefit = 0
+	  
+	  let benefitBtns = '';
+	  let benefitSubTotal = '';
+	  let totalBenefit = 0;
+	  let imageUrl = ''
+	  
+	  let coinType = ''
+	  let benefitType = ''
+	  cardId.forEach(function(c){
+		  btnHtml = ''
+		  cardTotalBenefit = 0;
+		  benefitName.forEach(function(bn){
+			  totalBenefit = 0;//카드마다 benefitTotal 갱신
+			  benefitBtns = '';
+			  benefitSubTotal = '';
+			  
+			  //benefitName 당 benefit-card-body-template 1개
+			  data.forEach(function(d){
+				  if(d.cardId == c && d.benefitName == bn){ 
+					  benefitBtns += '<button style="padding: 2px 4px;" id="'+d.workSector1Name + '" class="btn btn-outline-primary btn-lg mb-0 dibs-btn">'
+			     						+ d.workSector2Name + '</button>'
+			     	  totalBenefit += d.benefitTotal
+			     	  imageUrl = d.cardImageUrl
+			     	  if(d.benefitCode == '001' || d.benefitCode == '004'){
+			     		 coinType = '원'
+			     		 benefitType = '할인'
+			     	  }else if(d.benefitCode == '002' || d.benefitCode == '008'){
+			     		  coinType = '머니'
+			     		  benefitType = '적립'
+			     	  }
+				  }
+			  })
+			  
+			  if(totalBenefit > 0){
+				  btnHtml += body.replace(/\{benefitName\}/gi, bn)
+				    			 .replace(/\{benefitBtns\}/gi, benefitBtns)
+				    			 .replace(/\{benefitSubTotal\}/gi, '<strong>' + addComma(totalBenefit) + coinType +' </strong>' + benefitType)
+			  }
+			  cardTotalBenefit += totalBenefit;
+			  
+		  })
+		  if(cardTotalBenefit > 0){
+			  
+			  let payTotal = $('#bar-chart-section #payTotal').attr('title');
+			  html += header.replace(/\{cardImageUrl\}/gi, imageUrl)
+			  				.replace(/\{totalBenefit\}/gi, addComma(cardTotalBenefit))
+			  				.replace(/\{pickingPercentage\}/gi, ((cardTotalBenefit / payTotal) * 100).toFixed(2))
+			  				.replace(/\{benefitsBody\}/gi, btnHtml)
+		  }
+	  })
+	  
+	  base.html(html)
+	  
+	  $('.dibs-btn').click(function(e){
+	  	console.log(e.target.id)
 	  })
 	  
   }
@@ -384,7 +478,7 @@ $(document).ready(function(){
 		        data: donutData,      // 섭취량, 총급여량 - 섭취량
 		        backgroundColor: assignColor(idx, data.chart2List.length),
 		        borderColor: getBenefitBorderColor(chartData[idx].chart2List, dibsData),
-		        borderWidth: 3,
+		        borderWidth: 5,
 		        //scaleBeginAtZero: true,
 		        hoverOffset: 20
 		      }]
@@ -433,6 +527,7 @@ $(document).ready(function(){
 	  }); */
   }
   
+  var barChart;
   function setBarChart(labels, data, dibsData){
 	  $('#bar-chart-warn').text('')
 	  $('#bar-chart-section').html('<canvas id="bar-chart" style="padding: 20px;"></canvas>'
@@ -440,7 +535,7 @@ $(document).ready(function(){
 	 //소비 그래프
 	
 	  let ctx_bar = document.getElementById('bar-chart').getContext('2d'); 
-	  new Chart(ctx_bar, {
+	  barChart = new Chart(ctx_bar, {
 	    type: 'bar',
 	    data: {
 	        labels: labels, 
@@ -456,7 +551,7 @@ $(document).ready(function(){
 //	            	"rgba(171,242,0)",
 //	            	"rgba(250,237,125)",
 				borderColor: getBenefitBorderColor(chartData, dibsData),
-				borderWidth: 3,
+				borderWidth: 5,
 	            fill: false,
 	        }
 	       /*  ,{
@@ -502,6 +597,7 @@ $(document).ready(function(){
 	            
 	        },
 	        onClick: function(point, event) {
+	        	console.log(event)
 	            if(event.length <= 0) return;
 				let idx = event[0]['_index']
 				

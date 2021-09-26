@@ -1,10 +1,14 @@
 package kr.ac.kopo.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -205,21 +209,204 @@ public class MypageServiceImpl  implements IMypageService{
 		return null;
 	}
 
+	//찜한 멀티카드 소비내역 대조
 	@Override
-	public List<BenefitResultVO> searchCreditTop10Benefit(BenefitParamsVO params) {
+	public List<BenefitResultVO> searchMultiDibsConsumptionBenefit(BenefitParamsVO params) {
+		transMapper.selectMultiCardBenefit(params);
+		
+		List<BenefitResultVO> benefitList = params.getBenefitList();		
+		if(benefitList == null) return null;
+
+		
+		//cardId별로 그룹지어서 각각 List<BenefitResultVO>로 쪼갬
+		List<List<BenefitResultVO>> multiList = splitBenefitResult(benefitList);
+		
+		//카드가 한장이면 바로 리턴
+		if(multiList.size() < 2) return benefitList;
+
+		//겹치는 혜택들 하나만 선택하고 return		
+		List<BenefitResultVO> resultBenefit = getBenefitResultList(multiList, (1 << 31) - 1);
+		
+		return resultBenefit;
+	}
+
+
+	@Override
+	public Map<String, Object> searchCreditTop10Benefit(BenefitParamsVO params) {
 		transMapper.selectCreditTop10(params);
 		
+		Map<String, Object> top10 = new HashMap<String, Object>();
+		top10.put("payTotal", params.getPayTotal());//기간 동안 전체 소비 => 피킹률 계산
 		List<BenefitResultVO> benefits = params.getBenefitList();
+		List<List<BenefitResultVO>> benefitList = new ArrayList<List<BenefitResultVO>>();
+		
+		int cardId = 0;
+		List<BenefitResultVO> tmp = null;
 		for(BenefitResultVO b : benefits) {
-			System.out.println(b);
+			if(b.getCardId() != cardId) {
+				if(cardId > 0) {//이전 리스트 저장
+					benefitList.add(tmp);
+				}
+				tmp = new ArrayList<BenefitResultVO>();
+				cardId = b.getCardId();
+			}
+			
+			tmp.add(b);
 		}
 		
-		System.out.println(params.getPayTotal());
-		return benefits;
+		top10.put("benefitList", benefitList);
+		
+		return top10;
+	}
+
+
+	//멀티카드 top3 추천
+	@Override
+	public Map<String, Object> searchMultiTop3Benefit(BenefitParamsVO params) {
+		params.setCardId("0");//멀티카드 top3 표시
+		transMapper.selectMultiCardBenefit(params);
+		
+		Map<String, Object> top3 = new HashMap<String, Object>();
+		top3.put("payTotal", params.getPayTotal());
+		
+		List<BenefitResultVO> benefits = params.getBenefitList();
+		
+		List<List<BenefitResultVO>> multiList = splitBenefitResult(benefits);
+//		for(List<BenefitResultVO> m : multiList) {
+//			for(BenefitResultVO b : m) {
+//				System.out.println(b);
+//			}
+//			System.out.println();
+//		}
+		int count = multiList.size();
+		
+		List<int[]> rank = new ArrayList<int[]>();
+		
+		for(int i = 1; i < (1 << count); i++) {
+			int cardCnt = 0;
+			for(int j = 0; j < count; j++) {
+				if((i & (1 << j)) > 0) {//j번째 카드가 선택됐다면
+					cardCnt++;
+				}
+			}
+			if(cardCnt == 2) {//카드 2개 조합만 고려
+				calculateBenefit(multiList, rank, i);
+			}
+			
+		}
+		
+		//benefitTotal 기준 내림차순 정렬
+		Collections.sort(rank, new Comparator<int[]>() {
+			@Override
+			public int compare(int[] b1, int[] b2) {
+				return Integer.compare(b2[1], b1[1]);
+			}
+		});
+		
+//		for(int[] cur : rank) {
+//			System.out.println(Arrays.toString(cur));
+//		}
+		
+		//top3 결과 저장할 객체
+		List<List<BenefitResultVO>> benefitList = new ArrayList<List<BenefitResultVO>>();
+		
+		for(int i = 0; i < 3; i++) {
+			int combi = rank.get(i)[0];
+			benefitList.add(getBenefitResultList(multiList, combi));
+		}
+		
+		top3.put("benefitList", benefitList);
+		
+		return top3;
+	}
+
+	//선택된 멀티카드 조합의 혜택 리스트 만들어 리턴
+	private List<BenefitResultVO> getBenefitResultList(List<List<BenefitResultVO>> multiList, int combi) {
+		List<BenefitResultVO> resultBenefit = new ArrayList<BenefitResultVO>();
+		int[] cardIdx = new int[210];//몇번째 카드의 혜택을 선택할지 카드 idx
+		int[] maxBenefit = new int[210];
+		
+		//각각 benefit 돌면서 혜택 높은 쪽 선택
+		for(int i = 0, size = multiList.size(); i < size; i++) {
+			if((combi & (1 << i)) == 0) continue;
+			for(BenefitResultVO b : multiList.get(i)) {
+				int ws = b.getWorkSector2Code();
+				int bt = b.getBenefitTotal();
+				
+				if(maxBenefit[ws] == 0 || maxBenefit[ws] < bt) {//아직 해당 workSector에 지정된 혜택 없거나 || 이전 혜택보다 해당 카드의 혜택이 더 크다면
+					cardIdx[ws] = i;
+					maxBenefit[ws] = bt;
+				}
+			}
+		}
+		//선택한 혜택 조합해서 return
+		for(int i = 0, size = multiList.size(); i < size; i++) {
+			if((combi & (1 << i)) == 0) continue;
+			for(BenefitResultVO b : multiList.get(i)) {
+				int ws = b.getWorkSector2Code();
+				if(cardIdx[ws] == i) {
+					resultBenefit.add(b);
+				}
+			}
+		}
+		
+		
+		return resultBenefit;
+	}
+
+	//multi card top3 rank를 위해 조합별 혜택 합계 구함
+	private void calculateBenefit(List<List<BenefitResultVO>> multiList, List<int[]> rank, int combi) {
+		int[] maxBenefit = new int[210];//겹치는 업종 혜택 중 큰 혜택을 선택
+		
+		//각각 benefit 돌면서 혜택 높은 쪽 선택
+		for(int i = 0, size = multiList.size(); i < size; i++) {
+			
+			for(BenefitResultVO b : multiList.get(i)) {
+				if((combi & (1 << i)) == 0) continue; // 조합에 선택되지 않은 카드면 continue;
+				
+				int ws = b.getWorkSector2Code();
+				int bt = b.getBenefitTotal();
+				
+				if(maxBenefit[ws] < bt) {//아직 해당 workSector에 지정된 혜택 없거나 || 이전 혜택보다 해당 카드의 혜택이 더 크다면
+					maxBenefit[ws] = bt;
+				}
+			}
+		}
+		
+		//maxBenefit에 쌓인 혜택 합계 구함
+		int benefitTotal = 0;
+		for(int b : maxBenefit) {
+			benefitTotal += b;
+		}
+		
+		rank.add(new int[] {combi, benefitTotal});//해당 조합과 조합의 혜택 합계 rank에 저장
+	}
+
+	//cardId별로 그룹지어서 각각 List<BenefitResultVO>로 쪼갬
+	private List<List<BenefitResultVO>> splitBenefitResult(List<BenefitResultVO> benefits) {
+		Set<Integer> cardId = new HashSet<Integer>();
+		List<List<BenefitResultVO>> multiList = new ArrayList<List<BenefitResultVO>>();
+		List<BenefitResultVO> tmpList = null;
+		
+		for(BenefitResultVO b : benefits) {//cardId 순서대로 되어있음
+			int multiCardId = b.getCardId();
+			if(!cardId.contains((Integer) multiCardId)) {//새로운 multiCard
+				if(tmpList != null) {
+					multiList.add(tmpList);
+				}
+				tmpList = new ArrayList<BenefitResultVO>();
+				cardId.add(multiCardId);
+			}
+			tmpList.add(b);
+		}
+		multiList.add(tmpList);
+		return multiList;
 	}
 
 	
 
-	
+	public static void main(String[] args) {
+		System.out.println(Integer.toBinaryString((1 << 31) - 1));
+	}
 	
 }

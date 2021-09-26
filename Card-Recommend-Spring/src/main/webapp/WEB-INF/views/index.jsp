@@ -17,6 +17,19 @@
 
 <!-- 배너 -->
 <div class="hero-slider" style="height:500px;">
+	<div class="slider-item th-fullpage hero-area" style="height:500px; background-image: url(${pageContext.request.contextPath }/resources/assets/images/slider/slider2.jpg);">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<img src="/images/card/0.png" width="300px;" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".1">
+					<h4 style="margin-top:1rem; color:white; font-family: 'Pretendard'" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".5">카드, 한 장이면 된다</h4>
+					<p data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".5">원하는 조합대로 골라 사용하세요!</p>
+					<a data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".8"  class="btn btn-main banner-btn" href="service.html"
+					style="background:white; color: #00907f; border: 2px solid #00907f;">자세히 보기</a>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="slider-item th-fullpage hero-area" style="height:500px; background-image: url(${pageContext.request.contextPath }/resources/assets/images/slider/slider3.jpg);">
 		<div class="container">
 			<div class="row">
@@ -34,19 +47,6 @@
 			</div>
 		</div>
 	</div> 
-	<div class="slider-item th-fullpage hero-area" style="height:500px; background-image: url(${pageContext.request.contextPath }/resources/assets/images/slider/slider2.jpg);">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12 text-center">
-					<img src="/images/card/0.png" width="300px;" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".1">
-					<h4 style="margin-top:1rem; color:white; font-family: 'Pretendard'" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".5">카드, 한 장이면 된다</h4>
-					<p data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".5">원하는 조합대로 골라 사용하세요!</p>
-					<a data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".8"  class="btn btn-main banner-btn" href="service.html"
-					style="background:white; color: #00907f; border: 2px solid #00907f;">자세히 보기</a>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 
 <section class="portfolio section-sm" id="portfolio">
@@ -117,7 +117,7 @@
 								<div class="portfolio-block" style="margin-bottom: 5px;">
 									<img class="img-fluid" style="width: 100%;" src="${card.cardImageUrl }" alt="">
 									<div class="caption" style="width: 100%; ">
-										<a class="search-icon search-icon2" style="font-size: 65px; background: transparent;" href="" data-toggle="modal" data-target="#detailModal">
+										<a class="search-icon search-icon2" style="font-size: 50px; background: transparent;" href="" data-toggle="modal" data-target="#detailModal">
 											<i class="tf-ion-ios-search-strong"></i>
 										</a>
 										<h3 style="font-family: Pretendard; color:white;font-weight: 500;">${card.cardName }</h3>
@@ -323,7 +323,7 @@
 	<div class="portfolio-block" style="margin-bottom: 5px;">
 		<img class="img-fluid" style="width: 100%;" src="{cardImageUrl}" alt="">
 		<div class="caption" style="width: 100%; ">
-			<a class="search-icon search-icon2" style="font-size: 65px; background:transparent;" href="" data-toggle="modal" data-target="#detailModal">
+			<a class="search-icon search-icon2" style="font-size: 50px; background:transparent;" href="" data-toggle="modal" data-target="#detailModal">
 				<i class="tf-ion-ios-search-strong"></i>
 			</a>
 			<h3 style="font-family: Pretendard; color:white;font-weight: 500;">{cardName}</h3>

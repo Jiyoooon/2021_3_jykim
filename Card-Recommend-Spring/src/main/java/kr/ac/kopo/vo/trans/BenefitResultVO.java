@@ -3,6 +3,7 @@ package kr.ac.kopo.vo.trans;
 public class BenefitResultVO  implements Comparable<BenefitResultVO>{
 	private int cardId;
 	private String cardName;
+	private String cardInfo;
 	private String cardImageUrl;
 	private String benefitName;
 	private String benefitInfo;
@@ -34,6 +35,19 @@ public class BenefitResultVO  implements Comparable<BenefitResultVO>{
 
 	public void setCardName(String cardName) {
 		this.cardName = cardName;
+	}
+
+	
+
+
+	public String getCardInfo() {
+		return cardInfo;
+	}
+
+
+
+	public void setCardInfo(String cardInfo) {
+		this.cardInfo = cardInfo;
 	}
 
 
