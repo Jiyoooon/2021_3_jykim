@@ -30,7 +30,7 @@
 	position:absolute; 
 	top:0;
 	padding:10px;
-	background: #cadfc4;
+	background: white; /*#cadfc4*/
 	border-radius: 10%;
 	max-width: 100%;
 	transform: scale(0.7);

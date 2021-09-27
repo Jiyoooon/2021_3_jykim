@@ -266,6 +266,7 @@ public class MypageServiceImpl  implements IMypageService{
 		params.setCardId("0");//멀티카드 top3 표시
 		transMapper.selectMultiCardBenefit(params);
 		
+		
 		Map<String, Object> top3 = new HashMap<String, Object>();
 		top3.put("payTotal", params.getPayTotal());
 		

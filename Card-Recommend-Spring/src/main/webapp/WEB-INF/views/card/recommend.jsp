@@ -263,7 +263,6 @@
 	    	type: "GET",
 	    	url: contextPath + "/api/mypage/card/multi/top3",
 	    	success: function(result){
-	    		console.log(result)
 	    		setMultirecoCardList(result)
 			    //mycard 리스트 slider 걸기
 			     $('#multi-card-reco-section .slider').slick({

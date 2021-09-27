@@ -41,7 +41,7 @@ function setMultirecoCardList(data){
 			}else{
 				if(benefitTotal > 0){
 					benefitBtn += '<div style="display: table; width:100%; margin-bottom: 5px;">'
-								+ '<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;">'
+								+ '<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;background:#cadfc4;">'
 								+ '<span style="font-size:18px; font-weight: bold; color:black;">' + benefitName + '</span>'
 								+ '</div><div style="width: 50%; display:table-cell;text-align:center; vertical-align: middle;color:black;">'
 								+ addComma((benefitTotal / 3).toFixed(0)) + ' 원 '+benefitType + '</div></div>'
@@ -61,7 +61,7 @@ function setMultirecoCardList(data){
 		
 		if(benefitTotal > 0){
 			benefitBtn += '<div style="display: table; width:100%; margin-bottom: 5px;">'
-						+ '<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;">'
+						+ '<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;background:#cadfc4;">'
 						+ '<span style="font-size:18px; font-weight: bold; color:black;">' + benefitName + '</span>'
 						+ '</div><div style="width: 50%; display:table-cell;text-align:center; vertical-align: middle;color:black;">'
 						+ addComma((benefitTotal / 3).toFixed(0)) + ' 원 '+benefitType + '</div></div>'
@@ -95,7 +95,7 @@ function setMultirecoCardList(data){
 			}else{
 				if(benefitTotal > 0){
 					benefitBtn += '<div style="display: table; width:100%; margin-bottom: 5px;">'
-								+ '<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;">'
+								+ '<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;background:#cadfc4;">'
 								+ '<span style="font-size:18px; font-weight: bold; color:black;">' + benefitName + '</span>'
 								+ '</div><div style="width: 50%; display:table-cell;text-align:center; vertical-align: middle;color:black;">'
 								+ addComma((benefitTotal / 3).toFixed(0)) + ' 원 '+benefitType + '</div></div>'
@@ -113,7 +113,7 @@ function setMultirecoCardList(data){
 		}
 		if(benefitTotal > 0){
 			benefitBtn += '<div style="display: table; width:100%; margin-bottom: 5px;">'
-						+ '<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;">'
+						+ '<div class="card" style="width: 50%; display:table-cell; vertical-align: middle;background:#cadfc4;">'
 						+ '<span style="font-size:18px; font-weight: bold; color:black;">' + benefitName + '</span>'
 						+ '</div><div style="width: 50%; display:table-cell;text-align:center; vertical-align: middle;color:black;">'
 						+ addComma((benefitTotal / 3).toFixed(0)) + ' 원 '+benefitType + '</div></div>'
