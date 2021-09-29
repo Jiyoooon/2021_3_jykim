@@ -510,7 +510,7 @@ $(document).ready(function(){
 						 return d.label + "(" + d.percentage + "%)" 
 					 },
 					 fontColor: '#000',
-					 //fontSize:'bold',
+					 fontSize: 20,
 					 position: 'outside',
 					 segment: true
 				},

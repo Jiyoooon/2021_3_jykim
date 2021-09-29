@@ -13,9 +13,11 @@ public class MemberVO implements UserDetails{
 	
 	private int memberId;
 	private String refreshToken;
+	private String tel;
 	private String tel1;
 	private String tel2;
 	private String tel3;
+	private String email;
 	private String emailId;
 	private String emailDomain;
 	private String jobType1Code;
@@ -31,6 +33,7 @@ public class MemberVO implements UserDetails{
 	private String infoAgree;
 	private String openbankAgree;
 	private String role;
+	private double rate;
 	
 	private String id;
 	private String password;
@@ -38,6 +41,26 @@ public class MemberVO implements UserDetails{
 	
 	
 	
+	
+	
+	public double getRate() {
+		return rate;
+	}
+	public void setRate(double rate) {
+		this.rate = rate;
+	}
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public int getMemberId() {
 		return memberId;
 	}

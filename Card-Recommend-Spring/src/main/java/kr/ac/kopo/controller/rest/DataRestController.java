@@ -1,7 +1,6 @@
 package kr.ac.kopo.controller.rest;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.ac.kopo.service.IDataService;
+import kr.ac.kopo.vo.card.CardVO;
 import kr.ac.kopo.vo.data.Job2VO;
 import kr.ac.kopo.vo.data.WorkSector2VO;
 
@@ -36,5 +36,13 @@ public class DataRestController {
 		List<Job2VO> job2 = dataService.searchJob2(job1);
 		
 		return job2;
+	}
+
+	//GET 카드 목록
+	@GetMapping("/card/{card_type}")
+	public List<CardVO> getCardList(@PathVariable("card_type") int cardType){
+		List<CardVO> cards = dataService.searchCard(cardType);
+		
+		return cards;
 	}
 }

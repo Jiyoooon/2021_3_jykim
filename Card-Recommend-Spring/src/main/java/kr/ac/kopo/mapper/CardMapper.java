@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.ac.kopo.vo.MemberVO;
 import kr.ac.kopo.vo.card.CardBenefitVO;
 import kr.ac.kopo.vo.card.CardSearchOptionVO;
 import kr.ac.kopo.vo.card.CardVO;
@@ -47,4 +48,7 @@ public interface CardMapper {
 	
 	//멀티 찜카드 - 결제카드목록 가져오기
 	public List<DibsVO> selectMultiPayCard(List<String> cardIdList);
+	
+	//마케팅 대상 고객 리스트
+	public List<MemberVO> selectMarketingCustomerList(int cardId);
 }

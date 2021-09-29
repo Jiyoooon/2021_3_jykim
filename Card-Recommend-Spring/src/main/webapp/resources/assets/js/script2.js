@@ -688,7 +688,7 @@ function addBenefit(){
 	
 	html += '<input type="button" id="card-insert-submit" class="rounded btn btn-main" '
 			+ 'style="color: #00907f; background: white; border: 2px solid #00907f; padding: 8px 15px; margin-top: 5px;"' 
-			+ 'value="' + name + "/" + info +" - " + sector1+ "(" +sector2Name+ ")" + '" onclick="deleteBenefit();">';
+			+ 'value="' + name + "/" + info +" - " + sector1+ "(" +sector2Name+ ")" + '" onclick="deleteBenefit();"><br>';
 			
 	$("#benefit-btn-list").html(html);
 	
@@ -705,7 +705,7 @@ function addBenefit(){
 					   .replace(/\{bc\}/gi, $("#benefit-code option:selected").val())
 					   .replace(/\{bn\}/gi, $("#benefit-name").val())
 					   .replace(/\{bi\}/gi, $("#benefit-info").val())
-					   .replace(/\{bns\}/gi, $("#business-number").val())
+					   .replace(/\{bns\}/gi, $("#perf-criteria").val())
 					   .replace(/\{l\}/gi, $("#limit").val())
 		benefitCnt++
 	})
@@ -715,7 +715,7 @@ function addBenefit(){
 	//input 리셋
 	$("#benefit-name").val('');
 	$("#benefit-info").val('');
-	$("#business-number").val('');
+	$("#perf-criteria").val('');
 	$("#limit").val('');
 	$('.work-sector2-btn-list input').remove()//버튼 지움
     $('.work-sector2-btn-list span').show()
@@ -748,7 +748,7 @@ function addBenefit(){
 			   .replace(/\{bc\}/gi, $("#benefit-code option:selected").val())
 			   .replace(/\{bn\}/gi, $("#benefit-name").val())
 			   .replace(/\{bi\}/gi, $("#benefit-info").val())
-			   .replace(/\{bns\}/gi, $("#business-number").val())
+			   .replace(/\{bns\}/gi, $("#perf-criteria").val())
 			   .replace(/\{l\}/gi, $("#limit").val())
 	$("#benefit-list").append(tmp);
 

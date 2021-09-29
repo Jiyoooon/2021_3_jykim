@@ -78,7 +78,7 @@ Fixed Navigation
     <!-- main nav -->
     <nav class="navbar navbar-expand-lg navbar-light">
       <!-- logo -->
-      <a class="navbar-brand logo" href="${pageContext.request.contextPath }">
+      <a class="navbar-brand logo" href="${pageContext.request.contextPath }/">
         <img class="logo-default" src="${pageContext.request.contextPath }/resources/assets/images/logo.png" alt="logo"/>
       </a>
       <!-- /logo -->
@@ -110,7 +110,7 @@ Fixed Navigation
           		active
           	</c:if>
           ">
-            <a class="nav-link" href="${pageContext.request.contextPath }">카드안내</a>
+            <a class="nav-link" href="${pageContext.request.contextPath }/">카드안내</a>
           </li>
           <li class="nav-item 
           	<c:if test='${selectedHeaderNav eq "reco"}'>

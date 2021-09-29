@@ -42,6 +42,8 @@ public class AdminController {
 	//카드 등록
 	@PostMapping("/card")
 	public String registerCard(CardVO card, HttpServletRequest request, Authentication authentication, Principal p) {
+		System.out.println(card);
+		
 		cardService.registerCard(card);
 		request.setAttribute("modalMsg", "카드가 등록되었습니다.");
 		request.setAttribute("redirectPage", "");
