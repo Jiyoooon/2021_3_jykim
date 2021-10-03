@@ -70,6 +70,12 @@
 		}
 		
 	</select>
+	
+	<insert id="insertTransStatistics" statementType="CALLABLE">
+		{
+			call insert_trans_statistics()
+		}
+	</insert>
 	<!-- 함수 호출
 		{
 			#{testList, mode=OUT, jdbcType=VARCHAR} = call get_emp_dets()

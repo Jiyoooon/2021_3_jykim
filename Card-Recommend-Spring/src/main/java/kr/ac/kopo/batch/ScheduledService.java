@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import kr.ac.kopo.HomeController;
 import kr.ac.kopo.mapper.CardMapper;
+import kr.ac.kopo.mapper.TransMapper;
 
 @Service//@Scheduled 관련 기능
 public class ScheduledService {
@@ -19,6 +20,9 @@ public class ScheduledService {
 	
 	@Autowired
 	private CardMapper cardMapper;
+
+	@Autowired
+	private TransMapper transMapper;
 	
 	
 	public void updateRecoList() {
@@ -35,5 +39,11 @@ public class ScheduledService {
 	public void updateRecoCardList() {
 		cardMapper.insertCardStatistics();
 		logger.info("insert card_statistics");
+	}
+
+	@Scheduled(cron = "0 0 0 1 * *")//아무요일 매월 첫째날 00시
+	public void insertTransStatistics() {
+		transMapper.insertTransStatistics();
+		logger.info("insert trans_statistics");
 	}
 }
