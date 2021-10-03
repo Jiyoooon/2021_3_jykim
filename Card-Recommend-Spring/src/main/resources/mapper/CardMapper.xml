@@ -23,7 +23,7 @@
 			, benefit_code
 			, work_sector1_code
 			, work_sector2_code
-			, business_numbers
+			, perf_criteria
 			, limit
 		)
 		select 	P_CB_ID_SEQ.nextval as cardBenefitId
@@ -37,7 +37,7 @@
 					, #{benefit.benefitCode} as benefitCode
 					, #{benefit.workSector1Code} as workSector1Code
 					, #{benefit.workSector2Code} as workSector2Code
-					, #{benefit.businessNumber} as businessNumbers
+					, #{benefit.perfCriteria} as perfCriteria
 					, #{benefit.limit} as limit
 				from sys.dual
 			</foreach>
@@ -366,4 +366,73 @@
 		      #{id}
 		</foreach>
 	</select>
+	
+	
+	
+<!-- 	<select id="selectMarketingCustomerList" parameterType="int" resultType="memberVO">
+		select 	id, name, decode(gender, 'M', '남', '여') as gender, to_char(birth, 'yyyy-mm-dd') as birth
+				, email_id||'@'||email_domain as email, tel1||'-'||tel2||'-'||tel3 as tel, '4.5' as rate
+		from p_member		
+		where rownum <![CDATA[<]]>= 1000
+	</select> -->
+	<select id="selectMarketingCustomerList" parameterType="int" resultType="memberVO">
+		select /*+ INDEX (p_member SYS_C005122)*/ id, name, gender, birth, email, tel, rate
+		from    (select m.id, m.name, decode(gender, 'M', '남', '여') as gender, to_char(birth, 'yyyy-mm-dd') as birth
+		                , email_id||'@'||email_domain as email, tel1||'-'||tel2||'-'||tel3 as tel, trunc(rate,2) as rate
+		        from    (select b.member_id, sub / total as rate
+		                from
+		                    (select /*+ INDEX (trans_statistics statis_idx2)*/ member_id, sum(pay_total) as total
+		                    from trans_statistics
+		                    where year = 2020 and month >=7 and month <![CDATA[<]]>= 9
+		                    group by member_id) a, 
+		                    (select /*+ INDEX (trans_statistics statis_idx2)*/ member_id, sum(pay_total) as sub
+		                    from trans_statistics
+		                    where year = 2020 and month >=7 and month <![CDATA[<]]>= 9 
+		                        and work_sector2_code in (select work_sector2_code from p_card_benefit where card_id = #{cardId})
+		                    group by member_id) b
+		                where a.member_id = b.member_id) t,
+		                p_member m
+		        where t.member_id = m.member_id
+		        order by rate desc)
+		where rownum <![CDATA[<]]>= 1000
+	</select>
+	<!-- <select id="selectMarketingCustomerList" parameterType="int" resultType="memberVO">
+		select id, name, gender, birth, email, tel, rate
+		from    (select m.id, m.name, decode(gender, 'M', '남', '여') as gender, to_char(birth, 'yyyy-mm-dd') as birth
+		                , email_id||'@'||email_domain as email, tel1||'-'||tel2||'-'||tel3 as tel, rate
+		        from    (select b.member_card_id, (sub / total) * 100 as rate
+		                from
+		                    (select member_card_id, sum(trans_balance)  as total
+		                    from p_trans 
+		                    where trans_at >= to_date('20200901', 'yyyymmdd') and trans_At <![CDATA[<]]>= to_Date('20210930', 'yyyymmdd') 
+		                    group by member_card_id) a, 
+		                    (select member_card_id, sum(trans_balance) as sub
+		                    from p_trans 
+		                    where   trans_at >= to_date('20200901', 'yyyymmdd') and trans_At <![CDATA[<]]>= to_Date('20210930', 'yyyymmdd') 
+		                            and work_sector2_code in (select work_sector2_code from p_card_benefit where card_id = #{cardId})
+		                    group by member_card_id) b
+		                where a.member_card_id = b.member_card_id) t,
+		                p_member m, p_member_card mc
+		        where m.member_id = mc.member_id and t.member_card_id = mc.member_card_id)
+		where rownum <![CDATA[<]]>= 1000
+		order by rate desc
+	</select> -->
+	<!-- <select id="selectMarketingCustomerList" parameterType="int" resultType="memberVO">
+		select m.id, m.name, decode(gender, 'M', '남', '여') as gender, to_char(birth, 'yyyy-mm-dd') as birth
+				, email_id||'@'||email_domain as email, tel1||'-'||tel2||'-'||tel3 as tel, rate
+		from    (select b.member_card_id, sub / total as rate
+		        from
+		            (select member_card_id, sum(trans_balance)  as total
+		            from p_trans 
+		            where trans_at >= to_date('20200701', 'yyyymmdd') and trans_At <![CDATA[<]]>= to_Date('20210930', 'yyyymmdd') 
+		            group by member_card_id) a, 
+		            (select member_card_id, sum(trans_balance) as sub
+		            from p_trans 
+		            where   trans_at >= to_date('20200701', 'yyyymmdd') and trans_At <![CDATA[<]]>= to_Date('20210930', 'yyyymmdd') 
+		                    and work_sector2_code in (select work_sector2_code from p_card_benefit where card_id = #{cardId})
+		            group by member_card_id) b
+		        where a.member_card_id = b.member_card_id) t,
+		        p_member m
+		where t.member_card_id = (select min(member_card_id) from p_member_card where member_id = m.member_id) and rownum <![CDATA[<]]>= 50
+	</select> -->
 </mapper>

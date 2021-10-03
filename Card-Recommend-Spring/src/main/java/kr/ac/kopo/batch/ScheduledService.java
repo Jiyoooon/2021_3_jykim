@@ -31,7 +31,7 @@ public class ScheduledService {
 	
 	//@Scheduled(cron = "0 0 0 ? * FRI")//매주 금요일
 	//@Scheduled(cron = "0 * * * * *")//매분
-	@Scheduled(cron = "0 0 0 L * ?")//아무요일 매월 마지막 날
+	@Scheduled(cron = "0 0 0 1 * ?")//아무요일 매월 첫째날 
 	public void updateRecoCardList() {
 		cardMapper.insertCardStatistics();
 		logger.info("insert card_statistics");

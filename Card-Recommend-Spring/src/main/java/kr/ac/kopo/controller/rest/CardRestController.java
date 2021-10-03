@@ -1,9 +1,12 @@
 package kr.ac.kopo.controller.rest;
 
+import java.io.File;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -22,6 +25,8 @@ import kr.ac.kopo.vo.card.ConsumptionChartVO;
 import kr.ac.kopo.vo.card.DibsVO;
 import kr.ac.kopo.vo.trans.BenefitParamsVO;
 import kr.ac.kopo.vo.trans.BenefitResultVO;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @RestController
 @RequestMapping("/api")
@@ -208,7 +213,50 @@ public class CardRestController {
 		
 		CardVO card = cardService.searchCardDetail(cardId);
 		
+		
+		
 		return card;
+	}
+
+	//GET 카드 마케팅 대상 고객 리스트
+	@GetMapping("/card/admin/marketing/{cardId}")
+	public List<MemberVO> getCardMarketingCustomerList(@PathVariable("cardId") int cardId, Authentication authentication){
+		
+		List<MemberVO> members = cardService.searchCustomerList(cardId);
+		
+		return members;
+	}
+
+	//GET 카드 마케팅 대상 문자 전송
+	@GetMapping("/card/admin/marketing/message/{cardId}")
+	public void sendCardMarketingMessage(@PathVariable("cardId") int cardId, Authentication authentication){
+		
+		CardVO card = cardService.searchCardDetail(cardId);
+		
+		//파일경로
+		String path = "C:/develop/spring-final/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/webapps";//이미지 저장 경로
+		//String name = ((MemberVO) authentication.getPrincipal()).getName();
+		String api_key = "NCSR9KUPGZX308YI";
+		String api_secret = "LB8RVXWJRNSWSM4BTMWXXWDQXRCZEC0T";
+		Message coolsms = new Message(api_key, api_secret);
+		
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("to", "01094784943");
+		params.put("from", "01094784943");
+		params.put("type", "MMS");
+		params.put("text", "<" + card.getCardName()+">\n-" + card.getCardInfo() + "-\n내 피킹률을 확인하러 가기 => https://www.hanacard.co.kr");
+		params.put("image", path + card.getCardImageUrl());//파일경로
+		params.put("app_version", "test app 1.2");
+		
+		try {
+			JSONObject obj = (JSONObject) coolsms.send(params);
+			System.out.println(obj.toString());
+		} catch (CoolsmsException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+			System.out.println(e.getCode());
+		}
+		
 	}
 	
 }

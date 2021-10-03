@@ -2,6 +2,7 @@ package kr.ac.kopo.service;
 
 import java.util.List;
 
+import kr.ac.kopo.vo.MemberVO;
 import kr.ac.kopo.vo.card.CardSearchOptionVO;
 import kr.ac.kopo.vo.card.CardVO;
 
@@ -18,6 +19,9 @@ public interface ICardService {
 	
 	//맞춤 카드 정보
 	public List<CardVO> searchMyRecoCards(int memberId, String benefitType);
+	
+	//마케팅 대상 고객 리스트
+	public List<MemberVO> searchCustomerList(int cardId);
 	
 //	//내 보유 카드 목록
 //	public List<MemberCardVO> searchMyCards(int memberId);

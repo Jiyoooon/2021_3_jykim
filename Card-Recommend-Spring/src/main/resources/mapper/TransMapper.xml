@@ -24,6 +24,7 @@
 		
 	</select>
 	
+	
 	<select id="selectCreditTop10" parameterType="benefitParamsVO" statementType="CALLABLE">
 		{
 			call CALCULATE_CREDIT_TOP10_BENEFIT(

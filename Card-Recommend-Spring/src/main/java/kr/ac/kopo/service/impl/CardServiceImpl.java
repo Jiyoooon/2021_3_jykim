@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.ac.kopo.mapper.CardMapper;
 import kr.ac.kopo.service.ICardService;
 import kr.ac.kopo.util.StringUtils;
+import kr.ac.kopo.vo.MemberVO;
 import kr.ac.kopo.vo.card.CardBenefitVO;
 import kr.ac.kopo.vo.card.CardSearchOptionVO;
 import kr.ac.kopo.vo.card.CardVO;
@@ -156,6 +157,12 @@ public class CardServiceImpl  implements ICardService{
 		
 		Collections.sort(cards);//혜택금액 내림차순 정렬
 		return cards;
+	}
+
+	@Override
+	public List<MemberVO> searchCustomerList(int cardId) {
+		
+		return cardMapper.selectMarketingCustomerList(cardId);
 	}
 
 	

@@ -115,6 +115,7 @@ $(document).ready(function(){
 	    	type: "GET",
 	    	url: contextPath + "/api/mypage/card/credit/dibs/benefit/" + cardId + '/' + start + '/' + end,
 	    	success: function(result){
+	    		console.log(result);
 	    		if(result.length == 0){
 	    			//혜택 내역 부분 비우기
 	    			//$('#bar-chart-warn').text('해당 기간에 결제 내역이 없습니다.')
@@ -233,7 +234,6 @@ $(document).ready(function(){
 	    	type: "GET",
 	    	url: contextPath + "/api/mypage/card/benefit/" + start + '/' + end,
 	    	success: function(result){
-	    		
 	    		if(result.length == 0){
 	    			//혜택 내역 부분 비우기
 	    			//$('#bar-chart-warn').text('해당 기간에 결제 내역이 없습니다.')
@@ -510,7 +510,7 @@ $(document).ready(function(){
 						 return d.label + "(" + d.percentage + "%)" 
 					 },
 					 fontColor: '#000',
-					 //fontSize:'bold',
+					 fontSize: 20,
 					 position: 'outside',
 					 segment: true
 				},

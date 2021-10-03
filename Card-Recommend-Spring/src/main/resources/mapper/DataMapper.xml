@@ -12,5 +12,12 @@
 		from 	p_common 
 		where 	common_type_id = 'JB' and substr(common_code, 1,1) = #{job1}
 	</select>
+
+	<select id="selectCardList" resultType="cardVO"  parameterType="string">
+		select 	card_id, card_name 
+		from 	p_card 
+		where 	card_type_code = #{cardType}
+		order by card_id desc
+	</select>
 	
 </mapper>

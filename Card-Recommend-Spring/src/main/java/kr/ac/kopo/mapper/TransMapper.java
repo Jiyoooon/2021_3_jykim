@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import kr.ac.kopo.vo.card.TransactionVO;
 import kr.ac.kopo.vo.trans.BenefitParamsVO;
+import kr.ac.kopo.vo.trans.BenefitResultVO;
 
 @Mapper
 public interface TransMapper {
@@ -20,6 +21,7 @@ public interface TransMapper {
 	
 	//찜한 신용카드 혜택 계산 => calculate_benefit
 	public BenefitParamsVO dibsCardBenefit(BenefitParamsVO params);
+	public List<BenefitResultVO> dibsCardBenefit2(BenefitParamsVO params);
 	
 	// 신용카드 top10 혜택 계산 => calculate_credit_top10_benefit
 	public BenefitParamsVO selectCreditTop10(BenefitParamsVO params);

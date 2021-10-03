@@ -155,10 +155,13 @@
 
 						<div class="form-group col-2" style="width: 20%;">
 						</div>
-						<div class="form-group col-6">
-							<input type="text"  placeholder="사업자 번호( , 로 구분)" class="form-control" id="business-number">
+						<div class="form-group col-4">
+							<input type="text"  placeholder="지난 달 실적 기준" class="form-control" id="perf-criteria">
 						</div>
-						<div class="form-group col-2" style="padding-right: 0;" >
+						<div class="col-1" style="padding-left: 0;">
+							<span id="percentage2" style="line-height: 50px;">원</span>
+						</div>
+						<div class="form-group col-3" style="padding-right: 0;" >
 							<input type="text" placeholder="혜택 한도" id="limit" name="limit" class="form-control">
 						</div>
 						<div class="col-1" style="padding-left: 0;">
@@ -204,7 +207,7 @@
 		
 		<input type="hidden" value="{bn}" name="benefits[{idx}].benefitName" id="benefitName" >
 		<input type="hidden" value="{bi}" name="benefits[{idx}].benefitInfo" id="benefitInfo" >
-		<input type="hidden" value="{bns}" name="benefits[{idx}].businessNumber" id="businessNumber" >
+		<input type="hidden" value="{bns}" name="benefits[{idx}].perfCriteria" id="perfCriteria" >
 		<input type="hidden" value="{l}" name="benefits[{idx}].limit" id="limit" >
 	</div>
 </script>
