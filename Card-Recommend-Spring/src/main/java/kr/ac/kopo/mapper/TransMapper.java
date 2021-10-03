@@ -31,6 +31,9 @@ public interface TransMapper {
 	
 	//내 보유카드 혜택계산 => mycard_benefit
 	public BenefitParamsVO mycardBenefit(BenefitParamsVO params);
+
+
+	public void insertTransStatistics();
 	
 	//신용카드 top10 추천 => 신용카드 전부 calculate_benefit & benefit_total top 10 추려서 return
 	
