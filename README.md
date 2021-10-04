@@ -31,7 +31,9 @@
    - 멀티 카드 조합 Top3 추천<br>
    > **멀티카드란?** <br> 
    > 올해 하나카드에서 새롭게 출시한 카드로, **하나의 카드에 여러 장의 모바일 카드를 넣어** 결제 시 돌려가며 사용할 수 있는 카드. <br>
-   > 다양한 업종에 다양한 혜택을 선택적으로 적용할 수 있기에, 고객의 3개월 치 소비 패턴을 기반으로 **어떤 멀티카드 조합을 사용했을 때 가장 큰 혜택을 얻을 수 있는지** 추천해주는 기능<br><img src="https://user-images.githubusercontent.com/25000075/135798124-57bafa55-1d77-49ea-8876-c659f5b2c4e4.PNG" width="400px;"/><br>
+   > 다양한 업종에 다양한 혜택을 선택적으로 적용할 수 있기에, 고객의 3개월 치 소비 패턴을 기반으로 **어떤 멀티카드 조합을 사용했을 때 가장 큰 혜택을 얻을 수 있는지** 추천해주는 기능  
+   
+<img src="https://user-images.githubusercontent.com/25000075/135798124-57bafa55-1d77-49ea-8876-c659f5b2c4e4.PNG" width="400px;"/><br>
    
    - 카드 찜<br>
 <img src="https://user-images.githubusercontent.com/25000075/135798155-e089804a-ba99-4b94-948b-b630489dc915.png" width="300px;"/><br>
