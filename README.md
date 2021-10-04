@@ -72,6 +72,7 @@
  - 중간 집계 테이블 
  > 고객별 월간, 업종별 소비 합계 저장
  - Stored Procedure 기반 소비 분석 모듈 구현
+ - Redis Caching 처리
  
 ### 2. AWS 클라우드 인스턴스 활용
  - EC2 인스턴스 - Spring 프로젝트 배포
