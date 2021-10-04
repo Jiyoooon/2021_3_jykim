@@ -16,7 +16,7 @@
    <img src="https://user-images.githubusercontent.com/25000075/135797532-1eebfccb-1db2-427e-8c96-387cb149eca2.png"/><br>
    [발표자료](https://github.com/koposoftware/2021_3_jykim/files/7275593/default.pdf)<br>
 ### 시스템 아키텍처
- <img src="https://user-images.githubusercontent.com/25000075/135855747-5ac2147c-edc9-4a80-9729-a9cc4593ce6c.png" width="700px;"/><br>
+ <img src="https://user-images.githubusercontent.com/25000075/135855904-b61371bd-eebc-4d7a-8be0-87af4bc95bf1.png" width="700px;"/><br>
 
 ### 서비스 흐름도
  <img src="https://user-images.githubusercontent.com/25000075/135800656-daaced7d-f48d-4f3c-8b40-5cf1d4e9905a.png" width="700px;"/><br>
