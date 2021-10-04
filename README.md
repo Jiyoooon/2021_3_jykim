@@ -50,7 +50,7 @@
    <img src="ppt.jpg"/>[발표자료](/project.pptx)<br>
 
 ## 시연 동영상 
-   <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/6LxbdIjWP04" frameborder="0"></iframe>
+   <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://youtu.be/2f_1mYYGSzg" frameborder="0"></iframe>
 
 # 4. 본인 소개
 
