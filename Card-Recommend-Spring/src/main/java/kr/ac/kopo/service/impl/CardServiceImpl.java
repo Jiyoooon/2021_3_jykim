@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -159,6 +160,9 @@ public class CardServiceImpl  implements ICardService{
 		return cards;
 	}
 
+	//넘겨받은 인자 cardId와 customerList 이름으로 key 조합해서 결과값 캐싱처리
+	//이후 같은 인자로 요청이 들어오면 캐싱되어있는 결과값 리턴
+	@Cacheable(key = "#cardId", value = "customerList")
 	@Override
 	public List<MemberVO> searchCustomerList(int cardId) {
 		
