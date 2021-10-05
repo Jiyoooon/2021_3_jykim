@@ -53,7 +53,7 @@
    <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://youtu.be/2f_1mYYGSzg" frameborder="0"></iframe>
 
 # 4. 본인 소개
-|항목|내용|.|
+|항목|내용||
 |----|----------|----|
 |이름|김지윤|<img src="https://user-images.githubusercontent.com/25000075/135798880-1d033fa8-a97b-4877-8993-165f931e6ae5.png" width="150px;"/>|
 |연락처|kjy951207(@)naver.com||
