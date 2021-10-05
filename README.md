@@ -51,7 +51,9 @@
    [발표자료](./Document/최종발표.pdf)<br>
    
 ## 시연 동영상 
-   <iframe width="560" height="315" src="https://www.youtube.com/embed/2f_1mYYGSzg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+   <a href="https://youtu.be/2f_1mYYGSzg">
+      <img width="700px;" src="https://user-images.githubusercontent.com/25000075/135980319-2a654ba4-77c6-4aef-83eb-fbe3e84bb8c3.png"/><br>
+   </a>
 
 # 4. 본인 소개
 |항목|내용||
@@ -66,6 +68,7 @@
 
 
 # 5. 기타
+
 ## 사용 기술
 ### 1. 대용량 데이터 처리
  - index 설정
