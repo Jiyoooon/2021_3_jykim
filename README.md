@@ -56,14 +56,14 @@
    </a>
 
 # 4. 본인 소개
-|항목|내용|.|
-|----|----|----|
-|이름|김지윤|<img src="https://user-images.githubusercontent.com/25000075/135798880-1d033fa8-a97b-4877-8993-165f931e6ae5.png" width="150px;"/>|
-|연락처|kjy951207(@)naver.com|
-|skill set|Frontend - HTML, CSS, Javascript, Bootstrap, jQuery|
-|         |Backend - Java, Spring, Oracle|
-|자격증|정보처리기사, SQLD|
-|수상|폴리텍 창업경진대회 - 입선<br> 삼성청년SW아카데미 - 종합 성적우수상, 프로젝트 우수상|
+|항목|내용||
+|-----|----|----|
+|이름 |김지윤|<img src="https://user-images.githubusercontent.com/25000075/135798880-1d033fa8-a97b-4877-8993-165f931e6ae5.png" width="120px;"/>|
+|연락처 | kjy951207(@)naver.com|
+|skill set| Frontend - HTML, CSS, Javascript, Bootstrap, jQuery|
+| | Backend - Java, Spring, Oracle |
+|자격증| 정보처리기사, SQLD |
+|수상| 폴리텍 창업경진대회 - 입선<br> 삼성청년SW아카데미 - 종합 성적우수상, 프로젝트 우수상|
 |교육 이수사항|삼성청년SW 아카데미 - 2020.01 ~ 2020.12|
 
 
