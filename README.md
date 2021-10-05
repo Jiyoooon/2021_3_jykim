@@ -14,7 +14,7 @@
 
 # 2. 프로젝트 제안서
    <img src="https://user-images.githubusercontent.com/25000075/135797532-1eebfccb-1db2-427e-8c96-387cb149eca2.png"/><br>
-   [발표자료](https://github.com/koposoftware/2021_3_jykim/files/7275593/default.pdf)<br>
+   [발표자료](./Document/제안서.pdf)<br>
 ### 시스템 아키텍처
  <img src="https://user-images.githubusercontent.com/25000075/135855904-b61371bd-eebc-4d7a-8be0-87af4bc95bf1.png" width="700px;"/><br>
 
@@ -47,8 +47,9 @@
    <img src="https://user-images.githubusercontent.com/25000075/135798435-cb820260-1e1b-450b-84a1-24f8eafb9cc8.png" width="700px;"/><br>
 
 ## 발표 ppt 
-   <img src="ppt.jpg"/>[발표자료](/project.pptx)<br>
-
+   <img src="https://user-images.githubusercontent.com/25000075/135951304-cca327ec-ec1c-46cc-ab22-b356e81e0a7f.PNG"/><br>
+   [발표자료](./Document/최종발표.pdf)<br>
+   
 ## 시연 동영상 
    <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://youtu.be/2f_1mYYGSzg" frameborder="0"></iframe>
 
