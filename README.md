@@ -51,21 +51,25 @@
    [발표자료](./Document/최종발표.pdf)<br>
    
 ## 시연 동영상 
-   <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://youtu.be/2f_1mYYGSzg" frameborder="0"></iframe>
+   <a href="https://youtu.be/2f_1mYYGSzg">
+      <img width="700px;" src="https://user-images.githubusercontent.com/25000075/135980889-8cd025fb-5f1b-4dbd-a77d-39b9df868633.png"/><br>
+   </a>
 
 # 4. 본인 소개
+
 |항목|내용||
-|----|----------|----|
-|이름|김지윤|<img src="https://user-images.githubusercontent.com/25000075/135798880-1d033fa8-a97b-4877-8993-165f931e6ae5.png" width="150px;"/>|
-|연락처|kjy951207(@)naver.com||
-|skill set|Frontend - HTML, CSS, Javascript, Bootstrap, jQuery||
-|         |Backend - Java, Spring, Oracle||
-|자격증|정보처리기사, SQLD||
-|수상|폴리텍 창업경진대회 - 입선<br> 삼성청년SW아카데미 - 종합 성적우수상, 프로젝트 우수상||
-|교육 이수사항|삼성청년SW 아카데미 - 2020.01 ~ 2020.12||
+|-----|----|----|
+|이름 |김지윤|<img src="https://user-images.githubusercontent.com/25000075/135798880-1d033fa8-a97b-4877-8993-165f931e6ae5.png" width="120px;"/>|
+|연락처 | kjy951207(@)naver.com|
+|skill set| Frontend - HTML, CSS, Javascript, Bootstrap, jQuery|
+| | Backend - Java, Spring, Oracle |
+|자격증| 정보처리기사, SQLD |
+|수상| 폴리텍 창업경진대회 - 입선<br> 삼성청년SW아카데미 - 종합 성적우수상, 프로젝트 우수상|
+|교육 이수사항|삼성청년SW 아카데미 - 2020.01 ~ 2020.12|
 
 
 # 5. 기타
+
 ## 사용 기술
 ### 1. 대용량 데이터 처리
  - index 설정
@@ -78,17 +82,5 @@
  - EC2 인스턴스 - Spring 프로젝트 배포
  - RDS 인스턴스 - Oracle
 
-
-# 홈페이지 설정
- 본인 repository에서 "Setting"를 들어가서 GitHub Pages에서 설정 변경.
-* Source
- Source에서 원하는 branch와 directory 설정한다. 
- 기본값은 master 에 root를 설정 
- Save 버튼 꼭 누른다.
- 
- * Theme Chooser
- theme을 변경하여 좀더 이쁜 홈페이지를 만든다.
-   
-   <img src="homepage.JPG"/><br>
    
  
