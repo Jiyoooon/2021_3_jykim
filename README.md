@@ -48,8 +48,8 @@
 
 ## 발표 ppt 
    <img src="https://user-images.githubusercontent.com/25000075/135951304-cca327ec-ec1c-46cc-ab22-b356e81e0a7f.PNG"/><br>
-   [발표자료](./Document/최종발표 PPT.pdf)<br>
-
+   [발표자료](./Document/최종발표.pdf)<br>
+   
 ## 시연 동영상 
    <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://youtu.be/2f_1mYYGSzg" frameborder="0"></iframe>
 
