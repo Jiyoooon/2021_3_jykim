@@ -52,11 +52,11 @@
    
 ## 시연 동영상 
    <a href="https://youtu.be/2f_1mYYGSzg">
-      <img width="700px;" src="https://user-images.githubusercontent.com/25000075/135980319-2a654ba4-77c6-4aef-83eb-fbe3e84bb8c3.png"/><br>
+      <img width="700px;" src="https://user-images.githubusercontent.com/25000075/135980889-8cd025fb-5f1b-4dbd-a77d-39b9df868633.png"/><br>
    </a>
 
 # 4. 본인 소개
-|항목|내용||
+|항목|내용|.|
 |----|----------|----|
 |이름|김지윤|<img src="https://user-images.githubusercontent.com/25000075/135798880-1d033fa8-a97b-4877-8993-165f931e6ae5.png" width="150px;"/>|
 |연락처|kjy951207(@)naver.com||
